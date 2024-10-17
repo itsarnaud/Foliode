@@ -34,11 +34,11 @@ Membre de l'équipe :<br><br> **Arnaud ROYER**,<br>  **Timothé HEGE**, <br> **R
 
  ### Répartition des rôles : 
 
-- **Frontend** : Arnaud, Thimotée, Raphaël, Sacha, Rémi.
-- **Backend** : Arnaud, Raphaël, Thimotée (support), Rémi (support).
-- **Dispositif Intéractif** : Sacha, Thimotée, Rémi (support).
-- **Design** : Rémi, Thimotée, Arnaud (support).
-- **Documentation** : Arnaud, Thimotée, Raphaël, Sacha, Rémi.
+- **Frontend** : Arnaud, Thimoté, Raphaël, Sacha, Rémi.
+- **Backend** : Arnaud, Raphaël, Thimoté (support), Rémi (support).
+- **Dispositif Intéractif** : Sacha, Thimoté, Rémi (support).
+- **Design** : Rémi, Thimoté, Arnaud (support).
+- **Documentation** : Arnaud, Thimoté, Raphaël, Sacha, Rémi.
 
 ### Stack du projet :
 - **Front :** React (Ts), SCSS, Docker
