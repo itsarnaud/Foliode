@@ -72,8 +72,10 @@ L'architecture de **Foliode** suit le modèle **MVC (Modèle-Vue-Contrôleur)**,
     - Formation : Nom, type et durée
     - Ressources : Nom, sujet et code
 
-Voici le diagramme de classe, une repésentation plus visuelle des données et de leurs relations : <br>
-*Insérer le diagramme ici*
+Voici le diagramme de classe, une repésentation plus visuelle des données et de leurs relations : <br><br>
+![Diagramme de classe](./img/foliode.jpeg)
+<br><br>
+Lien du diagramme [ici](https://lucid.app/lucidchart/1521f270-eb1f-42b0-93a7-b4f9ccaa0eb9/edit?viewport_loc=-4888%2C-2204%2C6576%2C3096%2C0_0&invitationId=inv_ba9c5102-d483-4bf8-b161-e3304e8e08cf)
 
 2. **Vues** :
 
