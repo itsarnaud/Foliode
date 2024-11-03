@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2084.72 590.42">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        font-family: Archivo-Medium, Archivo;
+        font-size: 475px;
+        font-weight: 500;
+      }
+
+      .cls-4 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-2 {
+        fill: #3e3f92;
+      }
+    </style>
+  </defs>
+  <g id="Calque_9" data-name="Calque 9">
+    <g>
+      <polygon class="cls-1" points="343.47 79.5 343.47 421.5 199.47 421.5 199.47 448.5 163.47 448.5 163.47 421.5 73.47 421.5 73.47 79.5 343.47 79.5"/>
+      <g>
+        <path class="cls-2" d="M72,21.01L0,93.01v140.2c0,2.12,1.72,3.83,3.83,3.83h68.14l.03-.03v.03h-.03L0,309.01v144h333l72-72V21.01H72ZM189.12,447.01l-91.27-91.27v-85.15c0-2.67,2.18-4.85,4.86-4.85h81.56c2.67,0,4.85,2.18,4.85,4.85v176.41ZM295.6,267.01h-91.27l-88.73-88.73h-36.98c-2.67,0-4.85-2.18-4.85-4.85v-81.56c0-2.67,2.18-4.85,4.85-4.85h171.34l91.27,91.27h-134.37l88.73,88.73Z"/>
+        <text class="cls-3" transform="translate(489.7 400.43)"><tspan class="cls-4" x="0" y="0">F</tspan><tspan x="276.92" y="0">oliode</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,4 +1,7 @@
+<img src="./img/logo-foliode-text-white.svg" style="height: 100px; width: auto;">
+
 # Foliode
+
 
 Le projet **Foliode** a pour mission de concevoir et développer une solution technologique orientée vers les étudiants et enseignants de formations BUT. Foliode permet aux utilisateurs de générer et personnaliser un portfolio web, mettant en valeur les compétences (associées aux apprentissages critiques) et les projets de l'étudiant.
 
@@ -52,7 +55,7 @@ Nom de l'équipe : **Foliode**
 - **Design** : Rémi, Timothé, Arnaud (support)
 - **Documentation** : Arnaud, Timothé, Raphaël, Sacha, Rémi
 
-Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassian.net/jira/software/projects/DEV/boards/1">**ici.**</a>
+Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassian.net/jira/software/projects/DEV/boards/1" target="_blank">**ici.**</a>
 
 
 ### Architecture du site
@@ -60,7 +63,7 @@ Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassia
 ---
 #### Modèle MVC
 
-L'architecture de **Foliode** suit le modèle **MVC (Modèle-Vue-Contrôleur)**, organisé en trois couches :
+L'architecture de **Foliode** suit le modèle **MVC (Modèle-Vue-Contrôleur)** :
 
 1. **Modèles** :
 
@@ -72,8 +75,8 @@ L'architecture de **Foliode** suit le modèle **MVC (Modèle-Vue-Contrôleur)**,
     - Formation : Nom, type et durée
     - Ressources : Nom, sujet et code
 
-Voici le diagramme de classe, une repésentation plus visuelle des données et de leurs relations : <br><br>
-<a href="https://lucid.app/lucidchart/1521f270-eb1f-42b0-93a7-b4f9ccaa0eb9/edit?viewport_loc=-4888%2C-2204%2C6576%2C3096%2C0_0&invitationId=inv_ba9c5102-d483-4bf8-b161-e3304e8e08cf"><img src="./img/Foliode_DiagrammeDeClasse.jpeg"></a>
+Voici le diagramme de classe, une repésentation plus visuelle des données et de leurs relations (image cliquable) : <br><br>
+<a href="https://drive.google.com/file/d/17L1hwYHG6q27l0vl99-jrbQf2sd4ThAm/view?usp=drive_link" target="_blank"><img src="./img/Foliode_DiagrammeDeClasse.jpeg"></a>
 
 2. **Vues** :
 
@@ -122,11 +125,20 @@ Foliode utilisera un système de sous-domaine dynamique :
 2. `app.foliode.com` : Mon compte, mon portfolio, mes compétences, mes projets, paramètres, se déconnecter, mes classes, retour
 
 ---
-#### UI/UX
+#### Charte graphique (image cliquable)
 
-Vous pouvez suivre la partie design UI/UX à partir de <a href="https://www.figma.com/design/ROWwLlIORy6RhrFvcYBhvL/Foliode?node-id=0-1&node-type=canvas&t=nkLLfDURPWkMKEpb-0">**ce lien (Figma).**</a>
+<a href="https://drive.google.com/file/d/1yn4zQAniejSqrSqyqvprUuZYN9HmyGxC/view?usp=sharing" target="_blank"><img src="./img/Foliode_CharteGraphique.png"></a>
 
 ---
-#### Carte Mentale
+#### UI/UX
 
-<a href="https://miro.com/app/board/uXjVLO3_bmE=/?share_link_id=644759481309"><img src="./img/Foliode_MindMap.jpg"></a>
+Vous pouvez suivre la partie design UI/UX à partir de <a href="https://www.figma.com/design/ROWwLlIORy6RhrFvcYBhvL/Foliode?node-id=0-1&node-type=canvas&t=nkLLfDURPWkMKEpb-0" target="_blank">**ce lien (Figma).**</a>
+
+---
+#### Carte mentale (image cliquable)
+
+<a href="https://drive.google.com/file/d/1WdU3ITDN-tQ3WrOgX73Z--GppDdzbXXJ/view?usp=sharing" target="_blank"><img src="./img/Foliode_MindMap.jpg"></a>
+
+---
+#### Repository
+Vous pouvez suivre l'avancement de notre projet à partir de <a href="https://github.com/itsarnaud/Foliode" target=_blank>**ce repository GitHub.**</a>
