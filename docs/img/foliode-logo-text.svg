@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2082.28 590.42">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Archivo-Medium, Archivo;
+        font-size: 475px;
+        font-weight: 500;
+      }
+
+      .cls-2 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-3 {
+        fill: #3e3f92;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <g id="Calque_9" data-name="Calque 9">
+    <g>
+      <polygon class="cls-3" points="399 20.43 399 380.43 327 452.43 144 452.43 144 380.43 144.16 380.43 216.16 308.43 326.72 308.69 326.72 236.43 215.84 236.43 215.84 236.59 144 308.43 72 308.43 72 452.43 0 452.43 0 308.43 71.97 236.46 72 236.46 72 236.43 144 236.43 144 164.43 326.72 164.43 326.72 92.43 72 92.43 72 236.43 71.97 236.46 0 236.46 0 92.43 72 20.43 399 20.43"/>
+      <text class="cls-1" transform="translate(487.26 400.43)"><tspan class="cls-2" x="0" y="0">F</tspan><tspan x="276.92" y="0">oliode</tspan></text>
+    </g>
+  </g>
+</svg>

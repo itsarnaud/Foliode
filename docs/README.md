@@ -1,4 +1,4 @@
-<img src="./img/logo-foliode-text-white.svg" style="height: 100px; width: auto;">
+<img src="./img/foliode-logo-text.svg" style="height: 100px; width: auto;">
 
 # Foliode
 
