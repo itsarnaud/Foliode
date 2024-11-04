@@ -10,13 +10,15 @@ services:
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     environment:
       SYMFONY_ENV: ${SYMFONY_ENV:-dev}
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?serverVersion=13&charset=utf8"
+      DATABASE_URL: "${POSTGRES_URL}"
     env_file:
       - .env
     depends_on:
       - db
     networks:
       - app_network
+    ports:
+      - "${BACKEND_PORT}:8000"
 
   frontend:
     build:
@@ -27,7 +29,7 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:3000"
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL}
     env_file:
@@ -51,7 +53,7 @@ services:
     image: nginx:alpine
     container_name: nginx_web
     ports:
-      - "8080:80"
+      - "${NGINX_PORT}:80"
     volumes:
       - ./backend/public:/var/www/html/public
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
@@ -66,45 +68,3 @@ networks:
 
 volumes:
   db_data:
-
-
-
-
-
-# version: '3.8' # Version de la configuration Docker Compose
-
-# services:
-#   ###> doctrine/doctrine-bundle ###
-#   database:
-#     image: postgres:${POSTGRES_VERSION:-16}-alpine
-#     environment:
-#       POSTGRES_DB: ${POSTGRES_DB:-app}
-#       # Changez ce mot de passe en production
-#       POSTGRES_PASSWORD: root
-#       POSTGRES_USER: root
-#     healthcheck:
-#       test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-#       timeout: 5s
-#       retries: 5
-#       start_period: 60s
-#     volumes:
-#       - database_data:/var/lib/postgresql/data:rw
-#     ports:
-#       - "8889:5432"
-#       # Utilisez un répertoire lié au système hôte pour éviter la perte accidentelle de données
-#       # - ./docker/db/data:/var/lib/postgresql/data:rw
-#   ###< doctrine/doctrine-bundle ###
-
-#   pg-admin:
-#     image: dpage/pgadmin4:6
-#     environment:
-#       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-#       PGADMIN_DEFAULT_PASSWORD: admin
-#       PGADMIN_LISTEN_PORT: 5050
-#     ports:
-#       - "5050:5050"
-
-# volumes:
-#   ###> doctrine/doctrine-bundle ###
-#   database_data:
-#   ###< doctrine/doctrine-bundle ###

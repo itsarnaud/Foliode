@@ -1,4 +1,4 @@
-# Utiliser une image de base PHP avec FPM et Composer intégré
+# Utiliser une image de base PHP avec FPM
 FROM php:8.2-fpm
 
 # Installer les extensions PHP requises
@@ -18,10 +18,10 @@ WORKDIR /var/www/html
 COPY . .
 
 # Installer les dépendances Symfony
-RUN composer install --no-scripts --no-autoloader --prefer-dist
+RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
-# Exposer le port pour PHP-FPM
+# Exposer le port par défaut de PHP-FPM
 EXPOSE 9000
 
-# Commande pour démarrer PHP-FPM
+# Commande par défaut pour démarrer PHP-FPM
 CMD ["php-fpm"]
