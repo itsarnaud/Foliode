@@ -48,6 +48,8 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - app_network
+    ports:
+      - ${DB_PORT}:5432
 
   web:
     image: nginx:alpine
