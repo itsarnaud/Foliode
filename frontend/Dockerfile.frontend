@@ -1,0 +1,20 @@
+# Utiliser une image de base Node.js
+FROM node:18.18
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers de configuration d'abord
+COPY package*.json ./
+
+# Installer les dépendances de l'application
+RUN npm install
+
+# Copier le reste du code source de l'application
+COPY . .
+
+# Exposer le port utilisé par Next.js
+EXPOSE 3000
+
+# Commande pour démarrer le serveur de développement Next.js
+CMD ["npm", "run", "dev"]
