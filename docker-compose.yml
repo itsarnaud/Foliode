@@ -1,5 +1,6 @@
 services:
   backend:
+    image: php:fpm
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
@@ -18,7 +19,7 @@ services:
     networks:
       - app_network
     ports:
-      - "${BACKEND_PORT}:8000"
+      - "${BACKEND_PORT}:9000"
 
   frontend:
     build:

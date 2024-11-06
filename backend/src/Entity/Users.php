@@ -5,19 +5,28 @@ namespace App\Entity;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups('getUsers')]
+    private ?string $id = null;
+
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers')]
     private ?string $full_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups('getUsers')]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,7 +39,11 @@ class Users
     private ?string $behance_login = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $avatar_url = null;
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
 
     #[ORM\Column]
     private ?bool $is_student = null;
@@ -38,7 +51,7 @@ class Users
     #[ORM\Column]
     private ?bool $is_teacher = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -123,9 +136,9 @@ class Users
     public function setStudent(bool $is_student): static
     {
         $this->is_student = $is_student;
-
         return $this;
     }
+
 
     public function isTeacher(): ?bool
     {
@@ -135,7 +148,35 @@ class Users
     public function setTeacher(bool $is_teacher): static
     {
         $this->is_teacher = $is_teacher;
-
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        $this->password = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
