@@ -11,18 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use App\Repository\UsersRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class AuthController extends AbstractController
 {
-
-    #[Route('/auth', name: 'app_auth')]
-    public function index(): Response
-    {
-        return $this->render('auth/index.html.twig', [
-            'controller_name' => 'AuthController',
-        ]);
-    }
 
     #[Route('/api/auth/student/signup', name: 'auth_student_signup', methods: ['POST'])]
     public function auth_student_signup(
@@ -55,5 +48,27 @@ class AuthController extends AbstractController
         return new JsonResponse($jsonUser, Response::HTTP_CREATED, [], true);
     }
 
-
+    #[Route('/api/auth', name: 'auth_login', methods: ['POST'])]
+    public function auth_signin(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        UsersRepository $usersRepository,
+        JWTTokenManagerInterface $jwtManager
+    ): JsonResponse {
+    
+        $data = json_decode($request->getContent(), true);
+        if (!isset($data['email'])) {
+            return new JsonResponse(['error' => 'Email is required'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    
+        $email = $data['email'];
+        $user = $usersRepository->findOneBy(['email' => $email]);
+    
+        if (!$user || !$passwordHasher->isPasswordValid($user, $data['password'])) {
+            return new JsonResponse(['error' => 'incorrect user or password'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+        $token = $jwtManager->create($user);
+    
+        return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
+    }
 }
