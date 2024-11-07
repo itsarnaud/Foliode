@@ -1,5 +1,8 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import SignIn from "../components/sign-in";
+import GithubRepos from "../components/github-repos";
+import SignOut from "../components/sign-out";
 
 export default function Home() {
   return (
@@ -45,6 +48,9 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+        <SignIn />
+        <SignOut />
+        <GithubRepos />
       </main>
       <footer className={styles.footer}>
         <a
