@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { signInWithGitHub } from "@/actions";
+import { signInGitHub } from "@/actions";
 
 export default function SignIn() {
   const { data: session } = useSession();
@@ -9,9 +9,9 @@ export default function SignIn() {
   return (
     <div>
       {session ? (
-        <p>Connecté en tant que {session.user?.name}</p>
+        <h1>Connecté en tant que {session.user?.name}</h1>
       ) : (
-        <form action={signInWithGitHub}>
+        <form action={signInGitHub}>
           <button type="submit">Signin with GitHub</button>
         </form>
       )}
