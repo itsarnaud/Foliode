@@ -21,6 +21,12 @@ services:
     ports:
       - "${BACKEND_PORT}:9000"
 
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
   frontend:
     build:
       context: ./frontend

@@ -18,9 +18,6 @@ services:
       - database_data:/var/lib/postgresql/data:rw
     ports:
       - "8889:5432"
-      # Utilisez un répertoire lié au système hôte pour éviter la perte accidentelle de données
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-  ###< doctrine/doctrine-bundle ###
 
   pg-admin:
     image: dpage/pgadmin4:6
