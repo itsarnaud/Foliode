@@ -17,11 +17,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async redirect() {
-      return "http://localhost:4200";  // Redirection vers le bon port en dur
+      return "http://localhost:4200"; 
       // TODO Trouver comment rediriger vers le bon port automatiquement, pas en dur
     },
     async jwt({ token, account }) {
-      
       if (account && account.access_token) {
         token.accessToken = account.access_token;
       }
