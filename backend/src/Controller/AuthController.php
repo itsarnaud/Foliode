@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,7 +24,8 @@ class AuthController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        MailerInterface $mailer
     ): JsonResponse {
 
         try {
@@ -40,6 +43,19 @@ class AuthController extends AbstractController
         } else {
             return new JsonResponse(['error' => 'Password is required.'], Response::HTTP_BAD_REQUEST);
         }
+
+        $user->setIsEmailVerified(false);
+
+        $verificationCode = random_int(100000, 999999);
+        $user->setEmailVerificationCode($verificationCode);
+
+        $emailMessage = (new Email())
+            ->from('no-reply@foliode.com')
+            ->to($user->getEmail())
+            ->subject('Vérification de votre adresse email')
+            ->text("Votre code de vérification est : $verificationCode");
+
+        $mailer->send($emailMessage);
 
         $em->persist($user);
         $em->flush();

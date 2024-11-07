@@ -1,0 +1,3 @@
+[mail function]
+SMTP = localhost
+smtp_port = 1025

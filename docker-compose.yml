@@ -12,14 +12,17 @@ services:
     environment:
       SYMFONY_ENV: ${SYMFONY_ENV:-dev}
       DATABASE_URL: "${POSTGRES_URL}"
+      MAILER_DSN: ${MAILER_DSN}
     env_file:
       - .env
     depends_on:
       - db
+      - maildev
     networks:
       - app_network
     ports:
       - "${BACKEND_PORT}:9000"
+
 
   maildev:
     image: maildev/maildev

@@ -51,6 +51,12 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column]
     private ?bool $is_teacher = null;
 
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?int $email_verification_code = null;
+
+    #[ORM\Column]
+    private  ?bool $is_email_verified = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -162,6 +168,28 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    public function getEmailVerificationCode(): string
+    {
+        return $this->email_verification_code;
+    }
+
+    public function setEmailVerificationCode(?string $emailVerificationCode): self
+    {
+        $this->email_verification_code = $emailVerificationCode;
+        return $this;
+    }
+
+    public function getIsEmailVerified(): bool
+    {
+        return $this->is_email_verified;
+    }
+
+    public function setIsEmailVerified(bool $isEmailVerified): self
+    {
+        $this->is_email_verified = $isEmailVerified;
         return $this;
     }
 
