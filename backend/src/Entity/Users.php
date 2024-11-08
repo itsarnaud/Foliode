@@ -54,6 +54,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?int $email_verification_code = null;
 
+
     #[ORM\Column]
     private  ?bool $is_email_verified = null;
 

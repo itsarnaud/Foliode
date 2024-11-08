@@ -20,6 +20,9 @@ COPY . .
 # Installer les dépendances Symfony
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
+# Ajouter une configuration PHP personnalisée pour SMTP
+COPY php-mail.ini /usr/local/etc/php/conf.d/php-mail.ini
+
 # Exposer le port par défaut de PHP-FPM
 EXPOSE 9000
 

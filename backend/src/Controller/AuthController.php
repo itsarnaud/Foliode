@@ -50,12 +50,16 @@ class AuthController extends AbstractController
         $user->setEmailVerificationCode($verificationCode);
 
         $emailMessage = (new Email())
-            ->from('no-reply@foliode.com')
+            ->from('no-reply@localhost')
             ->to($user->getEmail())
             ->subject('Vérification de votre adresse email')
             ->text("Votre code de vérification est : $verificationCode");
 
-        $mailer->send($emailMessage);
+        try {
+            $mailer->send($emailMessage);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to send email: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         $em->persist($user);
         $em->flush();
@@ -87,4 +91,40 @@ class AuthController extends AbstractController
     
         return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
     }
+
+    #[Route('/api/auth/check/email', name: 'auth_check_email', methods: ['POST'])]
+    public function auth_check_email(
+        Request $request,
+        UsersRepository $usersRepository,
+        JWTTokenManagerInterface $jwtManager,
+        EntityManagerInterface $em,
+    ): JsonResponse {
+
+        $data = json_decode($request->getContent(), true);
+
+        $mailcheck_code = $data['code'] ?? null;
+        $email = $data['email'] ?? null;
+
+        if (!$mailcheck_code || !$email) {
+            return new JsonResponse(['error' => 'code and email are required.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = $usersRepository->findOneBy(['email' => $email]);
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not found.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($mailcheck_code === $user->getEmailVerificationCode()) {
+            $user->setEmailVerificationCode(null);
+            $user->setIsEmailVerified(true);
+            $em->persist($user);
+            $em->flush();
+
+            $token = $jwtManager->create($user);
+            return new JsonResponse(['token' => $token], Response::HTTP_OK);
+        }
+
+        return new JsonResponse(['error' => 'Incorrect email or code'], Response::HTTP_BAD_REQUEST);
+    }
+
 }
