@@ -35,8 +35,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $github_login = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $behance_login = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $github_token = null;
+
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getUsers')]
@@ -111,15 +112,14 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getBehanceLogin(): ?string
+    public function getGithubToken(string $githubToken): string
     {
-        return $this->behance_login;
+        return $this->github_token;
     }
 
-    public function setBehanceLogin(?string $behance_login): static
+    public function setGithubToken(string $githubToken): self
     {
-        $this->behance_login = $behance_login;
-
+        $this->github_token = $githubToken;
         return $this;
     }
 
