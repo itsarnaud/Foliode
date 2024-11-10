@@ -35,8 +35,8 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $github_login = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $behance_login = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $github_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getUsers')]
@@ -71,7 +71,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setFullName(string $full_name): static
     {
         $this->full_name = $full_name;
-
         return $this;
     }
 
@@ -111,15 +110,14 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getBehanceLogin(): ?string
+    public function getGithubId(): string
     {
-        return $this->behance_login;
+        return $this->github_id;
     }
 
-    public function setBehanceLogin(?string $behance_login): static
+    public function setGithubId(string $githubId): self
     {
-        $this->behance_login = $behance_login;
-
+        $this->github_id = $githubId;
         return $this;
     }
 
@@ -145,7 +143,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         $this->is_student = $is_student;
         return $this;
     }
-
 
     public function isTeacher(): ?bool
     {
