@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UsersRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthController extends AbstractController
 {
@@ -25,7 +26,8 @@ class AuthController extends AbstractController
         SerializerInterface $serializer,
         EntityManagerInterface $em,
         UserPasswordHasherInterface $passwordHasher,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        ValidatorInterface $validator
     ): JsonResponse {
 
         try {
@@ -36,6 +38,16 @@ class AuthController extends AbstractController
 
         $user->setStudent(true);
         $user->setTeacher(false);
+
+        $errors = $validator->validate($user);
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[$error->getPropertyPath()] = $error->getMessage();
+            }
+            return new JsonResponse(['errors' => $errorMessages], Response::HTTP_BAD_REQUEST);
+        }
 
         if ($user->getPassword()) {
             $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());

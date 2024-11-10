@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users implements PasswordAuthenticatedUserInterface, UserInterface
@@ -22,14 +23,30 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Full name is required.")]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s]+$/',
+        message: 'Full name should only contain letters and spaces.'
+    )]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Full name must be at least {{ limit }} characters long."
+    )]
     #[Groups('getUsers')]
     private ?string $full_name = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: "Email address is required.")]
+    #[Assert\Email(message: "Invalid email format.")]
     #[Groups('getUsers')]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message: "Password is required.")]
+    #[Assert\Length(
+        min: 8,
+        minMessage: "Password must be at least {{ limit }} characters long."
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
