@@ -1,8 +1,8 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import SignIn from "../components/GitHub/sign-in";
-import GithubRepos from "../components/GitHub/github-user";
-import SignOut from "../components/sign-out";
+import Image        from "next/image";
+import styles       from "./page.module.css";
+import GithubAuth   from "../components/GitHub/GithubAuth";
+import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
+import SignOut      from "../components/SignOut";
 
 export default function Home() {
   return (
@@ -48,9 +48,9 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <SignIn />
+        <GithubAuth />
+        <DribbbleAuth />
         <SignOut />
-        <GithubRepos />
       </main>
       <footer className={styles.footer}>
         <a

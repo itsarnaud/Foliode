@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-// import Dribbble from "next-auth/providers/dribbble";
+import Dribbble from "next-auth/providers/dribbble";
 
 declare module "next-auth" {
   interface Session {
@@ -16,26 +16,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: 'read:user'
+          scope: 'read:user repo'
         }
       }
     }),
-    // Dribbble({
-    //   clientId: process.env.AUTH_DRIBBBLE_ID,
-    //   clientSecret: process.env.AUTH_DRIBBBLE_SECRET,
-    //   authorization: {
-    //     url: "https://dribbble.com/oauth/authorize",
-    //     params: {
-    //       scope: "public",
-    //     },
-    //     token: {
-    //       url: "https://dribbble.com/oauth/token",
-    //     },
-    //     userinfo: {
-    //       url: "https://api.dribbble.com/v2/user",
-    //     }
-    //   },
-    // }),
+    Dribbble({
+      clientId: process.env.AUTH_DRIBBBLE_ID,
+      clientSecret: process.env.AUTH_DRIBBBLE_SECRET,
+      authorization: {
+        url: "https://dribbble.com/oauth/authorize",
+        params: {
+          scope: "public",
+        },
+      },
+    })
   ],
   secret: process.env.NEXTAUTH_SECRET,
 
@@ -43,11 +37,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async redirect({ baseUrl }) {
       return `${baseUrl}`;
     },
+
     async jwt({ token, account }) {
       try {
         if (account) {
           token.accessToken = account.access_token;
           token.provider = account.provider;
+          console.log({ token })
         }
         return token;
       } catch (error) {
@@ -55,21 +51,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       }
     },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken as string;
-      session.provider = token.provider as string;
-      return session;
-    }
-  },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-  },
+  }
 });
