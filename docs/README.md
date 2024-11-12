@@ -1,4 +1,4 @@
-<img src="./img/foliode-logo-text.svg" style="height: 100px; width: auto;">
+<img src="./img/Foliode_logo.jpg" style="height: 100px; width: auto;">
 
 # Foliode
 
@@ -29,7 +29,7 @@ Les utilisateurs sont guidés étape par étape à travers un formulaire intuiti
 
 ## Technologies et Stack
 
-- **Frontend** : React (TypeScript), SCSS, Docker.
+- **Frontend** : Next (TypeScript), SCSS, Docker.
 - **Backend** : Symfony, PostgreSQL, Docker.
 - **Dispositifs Interactifs** : Blender, Three.js pour la modélisation et l’affichage 3D.
 - **Design** : Suite Adobe, Figma pour la création visuelle et les maquettes.
@@ -52,7 +52,7 @@ Nom de l'équipe : **Foliode**
 - **Frontend** : Arnaud, Timothé, Raphaël, Sacha, Rémi
 - **Backend** : Arnaud, Raphaël, Timothé (support), Rémi (support)
 - **Dispositifs Interactifs** : Sacha, Timothé, Rémi (support)
-- **Design** : Rémi, Timothé, Arnaud (support)
+- **Design** : Rémi, Timothé, Sacha
 - **Documentation** : Arnaud, Timothé, Raphaël, Sacha, Rémi
 
 Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassian.net/jira/software/projects/DEV/boards/1" target="_blank">**ici.**</a>
