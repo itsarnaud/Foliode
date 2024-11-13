@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GithubAuthController extends AbstractController
 {
-    #[Route('/api/auth/github/student/signup', name: 'app_github_signup')]
+    #[Route('/api/auth/github/student/signup', name: 'app_github_signup', methods: ['POST'])]
     public function app_github_signup(
         Request $request,
         SerializerInterface $serializer,
@@ -41,7 +41,7 @@ class GithubAuthController extends AbstractController
         return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
     }
 
-    #[Route('/api/auth/github', name:'github_auth')]
+    #[Route('/api/auth/github', name:'github_auth', methods: ['POST'])]
     public function github_auth(
         Request $request,
         UsersRepository $usersRepository,
