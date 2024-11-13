@@ -71,9 +71,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?int $email_verification_code = null;
 
-
     #[ORM\Column]
     private  ?bool $is_email_verified = null;
+
+    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    private ?Portfolios $portfolio = null;
 
     public function getId(): ?string
     {
@@ -221,5 +223,21 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function getPortfolio(): ?Portfolios
+    {
+        return $this->portfolio;
+    }
+
+    public function setPortfolio(?Portfolios $portfolio): self
+    {
+        $this->portfolio = $portfolio;
+
+        if ($portfolio && $portfolio->getUsers() !== $this) {
+            $portfolio->setUsers($this);
+        }
+
+        return $this;
     }
 }
