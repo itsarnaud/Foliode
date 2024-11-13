@@ -44,6 +44,8 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "${FRONTEND_PORT}:3000"
     environment:
