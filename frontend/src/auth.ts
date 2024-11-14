@@ -43,13 +43,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (account) {
           token.accessToken = account.access_token;
           token.provider = account.provider;
-          console.log({ token })
         }
         return token;
       } catch (error) {
         console.error("JWT callback error:", error);
         return token;
       }
-    },
+    }    
   }
 });
