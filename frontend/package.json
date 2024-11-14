@@ -19,6 +19,7 @@
     "sass": "^1.80.7"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",

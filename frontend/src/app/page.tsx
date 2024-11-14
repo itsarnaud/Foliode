@@ -7,7 +7,7 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@ne
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Card className="max-w-[400px]">
+      <Card className="max-w-[400px] nightMode bg-background ">
         <CardHeader className="flex gap-3">
           <Image
             alt="nextui logo"
@@ -17,7 +17,7 @@ export default function Home() {
             width={40}
           />
           <div className="flex flex-col">
-            <p className="text-md">NextUI</p>
+            <p color="primary">NextUI</p>
             <p className="text-small text-default-500">nextui.org</p>
           </div>
         </CardHeader>

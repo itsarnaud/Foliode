@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const {nextui} = require("@nextui-org/react");
+import { nextui } from "@nextui-org/react";
 
 module.exports = {
   content: [
@@ -15,6 +15,48 @@ module.exports = {
     extend: {},
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [nextui({
+
+    themes:{
+      
+        "dayMode": {
+          colors: {
+          background: "#ffffff",
+          foreground: "#191919",
+          primary: {
+              DEFAULT: '#3E3F92',
+              100: '#4E529E',
+              200: '#5F65A9',
+              300: '#7177B5',
+              400: '#838AC0',
+              500: '#979DCB',
+              600: '#ABB0D5',
+              700: '#BFC4E0',
+              800: '#D4D7EA',
+              900: '#E9EBF5',
+          },
+      }},
+      "nightMode": {
+        colors: {
+          background: "#0C0C0C",
+          foreground: "#191919",
+          primary: {
+              DEFAULT: '#3E3F92',
+              100: '#4E529E',
+              200: '#5F65A9',
+              300: '#7177B5',
+              400: '#838AC0',
+              500: '#979DCB',
+              600: '#ABB0D5',
+              700: '#BFC4E0',
+              800: '#D4D7EA',
+              900: '#E9EBF5',
+          },
+        }
+      }
+      }
+    }
+    
+  )],
 }
 
