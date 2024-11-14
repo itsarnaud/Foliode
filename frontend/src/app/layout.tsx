@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
+import { NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -28,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <SessionProvider>
+          <NextUIProvider>
           {children}
+          </NextUIProvider>
         </SessionProvider>
       </body>
     </html>
