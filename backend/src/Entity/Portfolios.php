@@ -6,6 +6,7 @@ use App\Repository\PortfoliosRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
 class Portfolios
@@ -17,12 +18,15 @@ class Portfolios
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $bio = null;
 
     #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]

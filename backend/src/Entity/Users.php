@@ -69,7 +69,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]
-    #[Groups('getUsers')]
     private $roles = [];
 
     #[ORM\Column]
