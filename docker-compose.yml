@@ -22,8 +22,6 @@ services:
       - app_network
     ports:
       - "${BACKEND_PORT}:9000"
-    command: >
-      sh -c "php-fpm & php /var/www/html/bin/console messenger:consume async --time-limit=3600 --memory-limit=128M -vv"
 
 
   maildev:
@@ -47,7 +45,7 @@ services:
       - /app/node_modules
       - /app/.next
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL}
     env_file:
