@@ -38,6 +38,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return `${baseUrl}`;
     },
 
+
+
     async jwt({ token, account }) {
       try {
         if (account) {
