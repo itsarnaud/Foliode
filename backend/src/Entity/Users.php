@@ -18,7 +18,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getUsers')]
     private ?string $id = null;
 
 
@@ -50,16 +49,27 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $github_login = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $github_id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('getUsers')]
+    private ?string $dribble_login = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('getUsers')]
+    private ?string $dribble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getUsers')]
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]
+    #[Groups('getUsers')]
     private $roles = [];
 
     #[ORM\Column]
@@ -72,9 +82,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?int $email_verification_code = null;
 
     #[ORM\Column]
+    #[Groups('getUsers')]
     private  ?bool $is_email_verified = null;
 
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    #[Groups('getUsers')]
     private ?Portfolios $portfolio = null;
 
     public function getId(): ?string
@@ -139,6 +151,29 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         $this->github_id = $githubId;
         return $this;
     }
+
+    public function getDribbleLogin(): string
+    {
+        return $this->dribble_login;
+    }
+
+    public function setDribbleLogin(string $dribbleLogin): self
+    {
+        $this->dribble_login= $dribbleLogin;
+        return $this;
+    }
+
+    public function getDribbleId(): string
+    {
+        return $this->dribble_id;
+    }
+
+    public function setDribbleId(string $dribbleId): self
+    {
+        $this->setDribbleId($dribbleId);
+        return $this;
+    }
+
 
     public function getAvatarUrl(): ?string
     {

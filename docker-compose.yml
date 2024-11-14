@@ -47,7 +47,7 @@ services:
       - /app/node_modules
       - /app/.next
     ports:
-      - "${FRONTEND_PORT}:3000"
+      - "3000:3000"
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL}
     env_file:
