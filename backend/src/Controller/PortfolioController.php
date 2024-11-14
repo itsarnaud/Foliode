@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PortfoliosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PortfolioController extends AbstractController
 {
-    #[Route('api/portfolio', name: 'app_portfolio', methods: ['POST'])]
-    public function app_portfolio(
+    #[Route('api/portfolio', methods: ['POST'])]
+    public function add_portfolio(
         Request $request,
         SerializerInterface $serializer,
         EntityManagerInterface $em,
@@ -42,4 +43,23 @@ class PortfolioController extends AbstractController
         
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
+
+    #[Route('api/portfolio', methods: ['PUT'])]
+    public function update_portfolio(
+        Request $request,
+        SerializerInterface $serializer,
+        EntityManagerInterface $em,
+        Security $security,
+        PortfoliosRepository $portfoliosRepository,
+    ): JsonResponse
+    {
+        $user = $security->getUser();
+        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
+
+
+        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
+        return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
+    }
+
+
 }
