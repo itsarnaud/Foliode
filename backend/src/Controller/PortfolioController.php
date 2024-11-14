@@ -54,8 +54,19 @@ class PortfolioController extends AbstractController
     ): JsonResponse
     {
         $user = $security->getUser();
+        $data = json_decode($request->getContent(), true);
         $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
 
+        if(!$data['title'] || !$data['subtitle'] || !$data['bio']){
+            return new JsonResponse(['error' => 'Invalid data format.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $portfolio->setTitle($data['title']);
+        $portfolio->setSubtitle($data['subtitle']);
+        $portfolio->setBio($data['bio']);
+
+        $em->persist($portfolio);
+        $em->flush();
 
         $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
