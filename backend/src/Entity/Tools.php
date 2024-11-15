@@ -27,21 +27,21 @@ class Tools
     private ?string $picto = null;
 
     /**
+     * @var Collection<int, Projects>
+     */
+    #[ORM\ManyToMany(targetEntity: Projects::class, inversedBy: 'tools')]
+    private Collection $projects;
+
+    /**
      * @var Collection<int, Portfolios>
      */
     #[ORM\ManyToMany(targetEntity: Portfolios::class, inversedBy: 'tools')]
-    private Collection $Portfolio;
-
-    /**
-     * @var Collection<int, Projects>
-     */
-    #[ORM\ManyToMany(targetEntity: Projects::class, mappedBy: 'Tool')]
-    private Collection $projects;
+    private Collection $portfolios;
 
     public function __construct()
     {
-        $this->Portfolio = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->portfolios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,30 +74,6 @@ class Tools
     }
 
     /**
-     * @return Collection<int, Portfolios>
-     */
-    public function getPortfolio(): Collection
-    {
-        return $this->Portfolio;
-    }
-
-    public function addPortfolio(Portfolios $portfolio): static
-    {
-        if (!$this->Portfolio->contains($portfolio)) {
-            $this->Portfolio->add($portfolio);
-        }
-
-        return $this;
-    }
-
-    public function removePortfolio(Portfolios $portfolio): static
-    {
-        $this->Portfolio->removeElement($portfolio);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Projects>
      */
     public function getProjects(): Collection
@@ -109,7 +85,6 @@ class Tools
     {
         if (!$this->projects->contains($project)) {
             $this->projects->add($project);
-            $project->addTool($this);
         }
 
         return $this;
@@ -117,9 +92,31 @@ class Tools
 
     public function removeProject(Projects $project): static
     {
-        if ($this->projects->removeElement($project)) {
-            $project->removeTool($this);
+        $this->projects->removeElement($project);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Portfolios>
+     */
+    public function getPortfolios(): Collection
+    {
+        return $this->portfolios;
+    }
+
+    public function addPortfolio(Portfolios $portfolio): static
+    {
+        if (!$this->portfolios->contains($portfolio)) {
+            $this->portfolios->add($portfolio);
         }
+
+        return $this;
+    }
+
+    public function removePortfolio(Portfolios $portfolio): static
+    {
+        $this->portfolios->removeElement($portfolio);
 
         return $this;
     }

@@ -37,23 +37,23 @@ class Portfolios
     private ?Users $users = null;
 
     /**
-     * @var Collection<int, Tools>
-     */
-    #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'Portfolio')]
-    #[Groups('getPortfolio') ]
-    private Collection $tools;
-
-    /**
      * @var Collection<int, Projects>
      */
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'portfolio')]
     #[Groups('getPortfolio') ]
     private Collection $projects;
 
+    /**
+     * @var Collection<int, Tools>
+     */
+    #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'portfolios', cascade: ["persist"])]
+    private Collection $tools;
+
     public function __construct()
     {
-        $this->tools = new ArrayCollection();
+
         $this->projects = new ArrayCollection();
+        $this->tools = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -109,32 +109,6 @@ class Portfolios
         return $this;
     }
 
-    /**
-     * @return Collection<int, Tools>
-     */
-    public function getTools(): Collection
-    {
-        return $this->tools;
-    }
-
-    public function addTool(Tools $tool): static
-    {
-        if (!$this->tools->contains($tool)) {
-            $this->tools->add($tool);
-            $tool->addPortfolio($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTool(Tools $tool): static
-    {
-        if ($this->tools->removeElement($tool)) {
-            $tool->removePortfolio($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Projects>
@@ -161,6 +135,33 @@ class Portfolios
             if ($project->getPortfolio() === $this) {
                 $project->setPortfolio(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tools>
+     */
+    public function getTools(): Collection
+    {
+        return $this->tools;
+    }
+
+    public function addTool(Tools $tool): static
+    {
+        if (!$this->tools->contains($tool)) {
+            $this->tools->add($tool);
+            $tool->addPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTool(Tools $tool): static
+    {
+        if ($this->tools->removeElement($tool)) {
+            $tool->removePortfolio($this);
         }
 
         return $this;

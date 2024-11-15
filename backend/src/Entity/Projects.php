@@ -62,10 +62,19 @@ class Projects
     #[Groups('getPortfolio') ]
     private Collection $projectsLinks;
 
+    /**
+     * @var Collection<int, Tools>
+     */
+    #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'projects', cascade: ["persist"])]
+    #[Groups('getPortfolio') ]
+    private Collection $tools;
+
+
     public function __construct()
     {
         $this->projectsImages = new ArrayCollection();
         $this->projectsLinks = new ArrayCollection();
+        $this->tools = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -216,4 +225,35 @@ class Projects
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Tools>
+     */
+    public function getTools(): Collection
+    {
+        return $this->tools;
+    }
+
+    public function addTool(Tools $tool): static
+    {
+        if (!$this->tools->contains($tool)) {
+            $this->tools->add($tool);
+            $tool->addProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTool(Tools $tool): static
+    {
+        if ($this->tools->removeElement($tool)) {
+            $tool->removeProject($this);
+        }
+
+        return $this;
+    }
+
+
+
+
 }
