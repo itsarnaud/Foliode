@@ -3,37 +3,33 @@
 namespace App\Entity;
 
 use App\Repository\ProjectsLinksRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectsLinksRepository::class)]
 class ProjectsLinks
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $url = null;
 
-    /**
-     * @var Collection<int, Projects>
-     */
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'projectsLinks')]
-    private Collection $project;
+    #[ORM\ManyToOne(inversedBy: 'projectsLinks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Projects $project = null;
 
-    public function __construct()
-    {
-        $this->project = new ArrayCollection();
-    }
-
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -62,32 +58,14 @@ class ProjectsLinks
         return $this;
     }
 
-    /**
-     * @return Collection<int, Projects>
-     */
-    public function getProject(): Collection
+    public function getProject(): ?Projects
     {
         return $this->project;
     }
 
-    public function addProject(Projects $project): static
+    public function setProject(?Projects $project): static
     {
-        if (!$this->project->contains($project)) {
-            $this->project->add($project);
-            $project->setProjectsLinks($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Projects $project): static
-    {
-        if ($this->project->removeElement($project)) {
-            // set the owning side to null (unless already changed)
-            if ($project->getProjectsLinks() === $this) {
-                $project->setProjectsLinks(null);
-            }
-        }
+        $this->project = $project;
 
         return $this;
     }

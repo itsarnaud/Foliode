@@ -43,12 +43,17 @@ class Portfolios
     #[Groups('getUsers','getPortfolio') ]
     private Collection $tools;
 
-    #[ORM\ManyToOne(inversedBy: 'Portfolio')]
-    private ?Projects $projects = null;
+    /**
+     * @var Collection<int, Projects>
+     */
+    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'portfolio')]
+    #[Groups('getUsers','getPortfolio') ]
+    private Collection $projects;
 
     public function __construct()
     {
         $this->tools = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -131,15 +136,34 @@ class Portfolios
         return $this;
     }
 
-    public function getProjects(): ?Projects
+    /**
+     * @return Collection<int, Projects>
+     */
+    public function getProjects(): Collection
     {
         return $this->projects;
     }
 
-    public function setProjects(?Projects $projects): static
+    public function addProject(Projects $project): static
     {
-        $this->projects = $projects;
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setPortfolio($this);
+        }
 
         return $this;
     }
+
+    public function removeProject(Projects $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getPortfolio() === $this) {
+                $project->setPortfolio(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

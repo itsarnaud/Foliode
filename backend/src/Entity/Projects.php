@@ -7,61 +7,68 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectsRepository::class)]
 class Projects
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups('getUsers','getPortfolio') ]
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?\DateTimeInterface $start_date = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $category = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('getUsers','getPortfolio') ]
     private ?string $status = null;
 
-    #[ORM\Column]
-    private ?bool $is_public = null;
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Portfolios $portfolio = null;
 
     /**
-     * @var Collection<int, Portfolios>
+     * @var Collection<int, ProjectsImages>
      */
-    #[ORM\OneToMany(targetEntity: Portfolios::class, mappedBy: 'projects')]
-    private Collection $Portfolio;
+    #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist"])]
+    #[Groups('getUsers','getPortfolio') ]
+    private Collection $projectsImages;
 
     /**
-     * @var Collection<int, Tools>
+     * @var Collection<int, ProjectsLinks>
      */
-    #[ORM\ManyToMany(targetEntity: Tools::class, inversedBy: 'projects')]
-    private Collection $Tool;
-
-    #[ORM\ManyToOne(inversedBy: 'project')]
-    private ?ProjectsImages $projectsImages = null;
-
-    #[ORM\ManyToOne(inversedBy: 'project')]
-    private ?ProjectsLinks $projectsLinks = null;
+    #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist"])]
+    #[Groups('getUsers','getPortfolio') ]
+    private Collection $projectsLinks;
 
     public function __construct()
     {
-        $this->Portfolio = new ArrayCollection();
-        $this->Tool = new ArrayCollection();
+        $this->projectsImages = new ArrayCollection();
+        $this->projectsLinks = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -138,42 +145,42 @@ class Projects
         return $this;
     }
 
-    public function isPublic(): ?bool
+    public function getPortfolio(): ?Portfolios
     {
-        return $this->is_public;
+        return $this->portfolio;
     }
 
-    public function setPublic(bool $is_public): static
+    public function setPortfolio(?Portfolios $portfolio): static
     {
-        $this->is_public = $is_public;
+        $this->portfolio = $portfolio;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Portfolios>
+     * @return Collection<int, ProjectsImages>
      */
-    public function getPortfolio(): Collection
+    public function getProjectsImages(): Collection
     {
-        return $this->Portfolio;
+        return $this->projectsImages;
     }
 
-    public function addPortfolio(Portfolios $portfolio): static
+    public function addProjectsImage(ProjectsImages $projectsImage): static
     {
-        if (!$this->Portfolio->contains($portfolio)) {
-            $this->Portfolio->add($portfolio);
-            $portfolio->setProjects($this);
+        if (!$this->projectsImages->contains($projectsImage)) {
+            $this->projectsImages->add($projectsImage);
+            $projectsImage->setProject($this);
         }
 
         return $this;
     }
 
-    public function removePortfolio(Portfolios $portfolio): static
+    public function removeProjectsImage(ProjectsImages $projectsImage): static
     {
-        if ($this->Portfolio->removeElement($portfolio)) {
+        if ($this->projectsImages->removeElement($projectsImage)) {
             // set the owning side to null (unless already changed)
-            if ($portfolio->getProjects() === $this) {
-                $portfolio->setProjects(null);
+            if ($projectsImage->getProject() === $this) {
+                $projectsImage->setProject(null);
             }
         }
 
@@ -181,49 +188,31 @@ class Projects
     }
 
     /**
-     * @return Collection<int, Tools>
+     * @return Collection<int, ProjectsLinks>
      */
-    public function getTool(): Collection
+    public function getProjectsLinks(): Collection
     {
-        return $this->Tool;
+        return $this->projectsLinks;
     }
 
-    public function addTool(Tools $tool): static
+    public function addProjectsLink(ProjectsLinks $projectsLink): static
     {
-        if (!$this->Tool->contains($tool)) {
-            $this->Tool->add($tool);
+        if (!$this->projectsLinks->contains($projectsLink)) {
+            $this->projectsLinks->add($projectsLink);
+            $projectsLink->setProject($this);
         }
 
         return $this;
     }
 
-    public function removeTool(Tools $tool): static
+    public function removeProjectsLink(ProjectsLinks $projectsLink): static
     {
-        $this->Tool->removeElement($tool);
-
-        return $this;
-    }
-
-    public function getProjectsImages(): ?ProjectsImages
-    {
-        return $this->projectsImages;
-    }
-
-    public function setProjectsImages(?ProjectsImages $projectsImages): static
-    {
-        $this->projectsImages = $projectsImages;
-
-        return $this;
-    }
-
-    public function getProjectsLinks(): ?ProjectsLinks
-    {
-        return $this->projectsLinks;
-    }
-
-    public function setProjectsLinks(?ProjectsLinks $projectsLinks): static
-    {
-        $this->projectsLinks = $projectsLinks;
+        if ($this->projectsLinks->removeElement($projectsLink)) {
+            // set the owning side to null (unless already changed)
+            if ($projectsLink->getProject() === $this) {
+                $projectsLink->setProject(null);
+            }
+        }
 
         return $this;
     }
