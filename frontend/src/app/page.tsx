@@ -17,12 +17,12 @@ export default function Home() {
             width={40}
           />
           <div className="flex flex-col">
-            <p color="primary">NextUI</p>
-            <p className="text-small text-default-500">nextui.org</p>
+            <p color="primary" className="text-16 lg:text-16">NextUI</p>
+            <p className="text-16 lg:text-16">nextui.org</p>
           </div>
         </CardHeader>
         <Divider/>
-        <CardBody>
+        <CardBody className="text-16 lg:text-16">
           <p>Make beautiful websites regardless of your design experience.</p>
         </CardBody>
         <Divider/>
