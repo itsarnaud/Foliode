@@ -12,7 +12,23 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      borderColor: {
+        custom: '#2C2D33',
+      },
+      borderWidth: {
+        '1': '1px',
+      },
+      borderRadius: {
+        '13': '13px',
+      },
+      fontSize: {
+        '14': '14px',
+        '16': '16px',
+        '20': '20px',
+        '26': '26px',
+      },
+    },
   },
   darkMode: "class",
   plugins: [nextui({
@@ -59,4 +75,3 @@ module.exports = {
     
   )],
 }
-
