@@ -31,7 +31,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         min: 5,
         minMessage: "Full name must be at least {{ limit }} characters long."
     )]
-    #[Groups('getUsers')]
+    #[Groups('getUsers', 'getPortfolio')]
     private ?string $full_name = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -65,7 +65,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $dribbble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('getUsers')]
+    #[Groups('getUsers', 'getPortfolio')]
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]

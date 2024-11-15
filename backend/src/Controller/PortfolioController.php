@@ -27,11 +27,16 @@ class PortfolioController extends AbstractController
     ): JsonResponse
     {
         $user = $security->getUser();
-        
-        try {
-            $portfolio = $serializer->deserialize($request->getContent(), Portfolios::class, 'json');
-        } catch (\Exception $e) {
+        $data = json_decode($request->getContent(), true);
+
+        if(!$data['title'] || !$user ){
             return new JsonResponse(['error' => 'Invalid data format.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $portfolio = $serializer->deserialize($request->getContent(), Portfolios::class, 'json');
+
+        foreach ($portfolio->getTools() as $tool) {
+            $em->persist($tool);
         }
 
         $portfolio->setUsers($user);
@@ -71,6 +76,7 @@ class PortfolioController extends AbstractController
         $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
+
 
 
 }

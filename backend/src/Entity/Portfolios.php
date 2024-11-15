@@ -17,30 +17,34 @@ class Portfolios
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getUsers')]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers')]
+    #[Groups('getUsers', 'getPortfolio')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('getUsers')]
+    #[Groups('getUsers', 'getPortfolio')]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('getUsers')]
+    #[Groups('getUsers', 'getPortfolio')]
     private ?string $bio = null;
 
     #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('getPortfolio') ]
     private ?Users $users = null;
 
     /**
      * @var Collection<int, Tools>
      */
     #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'Portfolio')]
+    #[Groups('getUsers','getPortfolio') ]
     private Collection $tools;
+
+    #[ORM\ManyToOne(inversedBy: 'Portfolio')]
+    private ?Projects $projects = null;
 
     public function __construct()
     {
@@ -123,6 +127,18 @@ class Portfolios
         if ($this->tools->removeElement($tool)) {
             $tool->removePortfolio($this);
         }
+
+        return $this;
+    }
+
+    public function getProjects(): ?Projects
+    {
+        return $this->projects;
+    }
+
+    public function setProjects(?Projects $projects): static
+    {
+        $this->projects = $projects;
 
         return $this;
     }
