@@ -20,15 +20,15 @@ class Portfolios
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers', 'getPortfolio')]
+    #[Groups('getPortfolio')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('getUsers', 'getPortfolio')]
+    #[Groups('getPortfolio')]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('getUsers', 'getPortfolio')]
+    #[Groups('getPortfolio')]
     private ?string $bio = null;
 
     #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
@@ -40,14 +40,14 @@ class Portfolios
      * @var Collection<int, Tools>
      */
     #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'Portfolio')]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private Collection $tools;
 
     /**
      * @var Collection<int, Projects>
      */
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'portfolio')]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private Collection $projects;
 
     public function __construct()

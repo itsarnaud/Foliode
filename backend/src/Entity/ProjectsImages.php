@@ -15,14 +15,15 @@ class ProjectsImages
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups('getPortfolio') ]
     private ?string $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $img_src = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $img_alt = null;
 
     #[ORM\ManyToOne(inversedBy: 'projectsImages')]

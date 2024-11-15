@@ -17,31 +17,31 @@ class Projects
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?\DateTimeInterface $start_date = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $category = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
@@ -52,14 +52,14 @@ class Projects
      * @var Collection<int, ProjectsImages>
      */
     #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist"])]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private Collection $projectsImages;
 
     /**
      * @var Collection<int, ProjectsLinks>
      */
     #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist"])]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private Collection $projectsLinks;
 
     public function __construct()

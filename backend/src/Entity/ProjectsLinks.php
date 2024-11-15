@@ -18,11 +18,11 @@ class ProjectsLinks
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getUsers','getPortfolio') ]
+    #[Groups('getPortfolio') ]
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'projectsLinks')]

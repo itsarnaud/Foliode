@@ -19,7 +19,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ProjectController extends AbstractController
 {
-
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
         Request $request,

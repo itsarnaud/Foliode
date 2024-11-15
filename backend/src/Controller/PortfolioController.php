@@ -77,6 +77,17 @@ class PortfolioController extends AbstractController
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 
+    #[Route('api/portfolio', methods: ['GET'])]
+    public function get_portfolio(
+        SerializerInterface $serializer,
+        Security $security,
+        PortfoliosRepository $portfoliosRepository,
+    )
+    {
+        $user = $security->getUser();
+        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
 
-
+        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
+        return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
+    }
 }
