@@ -8,14 +8,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use App\Entity\Users;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UsersRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class AuthController extends AbstractController
 {
@@ -26,7 +26,7 @@ class AuthController extends AbstractController
         SerializerInterface $serializer,
         EntityManagerInterface $em,
         UserPasswordHasherInterface $passwordHasher,
-        MailerInterface $mailer,
+        MailerService $mailerService,
         ValidatorInterface $validator
     ): JsonResponse {
 
@@ -60,17 +60,11 @@ class AuthController extends AbstractController
 
         $verificationCode = random_int(100000, 999999);
         $user->setEmailVerificationCode($verificationCode);
+        $subject = 'Vérification de votre adresse email';
+        $content = "Votre code de vérification est : $verificationCode";
 
-        $emailMessage = (new Email())
-            ->from('no-reply@localhost')
-            ->to($user->getEmail())
-            ->subject('Vérification de votre adresse email')
-            ->text("Votre code de vérification est : $verificationCode");
-
-        try {
-            $mailer->send($emailMessage);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Failed to send email: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        if(!$mailerService->sendEmail($subject, $content, $user->getEmail())){
+            return new JsonResponse(['error' => 'internal serveur error'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $em->persist($user);
