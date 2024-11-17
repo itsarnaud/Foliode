@@ -1,6 +1,9 @@
-import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Dribbble from "next-auth/providers/dribbble";
+import NextAuth     from "next-auth";
+import GitHub       from "next-auth/providers/github";
+import Dribbble     from "next-auth/providers/dribbble";
+import axios        from 'axios';
+import { cookies }  from 'next/headers'
+
 
 declare module "next-auth" {
   interface Session {
@@ -45,6 +48,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (account) {
           token.accessToken = account.access_token;
           token.provider = account.provider;
+
+          if (token.provider === 'dribbble') {
+            try {
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/dribbble`,
+                { "dribbble_token": `${token.accessToken}` },
+                { headers: { 'Content-Type': 'application/json' } }
+              );
+
+              const cookieStore = await cookies();
+              cookieStore.set({
+                name: 'token_dribbble',
+                value: response.data.token
+              });
+            } catch(error) {
+              console.error('Erreur lors de l\'authentification de dribbble :', error);
+            }
+          } else if (token.provider === 'github') {
+            try {
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/github`, 
+                { "github_token": `${token.accessToken}` },
+                { headers: { 'Content-Type': 'application/json' } }
+              );
+  
+              const cookieStore = await cookies();
+              cookieStore.set({
+                name: 'token_github',
+                value: response.data.token
+              });
+            } catch(error) {
+              console.error('Erreur lors de l\'authentification de github :', error);
+            }
+          }
         }
         return token;
       } catch (error) {

@@ -151,25 +151,25 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getDribbleLogin(): string
+    public function getDribbbleLogin(): string
     {
         return $this->dribble_login;
     }
 
-    public function setDribbleLogin(string $dribbleLogin): self
+    public function setDribbbleLogin(string $dribbleLogin): self
     {
         $this->dribble_login= $dribbleLogin;
         return $this;
     }
 
-    public function getDribbleId(): string
+    public function getDribbbleId(): string
     {
         return $this->dribble_id;
     }
 
-    public function setDribbleId(string $dribbleId): self
+    public function setDribbbleId(string $dribbleId): self
     {
-        $this->setDribbleId($dribbleId);
+        $this->dribble_id = $dribbleId;
         return $this;
     }
 
