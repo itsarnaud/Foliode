@@ -52,7 +52,15 @@ class ExternalAuthController extends AbstractController
         $user = $usersRepository->findOneBy(['github_id' => $userData['id']]);
 
         if (!$user) {
-            $user = (new Users())
+            $email = $userData['email'] ?? $userData['html_url'];
+            $user = $usersRepository->findOneBy(['email' => $email]);
+
+            if ($user) {
+                $user->setGithubLogin($userData['login']);
+                $user->setGithubId($userData['id']);
+                $user->setAvatarUrl($userData['avatar_url'] ?? null);
+            } else {
+                $user = (new Users())
                 ->setFullName($userData['name'] ?? 'Unknown')
                 ->setEmail($userData['email'] ?? $userData['url'])
                 ->setIsEmailVerified(true)
@@ -61,6 +69,7 @@ class ExternalAuthController extends AbstractController
                 ->setAvatarUrl($userData['avatar_url'] ?? null)
                 ->setStudent(true)
                 ->setTeacher(false);
+            }
 
             $em->persist($user);
             $em->flush();
@@ -96,26 +105,35 @@ class ExternalAuthController extends AbstractController
             ]);
 
             if ($response->getStatusCode() !== 200) {
-                return new JsonResponse(['error' => 'Invalid GitHub token'], Response::HTTP_UNAUTHORIZED);
+                return new JsonResponse(['error' => 'Invalid Dribbble token'], Response::HTTP_UNAUTHORIZED);
             }
 
             $userData = $response->toArray();
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'GitHub API error', 'details' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => 'Dribbble API error', 'details' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $user = $usersRepository->findOneBy(['dribble_id' => $userData['id']]);
 
         if (!$user) {
-            $user = (new Users())
+            $email = $userData['email'] ?? $userData['html_url'];
+            $user = $usersRepository->findOneBy(['email' => $email]);
+
+            if ($user) {
+                $user->setDribbbleLogin($userData['login']);
+                $user->setDribbbleId($userData['id']);
+                $user->setAvatarUrl($userData['avatar_url'] ?? null);
+            } else {
+                $user = (new Users())
                 ->setFullName($userData['name'] ?? 'Unknown')
                 ->setEmail($userData['email'] ?? $userData['html_url'])
                 ->setIsEmailVerified(true)
-                ->setDribbleLogin($userData['login'])
-                ->setDribbleId($userData['id'])
+                ->setDribbbleLogin($userData['login'])
+                ->setDribbbleId($userData['id'])
                 ->setAvatarUrl($userData['avatar_url'] ?? null)
                 ->setStudent(true)
                 ->setTeacher(false);
+            }
 
             $em->persist($user);
             $em->flush();
