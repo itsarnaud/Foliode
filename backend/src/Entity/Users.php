@@ -58,11 +58,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups('getUsers')]
-    private ?string $dribble_login = null;
+    private ?string $dribbble_login = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups('getUsers')]
-    private ?string $dribble_id = null;
+    private ?string $dribbble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getUsers')]
@@ -153,23 +153,23 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getDribbbleLogin(): string
     {
-        return $this->dribble_login;
+        return $this->dribbble_login;
     }
 
-    public function setDribbbleLogin(string $dribbleLogin): self
+    public function setDribbbleLogin(string $dribbbleLogin): self
     {
-        $this->dribble_login= $dribbleLogin;
+        $this->dribbble_login= $dribbbleLogin;
         return $this;
     }
 
     public function getDribbbleId(): string
     {
-        return $this->dribble_id;
+        return $this->dribbble_id;
     }
 
-    public function setDribbbleId(string $dribbleId): self
+    public function setDribbbleId(string $dribbbleId): self
     {
-        $this->dribble_id = $dribbleId;
+        $this->dribbble_id = $dribbbleId;
         return $this;
     }
 
