@@ -11,9 +11,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UsersRepository;
 use App\Entity\Portfolios; 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 
 class PortfolioController extends AbstractController
