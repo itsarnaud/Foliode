@@ -2,43 +2,37 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Projects;
-use App\Repository\PortfoliosRepository;
+use App\Service\ProjectService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UsersRepository;
-use App\Entity\Portfolios;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 class ProjectController extends AbstractController
 {
+
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
         Request $request,
-        SerializerInterface $serializer,
-        EntityManagerInterface $em,
         Security $security,
-        PortfoliosRepository $portfoliosRepository
+        ProjectService $projectService
     ): JsonResponse
     {
         $user = $security->getUser();
-        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
+        $data = $request->getContent();
 
-        $project = $serializer->deserialize($request->getContent(), Projects::class, 'json');
-        $project->setPortfolio($portfolio);
+        if(!$user){
+            return new JsonResponse(['error' => 'unauthorized profil'], Response::HTTP_UNAUTHORIZED);
+        }
 
-        $em->persist($project);
-        $em->flush();
+        if(!$data){
+            return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
+        }
 
-        $jsonProject = $serializer->serialize($project, 'json', ['groups' => 'getUsers']);
+        $jsonProject = $projectService->CreateProject($user, $data);
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);
     }
-
 }
