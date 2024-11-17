@@ -1,5 +1,6 @@
 services:
   backend:
+    image: php:fpm
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
@@ -11,14 +12,25 @@ services:
     environment:
       SYMFONY_ENV: ${SYMFONY_ENV:-dev}
       DATABASE_URL: "${POSTGRES_URL}"
+      MAILER_DSN: "${MAILER_DSN}"
     env_file:
       - .env
     depends_on:
       - db
+      - maildev
     networks:
       - app_network
     ports:
-      - "${BACKEND_PORT}:8000"
+      - "${BACKEND_PORT}:9000"
+
+  maildev:
+    image: maildev/maildev
+    container_name: maildev
+    ports:
+      - "1080:1080"
+      - "1026:1025"
+    networks:
+      - app_network
 
   frontend:
     build:
@@ -28,6 +40,8 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "${FRONTEND_PORT}:3000"
     environment:
@@ -67,6 +81,7 @@ services:
 
 networks:
   app_network:
+    driver: bridge
 
 volumes:
   db_data:

@@ -1,27 +1,21 @@
-# Utiliser une image de base PHP avec FPM
 FROM php:8.2-fpm
 
-# Installer les extensions PHP requises
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
     unzip \
     && docker-php-ext-install pdo pdo_pgsql
 
-# Copier Composer depuis une image pour installer les dépendances
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Copier le code source de Symfony
 COPY . .
 
-# Installer les dépendances Symfony
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
-# Exposer le port par défaut de PHP-FPM
+COPY php-mail.ini /usr/local/etc/php/conf.d/php-mail.ini
+
 EXPOSE 9000
 
-# Commande par défaut pour démarrer PHP-FPM
 CMD ["php-fpm"]

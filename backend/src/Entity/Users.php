@@ -5,32 +5,71 @@ namespace App\Entity;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?string $id = null;
+
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Full name is required.")]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z\s]+$/',
+        message: 'Full name should only contain letters and spaces.'
+    )]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Full name must be at least {{ limit }} characters long."
+    )]
+    #[Groups('getUsers')]
     private ?string $full_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: "Email address is required.")]
+    #[Assert\Email(message: "Invalid email format.")]
+    #[Groups('getUsers')]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message: "Password is required.")]
+    #[Assert\Length(
+        min: 8,
+        minMessage: "Password must be at least {{ limit }} characters long."
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $github_login = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('getUsers')]
+    private ?string $github_id = null;
+
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $behance_login = null;
+    #[Groups('getUsers')]
+    private ?string $dribbble_login = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('getUsers')]
+    private ?string $dribbble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('getUsers')]
     private ?string $avatar_url = null;
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
 
     #[ORM\Column]
     private ?bool $is_student = null;
@@ -38,7 +77,18 @@ class Users
     #[ORM\Column]
     private ?bool $is_teacher = null;
 
-    public function getId(): ?int
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?int $email_verification_code = null;
+
+    #[ORM\Column]
+    #[Groups('getUsers')]
+    private  ?bool $is_email_verified = null;
+
+    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    #[Groups('getUsers')]
+    private ?Portfolios $portfolio = null;
+
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -51,7 +101,6 @@ class Users
     public function setFullName(string $full_name): static
     {
         $this->full_name = $full_name;
-
         return $this;
     }
 
@@ -91,17 +140,39 @@ class Users
         return $this;
     }
 
-    public function getBehanceLogin(): ?string
+    public function getGithubId(): string
     {
-        return $this->behance_login;
+        return $this->github_id;
     }
 
-    public function setBehanceLogin(?string $behance_login): static
+    public function setGithubId(string $githubId): self
     {
-        $this->behance_login = $behance_login;
-
+        $this->github_id = $githubId;
         return $this;
     }
+
+    public function getDribbbleLogin(): string
+    {
+        return $this->dribbble_login;
+    }
+
+    public function setDribbbleLogin(string $dribbbleLogin): self
+    {
+        $this->dribbble_login= $dribbbleLogin;
+        return $this;
+    }
+
+    public function getDribbbleId(): string
+    {
+        return $this->dribbble_id;
+    }
+
+    public function setDribbbleId(string $dribbbleId): self
+    {
+        $this->dribbble_id = $dribbbleId;
+        return $this;
+    }
+
 
     public function getAvatarUrl(): ?string
     {
@@ -123,7 +194,6 @@ class Users
     public function setStudent(bool $is_student): static
     {
         $this->is_student = $is_student;
-
         return $this;
     }
 
@@ -135,6 +205,72 @@ class Users
     public function setTeacher(bool $is_teacher): static
     {
         $this->is_teacher = $is_teacher;
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getEmailVerificationCode(): string
+    {
+        return $this->email_verification_code;
+    }
+
+    public function setEmailVerificationCode(?string $emailVerificationCode): self
+    {
+        $this->email_verification_code = $emailVerificationCode;
+        return $this;
+    }
+
+    public function getIsEmailVerified(): bool
+    {
+        return $this->is_email_verified;
+    }
+
+    public function setIsEmailVerified(bool $isEmailVerified): self
+    {
+        $this->is_email_verified = $isEmailVerified;
+        return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        $this->password = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function getPortfolio(): ?Portfolios
+    {
+        return $this->portfolio;
+    }
+
+    public function setPortfolio(?Portfolios $portfolio): self
+    {
+        $this->portfolio = $portfolio;
+
+        if ($portfolio && $portfolio->getUsers() !== $this) {
+            $portfolio->setUsers($this);
+        }
 
         return $this;
     }
