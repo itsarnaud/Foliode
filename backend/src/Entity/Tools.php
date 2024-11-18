@@ -18,7 +18,7 @@ class Tools
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups('getPortfolio') ]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     #[Groups('getPortfolio') ]
@@ -46,7 +46,7 @@ class Tools
         $this->portfolios = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

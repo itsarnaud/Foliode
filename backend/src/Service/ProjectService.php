@@ -57,4 +57,20 @@ class ProjectService extends ValidatorBaseService
         return $this->serializer->serialize($project, 'json', ['groups' => 'getPortfolio']);
     }
 
+    public function UpdateProject(Users $user, string $data, string $id): string
+    {
+        $project = $this->projectsRepository->findOneBy(['id' => $id]);
+
+        if($project->getPortfolio() !== $this->portfoliosRepository->findOneBy(['users' => $user])){
+            throw new \InvalidArgumentException(" no project found ");
+        }
+
+        $this->serializer->deserialize($data, Projects::class, 'json', ['object_to_populate' => $project]);
+        $errors = $this->validator->validate($project);
+        $this->CatchInvalidData($errors);
+
+        $this->entityManager->flush();
+        return $this->serializer->serialize($project, 'json', ['groups' => 'getPortfolio']);
+    }
+
 }
