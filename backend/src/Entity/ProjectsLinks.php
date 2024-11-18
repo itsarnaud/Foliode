@@ -27,7 +27,6 @@ class ProjectsLinks
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'projectsLinks')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Projects $project = null;
 
     public function getId(): ?string

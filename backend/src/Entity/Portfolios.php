@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
 class Portfolios
@@ -20,10 +21,12 @@ class Portfolios
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
     #[Groups('getPortfolio')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255, maxMessage: "subtitle cannot exceed 255 characters")]
     #[Groups('getPortfolio')]
     private ?string $subtitle = null;
 

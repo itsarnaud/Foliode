@@ -12,7 +12,6 @@ abstract class ValidatorBaseService
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
-
             }
 
             throw new \InvalidArgumentException(implode(", ", $errorMessages));

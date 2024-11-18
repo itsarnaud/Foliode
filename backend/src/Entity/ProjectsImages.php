@@ -27,7 +27,6 @@ class ProjectsImages
     private ?string $img_alt = null;
 
     #[ORM\ManyToOne(inversedBy: 'projectsImages')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Projects $project = null;
 
     public function getId(): ?string
