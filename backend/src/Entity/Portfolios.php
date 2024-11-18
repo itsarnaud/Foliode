@@ -47,6 +47,7 @@ class Portfolios
      * @var Collection<int, Tools>
      */
     #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'portfolios', cascade: ["persist"])]
+    #[Groups('getPortfolio') ]
     private Collection $tools;
 
     public function __construct()

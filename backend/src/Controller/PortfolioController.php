@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PortfoliosRepository;
+use App\Service\PortfolioService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,8 +12,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Portfolios; 
-
 
 
 class PortfolioController extends AbstractController
@@ -20,59 +19,34 @@ class PortfolioController extends AbstractController
     #[Route('api/portfolio', methods: ['POST'])]
     public function add_portfolio(
         Request $request,
-        SerializerInterface $serializer,
-        EntityManagerInterface $em,
+        PortfolioService $portfolioService,
         Security $security,
     ): JsonResponse
     {
         $user = $security->getUser();
-        $data = json_decode($request->getContent(), true);
+        $data = $request->getContent();
 
-        if(!$data['title'] || !$user ){
-            return new JsonResponse(['error' => 'Invalid data format.'], Response::HTTP_BAD_REQUEST);
+        if(!$user){
+            return new JsonResponse(['error' => 'unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
+        $jsonPortfolio = $portfolioService->CreatPortfolio($data, $user);
 
-        $portfolio = $serializer->deserialize($request->getContent(), Portfolios::class, 'json');
-
-        foreach ($portfolio->getTools() as $tool) {
-            $em->persist($tool);
-        }
-
-        $portfolio->setUsers($user);
-
-        $em->persist($portfolio);
-        $em->flush();
-
-        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
-        
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
+
 
     #[Route('api/portfolio', methods: ['PUT'])]
     public function update_portfolio(
         Request $request,
-        SerializerInterface $serializer,
-        EntityManagerInterface $em,
         Security $security,
-        PortfoliosRepository $portfoliosRepository,
+        PortfolioService $portfolioService,
     ): JsonResponse
     {
         $user = $security->getUser();
-        $data = json_decode($request->getContent(), true);
-        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
+        $data = $request->getContent();
 
-        if(!$data['title'] || !$data['subtitle'] || !$data['bio']){
-            return new JsonResponse(['error' => 'Invalid data format.'], Response::HTTP_BAD_REQUEST);
-        }
+        $jsonPortfolio = $portfolioService->UpdatePortfolio($data, $user);
 
-        $portfolio->setTitle($data['title']);
-        $portfolio->setSubtitle($data['subtitle']);
-        $portfolio->setBio($data['bio']);
-
-        $em->persist($portfolio);
-        $em->flush();
-
-        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 

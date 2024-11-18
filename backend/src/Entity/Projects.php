@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
 use App\Repository\ProjectsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: ProjectsRepository::class)]
@@ -24,6 +23,8 @@ class Projects
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "The name is required.")]
+    #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
     #[Groups('getPortfolio') ]
     private ?string $title = null;
 
@@ -32,18 +33,26 @@ class Projects
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\DateTime(message: "start date must be a valid date format")]
     #[Groups('getPortfolio') ]
     private ?\DateTimeInterface $start_date = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\DateTime(message: "end date must be a valid date format")]
+    #[Assert\Expression(
+        "this.getEndDate() === null || this.getStartDate() === null || this.getEndDate() >= this.getStartDate()",
+        message: "end date must be greater than or equal to the start date"
+    )]
     #[Groups('getPortfolio') ]
     private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255, maxMessage: "category cannot exceed 255 characters")]
     #[Groups('getPortfolio') ]
     private ?string $category = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255, maxMessage: "status cannot exceed 255 characters")]
     #[Groups('getPortfolio') ]
     private ?string $status = null;
 
