@@ -73,7 +73,4 @@ class ExternalAuthController extends AbstractController
 
     }
 
-
-
-
 }

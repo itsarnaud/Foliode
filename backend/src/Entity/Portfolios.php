@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\PortfoliosRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
 class Portfolios
@@ -18,20 +21,44 @@ class Portfolios
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getUsers')]
+    #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
+    #[Groups('getPortfolio')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('getUsers')]
+    #[Assert\Length(max: 255, maxMessage: "subtitle cannot exceed 255 characters")]
+    #[Groups('getPortfolio')]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('getUsers')]
+    #[Groups('getPortfolio')]
     private ?string $bio = null;
 
     #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('getPortfolio') ]
     private ?Users $users = null;
+
+    /**
+     * @var Collection<int, Projects>
+     */
+    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'portfolio', cascade: ["persist"])]
+    #[Groups('getPortfolio') ]
+    private Collection $projects;
+
+    /**
+     * @var Collection<int, Tools>
+     */
+    #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'portfolios', cascade: ["persist"])]
+    #[Groups('getPortfolio') ]
+    private Collection $tools;
+
+    public function __construct()
+    {
+
+        $this->projects = new ArrayCollection();
+        $this->tools = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -85,4 +112,63 @@ class Portfolios
 
         return $this;
     }
+
+
+    /**
+     * @return Collection<int, Projects>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Projects $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Projects $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getPortfolio() === $this) {
+                $project->setPortfolio(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tools>
+     */
+    public function getTools(): Collection
+    {
+        return $this->tools;
+    }
+
+    public function addTool(Tools $tool): static
+    {
+        if (!$this->tools->contains($tool)) {
+            $this->tools->add($tool);
+            $tool->addPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTool(Tools $tool): static
+    {
+        if ($this->tools->removeElement($tool)) {
+            $tool->removePortfolio($this);
+        }
+
+        return $this;
+    }
+
 }

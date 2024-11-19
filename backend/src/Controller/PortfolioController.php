@@ -2,44 +2,59 @@
 
 namespace App\Controller;
 
+use App\Repository\PortfoliosRepository;
+use App\Service\PortfolioService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UsersRepository;
-use App\Entity\Portfolios; 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
 class PortfolioController extends AbstractController
 {
-    #[Route('api/portfolio', name: 'app_portfolio', methods: ['POST'])]
-    public function app_portfolio(
+    #[Route('api/portfolio', methods: ['POST'])]
+    public function add_portfolio(
         Request $request,
-        SerializerInterface $serializer,
-        EntityManagerInterface $em,
-        Security $security,
+        PortfolioService $portfolioService,
     ): JsonResponse
     {
-        $user = $security->getUser();
-        
-        try {
-            $portfolio = $serializer->deserialize($request->getContent(), Portfolios::class, 'json');
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Invalid data format.'], Response::HTTP_BAD_REQUEST);
-        }
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $data = $request->getContent();
 
-        $portfolio->setUsers($user);
+        $jsonPortfolio = $portfolioService->CreatPortfolio($data, $user);
 
-        $em->persist($portfolio);
-        $em->flush();
-
-        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
-        
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
+    }
+
+
+    #[Route('api/portfolio', methods: ['PUT'])]
+    public function update_portfolio(
+        Request $request,
+        PortfolioService $portfolioService,
+    ): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $data = $request->getContent();
+
+        $jsonPortfolio = $portfolioService->UpdatePortfolio($data, $user);
+
+        return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
+    }
+
+    #[Route('api/portfolio', methods: ['GET'])]
+    public function get_portfolio(
+        SerializerInterface $serializer,
+        PortfoliosRepository $portfoliosRepository,
+    ): JsonResponse
+    {
+        $user = $this->getUser();
+        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
+
+        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
+        return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
 }
