@@ -55,5 +55,9 @@ class PortfolioService extends ValidatorBaseService
         return $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
     }
 
-
+    public function getPortfolio(Users $user): string
+    {
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+        return $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
+    }
 }

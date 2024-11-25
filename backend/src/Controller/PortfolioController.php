@@ -49,12 +49,12 @@ class PortfolioController extends AbstractController
     public function get_portfolio(
         SerializerInterface $serializer,
         PortfoliosRepository $portfoliosRepository,
+        PortfolioService $portfolioService
     ): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $portfolio = $portfoliosRepository->findOneBy(['users' => $user]);
-
-        $jsonPortfolio = $serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
+        $jsonPortfolio = $portfolioService->getPortfolio($user);
         return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
 }
