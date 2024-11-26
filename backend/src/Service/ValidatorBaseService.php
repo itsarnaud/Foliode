@@ -5,7 +5,6 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 abstract class ValidatorBaseService
 {
-
     protected function CatchInvalidData(ConstraintViolationListInterface $errors): void
     {
         if (count($errors) > 0) {
