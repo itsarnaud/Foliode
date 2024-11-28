@@ -15,9 +15,8 @@ const Button: React.FC<buttonProps> = ({text, style, icon, className}) => {
                 </button>
             );
         case("large-button"):
-            return (<button className="flex w-[411px] items-start rounded-[8px] text-white font-inter text-base font-semibold leading-6 border-[#3E3F92] bg-[#191919] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]">
-
-                {text}
+            return (<button className="flex w-[411px] items-center justify-center rounded-[8px] text-white font-inter text-base font-semibold leading-6 border-[#3E3F92] border-1 bg-[#191919] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]">
+                <p className="p-2">{text}</p> 
             </button>);
         default:
             return null;
