@@ -7,26 +7,26 @@ export default function RegisterPage() {
     <div className="flex flex-col items-center w-full max-w-md">
         <form className="flex flex-col w-full sm:w-[411px] min-h-[478px] flex-shrink-0 gap-2">
             <h1 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-8 ">Inscrivez vous à Foliode !</h1>
-            <h4 className="text-sm sm:text-base mb-1">Email</h4>
+            <label className="text-sm sm:text-base mb-1">Email</label>
             <Input style="email" type="email" placeholder="prenom.nom@gmail.com"/>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
             <div className="flex flex-col">
-              <h4 className="text-sm sm:text-base mb-1">Prénom</h4>
+              <label className="text-sm sm:text-base mb-1">Prénom</label>
               <Input style="form-small" type="" placeholder="Foliode"/>
               </div>
               <div className="flex flex-col">
-                <h4 className="text-sm sm:text-base mb-1">Nom</h4>
+                <label className="text-sm sm:text-base mb-1">Nom</label>
                 <Input style="form-small" type="" placeholder="Team"/>
                 </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 mb-2">
             <div className="flex flex-col">
-              <h4 className="text-sm sm:text-base mb-1">Mot de passe</h4>
-              <Input style="form-small-mdp" type="" placeholder="Mot de passe"/>
+              <label className="text-sm sm:text-base mb-1">Mot de passe</label>
+              <Input style="form-small-password" type="password" placeholder="Mot de passe"/>
               </div>
               <div className="flex flex-col">
-                <h4 className="text-sm sm:text-base mb-1 text-[#0C0C0C]">_____</h4>
-                <Input style="form-small-mdp" type="" placeholder="Confimer le mot de passe"/>
+                <label className="text-sm sm:text-base mb-1 text-[#0C0C0C]">_____</label>
+                <Input style="form-small-password" type="password" placeholder="Confimer le mot de passe"/>
                 </div>
                 </div>
             <Button text="Se connecter" style="large-button" />

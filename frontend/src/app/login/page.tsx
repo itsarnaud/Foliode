@@ -6,10 +6,10 @@ export default function LoginPage() {
             <div className="flex flex-col items-center w-full max-w-md">
                 <form className="flex flex-col w-full sm:w-[411px] min-h-[478px] flex-shrink-0 gap-2">
                 <h1 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-8 ">Connectez vous à Foliode !</h1>
-                    <h4 className="text-sm sm:text-base mb-1">Email</h4>
+                    <label className="text-sm sm:text-base mb-1">Email</label>
                     <Input style="email" type="email" placeholder="prenom.nom@gmail.com"/>
-                    <h4 className="text-sm sm:text-base mb-1 mt-3">Mot de passe</h4>
-                    <Input style="mdp" type="password" placeholder="mot de passe" />
+                    <label className="text-sm sm:text-base mb-1 mt-3">Mot de passe</label>
+                    <Input style="password" type="password" placeholder="mot de passe" />
                     <p className="text-sm sm:text-base">Mot de passe oublié ? <a className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:text-decoration-line: underline;">cliquez ici</a></p>
                     <Buttons text="Se connecter" style="large-button" />
                     <p className="text-sm sm:text-base">Pas de compte ? <a className="cursor-pointer  text-[#3E3F92] hover:text-[#5b5dd8] hover:text-decoration-line: underline;">Créé votre compte !</a></p>
