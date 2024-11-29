@@ -18,7 +18,7 @@ const Input: React.FC<inputProps> = ({type, style, placeholder, className}) => {
             return ( <input type="password" placeholder="" className="flex w-[199px] p-[10px] justify-center items-center gap-[12px] rounded-[8px] border-[1px] border-[#252525] bg-[#191919] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]" />    
             );
         case("form-small"):
-        return ( <input type="" placeholder="" className="flex w-[199px] p-[10px] justify-center items-center gap-[12px] rounded-[8px] border-[1px] border-[#252525] bg-[#191919] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]" />)
+        return ( <input type="" placeholder="mot de passe" className="flex w-[199px] p-[10px] justify-center items-center gap-[12px] rounded-[8px] border-[1px] border-[#252525] bg-[#191919] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]" />)
         default:
             return null;
     }

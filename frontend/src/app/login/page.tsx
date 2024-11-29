@@ -1,4 +1,4 @@
-import Button from "@/components/UI/button";
+import Buttons from "@/components/UI/button";
 import Input from "@/components/UI/input"
 export default function LoginPage() {
     return (
@@ -11,7 +11,7 @@ export default function LoginPage() {
                     <h4 className="text-sm sm:text-base mb-1 mt-3">Mot de passe</h4>
                     <Input style="mdp" type="password" placeholder="mot de passe" />
                     <p className="text-sm sm:text-base">Mot de passe oublié ? <a className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:text-decoration-line: underline;">cliquez ici</a></p>
-                    <Button text="Se connecter" style="large-button" />
+                    <Buttons text="Se connecter" style="large-button" />
                     <p className="text-sm sm:text-base">Pas de compte ? <a className="cursor-pointer  text-[#3E3F92] hover:text-[#5b5dd8] hover:text-decoration-line: underline;">Créé votre compte !</a></p>
                     <div className="flex items-center justify-center text-white">
                         <hr className="border-white border w-full" />
@@ -19,11 +19,13 @@ export default function LoginPage() {
                         <hr className="border-white border w-full" />
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 justify-center">
-                        <Button text="Dribble" style="form" icon="dribble-icon"/>
-                        <Button text="Github" style="form" icon="github-icon"/>
+                        <Buttons text="Dribble" style="form" icon="dribble-icon"/>
+                        <Buttons text="Github" style="form" icon="github-icon"/>
                     </div>
                 </form>
             </div>
         </div>
+
+        
     );
 }
