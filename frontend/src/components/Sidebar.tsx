@@ -26,7 +26,7 @@ export default function Sidebar() {
   return (
     <>
       <div className="h-screen p-2 fixed">
-        <div className="darkMode flex flex-col justify-between h-full lg:w-[300px] w-[80px] rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground duration-300">
+        <div className="nightMode flex flex-col justify-between h-full lg:w-[300px] w-[80px] rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground duration-300">
           <div>
             <img 
               src="/foliode-logo.svg" 
@@ -60,7 +60,7 @@ export default function Sidebar() {
 
           <Link 
             href="/logout" 
-            className="flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 lg:justify-start justify-center"
+            className="nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 lg:justify-start justify-center"
           >
             <span className="text-xl"><MdLogout /></span>
             <span className="hidden lg:block">Se déconnecter</span>
