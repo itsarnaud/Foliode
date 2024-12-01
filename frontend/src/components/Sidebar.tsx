@@ -4,16 +4,19 @@
 "use client";
 
 import Link from 'next/link'
-import { MdOutlineSpaceDashboard, MdLogout } from "react-icons/md";
-import { FaRegUser, FaRegFolder, FaRegEdit } from "react-icons/fa";
-import { LuBrain } from "react-icons/lu";
-import { usePathname } from 'next/navigation';
+import { MdOutlineSpaceDashboard, MdLogout }  from "react-icons/md";
+import { FaRegUser, FaRegFolder, FaRegEdit }  from "react-icons/fa";
+import { LuArrowLeftFromLine, LuBrain }       from "react-icons/lu";
+import { IoMdMenu }                           from "react-icons/io";
+import { usePathname }                        from 'next/navigation';
+import { useSidebar }                         from "@/contexts/SidebarContext";
+// import { useState } from 'react';
 
 
 export default function Sidebar() {
 
   const pathname = usePathname();
-
+  const { isOpen, toggle } = useSidebar();
   
   const elements = [
     { name: "Tableau de bord",  icon: <MdOutlineSpaceDashboard />, link: "dashboard" },
@@ -25,21 +28,41 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="h-screen p-2 fixed">
-        <div className="nightMode flex flex-col justify-between h-full lg:w-[300px] w-[80px] rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground duration-300">
+      <div className="h-screen p-2 fixed duration-300">
+        <div className={`nightMode flex flex-col justify-between h-full rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground w-[80px] duration-300 ${isOpen ? 'lg:w-[300px]' : ''}`}>
           <div>
-            <img 
-              src="/foliode-logo.svg" 
-              alt="Logo" 
-              width={150} 
-              className="mb-10 hidden lg:block" 
-            />
-            <img 
-              src="/foliode-icon.svg" 
-              alt="Logo" 
-              width={40} 
-              className="mb-10 mx-auto block lg:hidden" 
-            />
+            <div className={`flex items-center justify-between mb-10 ${isOpen ? '' : 'flex-col gap-5'}`}>
+              <div>
+                <img 
+                  src="/foliode-logo.svg" 
+                  alt="Logo" 
+                  width={150} 
+                  className={`hidden ${isOpen ? 'lg:block' : ''}`} 
+                />
+                <img 
+                  src="/foliode-icon.svg" 
+                  alt="Logo" 
+                  width={40} 
+                  className={`block ${isOpen ? 'lg:hidden' : 'lg:block'}`}
+                />
+              </div>
+              
+              {isOpen ? 
+              <button 
+                onClick={toggle}
+                className="hover:text-white text-[#B0B5BB] transition-colors hidden text-xl lg:block"
+              >
+                <LuArrowLeftFromLine />
+              </button> 
+              :  
+              <button 
+                onClick={toggle}
+                className="hover:text-white text-[#B0B5BB] transition-colors hidden text-xl lg:block"
+              >
+                <IoMdMenu />
+              </button>}
+              
+            </div>
 
             <div>
               {elements.map((element, index) => {
@@ -48,10 +71,10 @@ export default function Sidebar() {
                 <Link 
                   href={`/${element.link}`} 
                   key={index} 
-                  className={`flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 lg:justify-start justify-center ${isActive ? 'bg-primary-200 !text-white' : ''}`}
+                  className={`flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 justify-center ${isActive ? 'bg-primary-200 !text-white' : ''} ${isOpen ? 'lg:justify-start' : ''}`}
                 >
                   <span className="text-xl">{element.icon}</span>
-                  <span className="hidden lg:block">{element.name}</span>
+                  <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>{element.name}</span>
                 </Link>
                 );
               })}
@@ -60,10 +83,10 @@ export default function Sidebar() {
 
           <Link 
             href="/logout" 
-            className="nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 lg:justify-start justify-center"
+            className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 justify-center ${isOpen ? 'lg:justify-start' : ''}`}
           >
             <span className="text-xl"><MdLogout /></span>
-            <span className="hidden lg:block">Se déconnecter</span>
+            <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>Se déconnecter</span>
           </Link>
         </div>
       </div>
