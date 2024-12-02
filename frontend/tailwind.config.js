@@ -6,8 +6,6 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
-    // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
@@ -28,6 +26,14 @@ module.exports = {
         '20': '20px',
         '26': '26px', 
       },
+      components: {
+        '.btn-form': {
+          '@apply py-10 bg-foreground text-[#717680] rounded-[8px] border-[1px] border-[#262626] ': {},
+        },  
+        '.btn-secondary': {
+          '@apply px-4 py-2 border-1 border-custom text-white rounded-13 hover:bg-foreground transition-colors': {},
+        },
+      }
     },  
   },
   darkMode: "class",

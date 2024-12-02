@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (token.provider === 'dribbble') {
             try {
-              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/dribbble`,
+              const response = await axios.post(`${process.env.API_CLIENT_URL}/api/auth/dribbble`,
                 { "dribbble_token": `${token.accessToken}` },
                 { headers: { 'Content-Type': 'application/json' } }
               );

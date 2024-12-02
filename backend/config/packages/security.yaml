@@ -24,6 +24,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: /api/portfolio, roles: ROLE_USER }
+        - { path: /api/project, roles: ROLE_USER }
 
 when@test:
     security:
