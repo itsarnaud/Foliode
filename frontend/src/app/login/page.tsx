@@ -85,8 +85,7 @@ export default function LoginPage() {
 						<div className="flex flex-col items-center w-full max-w-md p-5 gap-5">
 
 							<div className="flex flex-col items-center justify-center gap-5">
-								{/* Logo */}
-								<div className="w-20 h-20 bg-red-400"></div>
+								<img src="/foliode-icon.svg" className="w-20 h-20" alt="Logo Foliode" />
 								<h1 className="text-lg font-bold">Connectez vous sur Foliode !</h1>
 							</div>
 
