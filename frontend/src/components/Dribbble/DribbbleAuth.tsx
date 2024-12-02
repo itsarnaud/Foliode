@@ -1,14 +1,18 @@
 "use client";
 
 import { signInDribbble } from "@/actions";
+import Buttons from "@/components/UI/button";
+import { FaDribbble } from "react-icons/fa";
 
 export default function SignIn() {
-
   return (
-    <div>
-      <form action={signInDribbble}>
-        <button type="submit">Signin with Dribbble</button>
-      </form>
-    </div>
+    <form action={signInDribbble} className="w-full">
+      <Buttons 
+        text="Dribbble"
+        style="form"
+        icon={<FaDribbble />}
+        type="submit"
+      />
+    </form>
   );
 }
