@@ -8,8 +8,6 @@ import {FaEyeSlash} from "react-icons/fa";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import axios from "axios";
-import {cookies} from 'next/headers'
-
 import GithubAuth from "@/components/GitHub/GithubAuth"
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth"
 
@@ -77,14 +75,15 @@ export default function LoginPage() {
 >>>>>>> 59568a5 (add input link components)
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth`,
+            const response = await axios.post(`http://localhost:8080/api/auth`,
                 {"email": data.email, "password": data.password},
                 {headers: {"Content-Type": "application/json"}}
             );
 
             if (response.data.token) {
-                document.cookie = `token_auth=${response.data.token}; path=/`;
-                router.push("/dashboard");
+                document.cookie = `token_auth=${response.data.token}; path=/; max-age=3600; secure; SameSite=Strict`
+                console.log(document.cookie)
+
             }
         } catch (err) {
             if (axios.isAxiosError(err)) {
