@@ -36,6 +36,7 @@ class PortfolioService extends ValidatorBaseService
         $errors = $this->validator->validate($portfolio);
         $this->CatchInvalidData($errors);
 
+
         $this->entityManager->persist($portfolio);
         $this->entityManager->flush();
 

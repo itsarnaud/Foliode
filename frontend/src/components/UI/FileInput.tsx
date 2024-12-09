@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {MdOutlineCloudUpload} from "react-icons/md";
 import {FcImageFile} from "react-icons/fc";
 
-const FileInput = () => {
+const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
     const [dragging, setDragging] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
 
@@ -25,6 +25,7 @@ const FileInput = () => {
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile) {
             setFiles([...files, droppedFile]);
+            onChange([...files, droppedFile])
 
         }
     };
@@ -36,7 +37,6 @@ const FileInput = () => {
 
         }
     };
-
 
     return (
         <div
@@ -63,10 +63,10 @@ const FileInput = () => {
             {files.length !== 0 && (
                 <div className='m-2 p-2'>
                     {files.map((file, index) => (
-                    <div key={index} className="flex items-center space-x-2  rounded-md ">
-                        <FcImageFile className="text-primary-500 text-4xl" title={`Image: ${file.name}`}/>
-                        <p className="text-primary-500 text-sm text-ellipsis">{file.name}</p>
-                    </div>
+                        <div key={index} className="flex items-center space-x-2  rounded-md ">
+                            <FcImageFile className="text-primary-500 text-4xl" title={`Image: ${file.name}`}/>
+                            <p className="text-primary-500 text-sm text-ellipsis">{file.name}</p>
+                        </div>
                     ))}
                 </div>
             )}
@@ -75,8 +75,5 @@ const FileInput = () => {
     );
 };
 
-const File = () => {
-
-}
 
 export default FileInput;
