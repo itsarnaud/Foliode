@@ -46,7 +46,7 @@ export default function RegisterPage() {
     }
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`,
+      await axios.post(`http://localhost:8080/api/signup`,
         { 
           "email": data.email,
           "password": data.password,
@@ -62,6 +62,7 @@ export default function RegisterPage() {
         if (err.response?.status === 400) {
           setError("Les données saisies sont invalides");
         } else {
+          console.log(err)
           setError("Une erreur est survenue lors de l'inscription");
         }
       } else {
