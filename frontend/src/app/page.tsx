@@ -2,11 +2,14 @@ import styles       from "./page.module.css";
 import GithubAuth   from "../components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import SignOut      from "../components/SignOut";
+import Nav from "../components/UI/nav";
+import BgLandingPage from '../components/UI/bg/bg-landingpage';
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
-
 export default function Home() {
   return (
     <div className={styles.page}>
+       <BgLandingPage />
+      <Nav></Nav>
       <Card className="max-w-[400px] nightMode bg-background ">
         <CardHeader className="flex gap-3">
           <Image
