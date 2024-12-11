@@ -61,6 +61,7 @@ export default function Profile() {
           <h3 className="font-bold text-large xl:text-2xl">Votre compte</h3>
           <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
             <form action="" className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
+              {/* TODO: Mettre en value, avec un fetch avec axios,  */}
               <Input isRequired isClearable name="nom" type="text" variant="bordered" label="Nom" placeholder="Votre nom" classNames={styles} />
               <Input isRequired isClearable name="prenom" type="text" variant="bordered" label="Prénom" placeholder="Votre prénom" classNames={styles} />
               <Input isRequired isClearable name="email" type="email" variant="bordered" label="Email" placeholder="Votre Email" classNames={styles} />
@@ -109,7 +110,7 @@ export default function Profile() {
                       <Link isExternal showAnchorIcon href="#" className="text-white">Votre profil</Link>
                     ) : (
                       <form action={signInGitHub} className="flex w-full items-center hover:opacity-80 active:opacity-disabled transition-opacity cursor-pointer">
-                        <input type="submit" value="Se connecter" className="text-medium cursor-pointer" />
+                        <input type="submit" value="Associer" className="text-medium cursor-pointer" />
                         <LuExternalLink className="mx-1" />
                       </form>
                     )}
@@ -117,7 +118,7 @@ export default function Profile() {
                 </div>
                 <div className={`flex gap-2 items-center ${isGithubConnected ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
                   {isGithubConnected ? <FaCircleCheck /> : <FaCircleXmark />}
-                  {isGithubConnected ? 'Connecté' : 'Non connecté'}
+                  {isGithubConnected ? 'Associé' : 'Non Associé'}
                 </div>
               </div>
 
@@ -131,7 +132,7 @@ export default function Profile() {
                       <Link isExternal showAnchorIcon href="#" className="text-white">Votre profil</Link>
                     ) : (
                       <form action={signInDribbble} className="flex w-full items-center hover:opacity-80 active:opacity-disabled transition-opacity cursor-pointer">
-                        <input type="submit" value="Se connecter" className="text-medium cursor-pointer" />
+                        <input type="submit" value="Associer" className="text-medium cursor-pointer" />
                         <LuExternalLink className="mx-1" />
                       </form>
                     )}
@@ -139,7 +140,7 @@ export default function Profile() {
                 </div>
                 <div className={`flex gap-2 items-center ${isDribbbleConnected ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
                   {isDribbbleConnected ? <FaCircleCheck /> : <FaCircleXmark />}
-                  {isDribbbleConnected ? 'Connecté' : 'Non connecté'}
+                  {isDribbbleConnected ? 'Associé' : 'Non Associé'}
                 </div>
               </div>
 
