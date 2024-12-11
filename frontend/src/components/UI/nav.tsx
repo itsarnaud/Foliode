@@ -9,7 +9,7 @@ export const FoliodeLogo = () => {
 
 export default function App() {
   return (
-    <Navbar className="backdrop-blur-none z-50 ">
+    <Navbar className="backdrop-blur-none z-50 bg-background/100">
       <NavbarBrand className="gap-2">
         <FoliodeLogo />
         <p className="text-26 font-normal">Foliode</p>
