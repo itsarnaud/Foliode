@@ -2,7 +2,7 @@ import styles       from "./page.module.css";
 import GithubAuth   from "../components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import SignOut      from "../components/SignOut";
-import Avatar from '../components/profile_picture/Avatar';
+
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
 
 export default function Home() {
@@ -36,7 +36,6 @@ export default function Home() {
             Visit source code on GitHub.
           </Link>
         </CardFooter>
-        <Avatar email="utilisateur@exemple.com" size={50} />
       </Card>
     
       <GithubAuth />
