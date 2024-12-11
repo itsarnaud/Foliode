@@ -8,9 +8,9 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@ne
 export default function Home() {
   return (
     <div className={styles.page}>
-       <BgLandingPage />
       <Nav></Nav>
-      <Card className="max-w-[400px] nightMode bg-background ">
+       <BgLandingPage />
+      {/* <Card className="max-w-[400px] nightMode bg-background ">
         <CardHeader className="flex gap-3">
           <Image
             alt="nextui logo"
@@ -38,11 +38,11 @@ export default function Home() {
             Visit source code on GitHub.
           </Link>
         </CardFooter>
-      </Card>
+      </Card> */}
     
-      <GithubAuth />
+      {/* <GithubAuth />
       <DribbbleAuth />
-      <SignOut />
+      <SignOut /> */}
     </div>
   );
 }
