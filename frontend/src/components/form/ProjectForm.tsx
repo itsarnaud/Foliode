@@ -10,28 +10,25 @@ import {apiPost} from "@/utils/apiRequester";
 
 
 function ProjectForm() {
-    const [project, setProject] = useState<Project>({title: null, images: [], description: null, links: null, category: 'default', status: 'finish'})
-
+    const [project, setProject] = useState<Project>({
+        title: null,
+        description: null,
+        links: null,
+        category: 'default',
+        status: 'finish'
+    })
+    const [images, setImages] = useState<File[]>([])
     const creatProject = async () => {
-        const formData = new FormData();
+        const data = new FormData();
+        data.append("json", JSON.stringify(project));
 
+        images.forEach((image, index) => {
+            data.append(`images[${index}]`, image);
+        });
 
-        formData.append("title", project.title || "");
-        formData.append("description", project.description || "");
-        formData.append("category", project.category || "");
-        formData.append("status", project.status || "");
-
-        console.log(formData)
-
-
-        if (project.images && project.images.length > 0) {
-            project.images.forEach((image, index) => {
-                formData.append("images[]", image);
-            });
-        }
 
         try {
-            const response = await apiPost('project', formData);
+            const response = await apiPost('project', data, 'multipart/form-data');
             console.log(response);
         } catch (error) {
             console.log("Erreur lors de la création du projet :", error);
@@ -40,7 +37,7 @@ function ProjectForm() {
 
     return (
         <div className={`nightMode bg-foreground border border-gray rounded-md p-5  flex flex-col lg:flex-row w-full`}>
-            < FileInput onChange={file => setProject({...project, images: file})}/>
+            < FileInput onChange={files => setImages(files)}/>
             <div className=' ml-2 space-y-2 w-full'>
                 <Input type="text" placeholder="titre du projet"
                        onChange={value => setProject({...project, title: value})} name="title"/>

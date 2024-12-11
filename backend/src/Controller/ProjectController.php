@@ -49,9 +49,9 @@ class ProjectController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $data = $request->getContent();
-        $files = $request->files->get('image');
-        $uploadDir = $this->getParameter('upload_directory');
+        $data = $request->get('json');
+        $files = $request->files->get('images');
+        $uploadDir = $this->getParameter('upload_directory') . '/project';
 
         if (!$user) {
             return new JsonResponse(['error' => 'unauthorized profil'], Response::HTTP_UNAUTHORIZED);
@@ -60,7 +60,6 @@ class ProjectController extends AbstractController
         if (!$data) {
             return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
         }
-
 
         $jsonProject = $projectService->createProject($user, $data, $files, $uploadDir);
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);

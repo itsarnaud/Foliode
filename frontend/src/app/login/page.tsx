@@ -75,7 +75,7 @@ export default function LoginPage() {
 >>>>>>> 59568a5 (add input link components)
 
         try {
-            const response = await axios.post(`http://localhost:8080/api/auth`,
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth`,
                 {"email": data.email, "password": data.password},
                 {headers: {"Content-Type": "application/json"}}
             );
