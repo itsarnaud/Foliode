@@ -2,7 +2,6 @@ import styles       from "./page.module.css";
 import GithubAuth   from "../components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import SignOut      from "../components/SignOut";
-
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
 
 export default function Home() {
