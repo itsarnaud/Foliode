@@ -69,4 +69,5 @@ class ProjectsImages
 
         return $this;
     }
+
 }

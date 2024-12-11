@@ -80,6 +80,8 @@ export default function LoginPage() {
                 {headers: {"Content-Type": "application/json"}}
             );
 
+            console.log(response)
+
             if (response.data.token) {
                 document.cookie = `token_auth=${response.data.token}; path=/; max-age=3600; secure; SameSite=Strict`
                 console.log(document.cookie)

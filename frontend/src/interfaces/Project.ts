@@ -3,4 +3,6 @@ export interface Project {
     description: string | null
     links: string[] | null
     images: File[] | null
+    category: string
+    status: string
 }
