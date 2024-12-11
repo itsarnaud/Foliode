@@ -2,22 +2,36 @@
 
 import DashboardTitle  from "@/components/DashboardTitle"
 import Avatar          from "@/components/Avatar"
-import GithubAuth      from "@/components/GitHub/GithubAuth"
-import DribbbleAuth    from "@/components/Dribbble/DribbbleAuth"
 import Buttons         from "@/components/UI/button";
+import Cookies         from "js-cookie";
 
-import { Link, Input } from "@nextui-org/react";
-import { useState }    from "react";
-import { IoEyeSharp }  from "react-icons/io5";
+import { signInGitHub }   from "@/actions";
+import { signInDribbble } from "@/actions";
+import { IoEyeSharp }     from "react-icons/io5";
+import { Link, Input }    from "@nextui-org/react";
+import { LuExternalLink } from "react-icons/lu";
+
 import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
+import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
+import { useState, useEffect }              from "react";
 
 
 
 export default function Profile() {
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isGithubConnected, setIsGithubConnected] = useState(false);
+  const [isDribbbleConnected, setIsDribbbleConnected] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  useEffect(() => {
+    const githubToken = Cookies.get("token_github");
+    const dribbbleToken = Cookies.get("token_dribbble");
+    
+    setIsGithubConnected(!!githubToken);
+    setIsDribbbleConnected(!!dribbbleToken);
+  }, []);
 
   const styles = {
 		inputWrapper: [ 
@@ -32,8 +46,8 @@ export default function Profile() {
     <>
       <DashboardTitle title="Profile" email="john.doe@example.com" />
 
-      <div className="flex flex-col w-full lg:flex-row gap-3">
-        <section className="bg-foreground text-white nightMode flex flex-col items-center p-5 rounded-xl lg:h-[calc(100vh-50px-1.75rem)]">
+      <div className="flex flex-col w-full xl:flex-row gap-3">
+        <section className="bg-foreground text-white nightMode flex flex-col items-center p-5 rounded-xl xl:h-[calc(100vh-50px-1.75rem)]">
           <div className="mb-3">
             <Avatar email="john.doe@example.com" size={150} />
           </div>
@@ -43,10 +57,10 @@ export default function Profile() {
           <Link isExternal showAnchorIcon href="#" className="!text-primary mt-3">Lien du portfolio</Link>
         </section>
 
-        <section className="bg-foreground text-white nightMode flex flex-col items-center p-5 rounded-xl gap-3 lg:gap-5 lg:flex-1 lg:items-start lg:h-[calc(100vh-50px-1.75rem)]">
-          <h3 className="font-bold text-large lg:text-2xl">Votre compte</h3>
-          <div className="flex flex-col w-full gap-5 lg:flex-row lg:w-9/12 lg:gap-10">
-            <form action="" className="flex flex-col gap-3 w-full lg:gap-8 lg:w-9/12">
+        <section className="bg-foreground text-white nightMode flex flex-col items-center p-5 rounded-xl gap-3 xl:gap-5 xl:flex-1 xl:items-start xl:h-[calc(100vh-50px-1.75rem)]">
+          <h3 className="font-bold text-large xl:text-2xl">Votre compte</h3>
+          <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
+            <form action="" className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
               <Input isRequired isClearable name="nom" type="text" variant="bordered" label="Nom" placeholder="Votre nom" classNames={styles} />
               <Input isRequired isClearable name="prenom" type="text" variant="bordered" label="Prénom" placeholder="Votre prénom" classNames={styles} />
               <Input isRequired isClearable name="email" type="email" variant="bordered" label="Email" placeholder="Votre Email" classNames={styles} />
@@ -68,24 +82,67 @@ export default function Profile() {
                 type={isVisible ? "text" : "password"}
                 classNames={styles}
               />
-              <div className="w-full lg:w-3/12">
+              <div className="w-full xl:w-3/12">
                 <Buttons text="Modifier" style="large-button" type="submit" />
               </div>
 
             </form>
 
-            <div className="w-0.5 h-full bg-primary hidden lg:block"></div>
+            <div className="w-0.5 h-full bg-primary hidden xl:block"></div>
 
-            <div className="flex gap-5 items-center w-full my-2 lg:hidden">
+            <div className="flex gap-5 items-center w-full my-2 xl:hidden">
               <hr className="border border-primary w-full" />
               <span className="text-sm text-center">LIER VOS COMPTES</span>
               <hr className="border border-primary w-full" />
             </div>
 
 
-            <div className="flex flex-col gap-2 items-center lg:w-3/12 lg:gap-5 ">
-              <DribbbleAuth />
-              <GithubAuth />
+            <div className="flex flex-col gap-2 items-center xl:w-6/12 xl:gap-5 ">
+
+              <div className="flex flex-col justify-between w-full items-center border border-primary gap-2 rounded-lg p-3 xl:gap-0 xl:flex-row">
+                <div className="flex flex-col items-center gap-3 xl:flex-row">
+                  <FaGithub size={45} />
+                  <div className="flex flex-col items-center xl:justify-between xl:items-start">
+                    <span>Github</span>
+                    {isGithubConnected ? (
+                      // TODO: Ajouter le lien du compte de l'utilisateur (avec axios ?)
+                      <Link isExternal showAnchorIcon href="#" className="text-white">Votre profil</Link>
+                    ) : (
+                      <form action={signInGitHub} className="flex w-full items-center hover:opacity-80 active:opacity-disabled transition-opacity cursor-pointer">
+                        <input type="submit" value="Se connecter" className="text-medium cursor-pointer" />
+                        <LuExternalLink className="mx-1" />
+                      </form>
+                    )}
+                  </div>
+                </div>
+                <div className={`flex gap-2 items-center ${isGithubConnected ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
+                  {isGithubConnected ? <FaCircleCheck /> : <FaCircleXmark />}
+                  {isGithubConnected ? 'Connecté' : 'Non connecté'}
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between w-full items-center border border-primary gap-2 rounded-lg p-3 xl:gap-0 xl:flex-row">
+                <div className="flex flex-col items-center gap-3 xl:flex-row">
+                  <FaDribbble size={45} />
+                  <div className="flex flex-col items-center xl:justify-between xl:items-start">
+                    <span>Dribbble</span>
+                    {isDribbbleConnected ? (
+                      // TODO: Ajouter le lien du compte de l'utilisateur (avec axios ?)
+                      <Link isExternal showAnchorIcon href="#" className="text-white">Votre profil</Link>
+                    ) : (
+                      <form action={signInDribbble} className="flex w-full items-center hover:opacity-80 active:opacity-disabled transition-opacity cursor-pointer">
+                        <input type="submit" value="Se connecter" className="text-medium cursor-pointer" />
+                        <LuExternalLink className="mx-1" />
+                      </form>
+                    )}
+                  </div>
+                </div>
+                <div className={`flex gap-2 items-center ${isDribbbleConnected ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
+                  {isDribbbleConnected ? <FaCircleCheck /> : <FaCircleXmark />}
+                  {isDribbbleConnected ? 'Connecté' : 'Non connecté'}
+                </div>
+              </div>
+
 						</div>
 
 
