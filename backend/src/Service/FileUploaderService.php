@@ -15,7 +15,7 @@ class FileUploaderService
             throw new \InvalidArgumentException(" Invalid file upload ");
         }
 
-        $fileName = $this->generateRandomString() . $file->guessExtension();
+        $fileName = $this->generateRandomString() . '.' . $file->guessExtension();
 
         try {
             $file->move($directory, $fileName);
@@ -23,12 +23,24 @@ class FileUploaderService
             throw new \InvalidArgumentException(" Failed to upload file  ");
         }
 
-        return $directory . $fileName;
+        $relativePath = $this->getRelativePath($directory);
+
+        return $relativePath . '/' .  $fileName;
     }
 
     private function generateRandomString(): string
     {
         return ByteString::fromRandom(25, 'abcdefghijklmnopqrstuvwxyz0123456789');
+    }
+
+    private function getRelativePath(string $path): ?string
+    {
+        $keyword = 'uploads';
+        $position = strpos($path, $keyword);
+        if ($position !== false) {
+            return substr($path, $position);
+        }
+        return null;
     }
 
 }
