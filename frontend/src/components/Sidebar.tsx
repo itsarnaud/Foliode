@@ -10,6 +10,7 @@ import { LuArrowLeftFromLine, LuBrain }       from "react-icons/lu";
 import { IoMdMenu }                           from "react-icons/io";
 import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
+import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
 // import { useState } from 'react';
 
 
@@ -63,7 +64,7 @@ export default function Sidebar() {
               </button>}
               
             </div>
-
+           
             <div>
               {elements.map((element, index) => {
                 const isActive = pathname === `/${element.link}`;
@@ -80,7 +81,10 @@ export default function Sidebar() {
               })}
             </div>
           </div>
-
+          
+          <div className={`flex items-center  my-3 rounded-lg justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
+              <ThemeSwitcher />
+            </div>
           <Link 
             href="/logout" 
             className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 justify-center ${isOpen ? 'lg:justify-start' : ''}`}
