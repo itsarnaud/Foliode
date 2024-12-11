@@ -6,12 +6,41 @@ use App\Service\ProjectService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-
+use OpenApi\Annotations as OA;
 
 class ProjectController extends AbstractController
 {
+    /**
+     * @OA\Post(
+     *     path="/api/project",
+     *     summary="Add a new project",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={"name": "Project Name", "description": "Project Description"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Project created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={"id": 1, "name": "Project Name", "description": "Project Description"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
         Request $request,
@@ -34,6 +63,41 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/project/{id}",
+     *     summary="Update an existing project",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={"name": "Updated Project Name", "description": "Updated Project Description"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Project updated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             example={"id": 1, "name": "Updated Project Name", "description": "Updated Project Description"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
     #[Route('/api/project/{id}', methods: ['PUT'])]
     public function update_project(
         string $id,
@@ -56,6 +120,4 @@ class ProjectController extends AbstractController
         $jsonProject = $projectService->UpdateProject($user, $data, $id);
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
-
-
 }
