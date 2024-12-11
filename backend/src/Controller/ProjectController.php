@@ -43,23 +43,26 @@ class ProjectController extends AbstractController
      */
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
-        Request $request,
-        ProjectService $projectService
+        Request             $request,
+        ProjectService      $projectService,
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
+        $files = $request->files->get('image');
+        $uploadDir = $this->getParameter('upload_directory');
 
-        if(!$user){
+        if (!$user) {
             return new JsonResponse(['error' => 'unauthorized profil'], Response::HTTP_UNAUTHORIZED);
         }
 
-        if(!$data){
+        if (!$data) {
             return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
         }
 
-        $jsonProject = $projectService->CreateProject($user, $data);
+
+        $jsonProject = $projectService->createProject($user, $data, $files, $uploadDir);
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);
     }
 
@@ -100,8 +103,8 @@ class ProjectController extends AbstractController
      */
     #[Route('/api/project/{id}', methods: ['PUT'])]
     public function update_project(
-        string $id,
-        Request $request,
+        string         $id,
+        Request        $request,
         ProjectService $projectService
     ): JsonResponse
     {
@@ -109,11 +112,11 @@ class ProjectController extends AbstractController
         $user = $this->getUser();
         $data = $request->getContent();
 
-        if(!$user){
+        if (!$user) {
             return new JsonResponse(['error' => 'unauthorized profil'], Response::HTTP_UNAUTHORIZED);
         }
 
-        if(!$data){
+        if (!$data) {
             return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
         }
 

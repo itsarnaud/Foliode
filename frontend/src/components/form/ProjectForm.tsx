@@ -10,15 +10,36 @@ import {apiPost} from "@/utils/apiRequester";
 
 
 function ProjectForm() {
-    const [project, setProject] = useState<Project>({title: null, images: [], description: null, links: null})
+    const [project, setProject] = useState<Project>({title: null, images: [], description: null, links: null, category: 'default', status: 'finish'})
 
-    const creatProject = () => {
-        const response = apiPost('project', project);
-        console.log(response)
+    const creatProject = async () => {
+        const formData = new FormData();
+
+
+        formData.append("title", project.title || "");
+        formData.append("description", project.description || "");
+        formData.append("category", project.category || "");
+        formData.append("status", project.status || "");
+
+        console.log(formData)
+
+
+        if (project.images && project.images.length > 0) {
+            project.images.forEach((image, index) => {
+                formData.append("images[]", image);
+            });
+        }
+
+        try {
+            const response = await apiPost('project', formData);
+            console.log(response);
+        } catch (error) {
+            console.log("Erreur lors de la création du projet :", error);
+        }
     }
 
     return (
-        <div className={`nightMode bg-foreground border border-gray rounded-md p-5 flex  w-full`}>
+        <div className={`nightMode bg-foreground border border-gray rounded-md p-5  flex flex-col lg:flex-row w-full`}>
             < FileInput onChange={file => setProject({...project, images: file})}/>
             <div className=' ml-2 space-y-2 w-full'>
                 <Input type="text" placeholder="titre du projet"
