@@ -66,7 +66,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           } else if (token.provider === 'github') {
             try {
-              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/github`, 
+              const response = await axios.post(`${process.env.API_CLIENT_URL}/api/auth/github`, 
                 { "github_token": `${token.accessToken}` },
                 { headers: { 'Content-Type': 'application/json' } }
               );
