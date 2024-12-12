@@ -44,6 +44,8 @@ export default function LoginPage() {
 				{ "email": data.email, "password": data.password },
 				{ headers: { "Content-Type": "application/json" }}
 			);
+
+			console.log(response)
 	
 			if (response.data.token) {
 				document.cookie = `token_auth=${response.data.token}; path=/`;
@@ -114,7 +116,7 @@ export default function LoginPage() {
 								{/* TODO: Bien faire les messages d'erreur : https://nextui.org/docs/components/input */}
 								{error && <p className="text-red-500 text-sm">{error}</p>}
 								<span className="text-sm sm:text-base">Mot de passe oublié ? <Link href="/" className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline">Cliquez ici !</Link> </span>
-								<Buttons text="Se connecter" style="large-button" type="submit" />
+								<Buttons text="Se connecter" style="default" type="submit" />
 								<span className="text-sm sm:text-base">Pas de compte ? <Link href="/signup" className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline">Créez votre compte !</Link> </span>
 							</form>
 
