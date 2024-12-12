@@ -1,13 +1,12 @@
 "use client"
-import Input from "@/components/UI/Input";
+
+import { useState } from "react";
+import { Input, Textarea } from "@nextui-org/react";
 import FileInput from "@/components/UI/FileInput";
-import {useState} from "react";
-import {Project} from "@/interfaces/Project"
-import Textarea from "@/components/UI/Textarea";
 import LinkInput from "@/components/UI/LinkInput";
 import Buttons from "@/components/UI/button";
-import {apiPost} from "@/utils/apiRequester";
-
+import { Project } from "@/interfaces/Project";
+import { apiPost } from "@/utils/apiRequester";
 
 function ProjectForm() {
     const [project, setProject] = useState<Project>({
@@ -18,7 +17,8 @@ function ProjectForm() {
         status: 'finish'
     })
     const [images, setImages] = useState<File[]>([])
-    const creatProject = async () => {
+
+    const createProject = async () => {
         const data = new FormData();
         data.append("json", JSON.stringify(project));
 
@@ -26,30 +26,52 @@ function ProjectForm() {
             data.append(`images[${index}]`, image);
         });
 
-
         try {
-            const response = await apiPost('project', data, 'multipart/form-data');
-            console.log(response);
+            await apiPost('project', data, 'multipart/form-data');
         } catch (error) {
             console.log("Erreur lors de la création du projet :", error);
         }
     }
 
+    const inputStyles = {
+        input: "px-2 py-1 text-gray-400 bg-foreground",
+        inputWrapper: "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus:border-primary rounded-md transition-all duration-300 ease-in-out"
+    };
+
     return (
-        <div className={`nightMode bg-foreground border border-gray rounded-md p-5  flex flex-col lg:flex-row w-full`}>
-            < FileInput onChange={files => setImages(files)}/>
-            <div className=' ml-2 space-y-2 w-full'>
-                <Input type="text" placeholder="titre du projet"
-                       onChange={value => setProject({...project, title: value})} name="title"/>
-                <Textarea placeholder="Description du projet" name="content"
-                          onChange={value => setProject({...project, description: value})}/>
-                <LinkInput placeholder="liens vers le projet" name="link"
-                           onChange={value => setProject({...project, links: value})}/>
-                < Buttons text="Crée un projet" style='form' className="bg-primary w-1/3 mt-5"
-                          onClick={creatProject}/>
+        <div className="nightMode bg-foreground border border-gray rounded-md p-5 flex flex-col lg:flex-row w-full">
+            <FileInput onChange={files => setImages(files)}/>
+            <div className='ml-2 space-y-2 w-full'>
+                <Input
+                    type="text"
+                    placeholder="titre du projet"
+                    onChange={(e) => setProject({...project, title: e.target.value})}
+                    name="title"
+                    classNames={inputStyles}
+                    variant={"bordered"}
+                />
+                <Textarea
+                    placeholder="Description du projet"
+                    name="content"
+                    onChange={(e) => setProject({...project, description: e.target.value})}
+                    classNames={inputStyles}
+                    variant={"bordered"}
+                />
+                <LinkInput
+                    placeholder="liens vers le projet"
+                    name="link"
+                    onChange={value => setProject({...project, links: value})}
+                />
+                <Buttons
+                    text="Crée un projet"
+                    style='form'
+                    className="bg-primary w-1/3 ml-0 mt-5"
+                    onClick={createProject}
+                />
             </div>
         </div>
     );
 }
 
 export default ProjectForm;
+

@@ -1,42 +1,42 @@
-import React, {useState} from 'react';
-import {MdOutlineCloudUpload} from "react-icons/md";
-import {FcImageFile} from "react-icons/fc";
+import React, {useState} from 'react'
+import {MdOutlineCloudUpload} from "react-icons/md"
+import {FcImageFile} from "react-icons/fc"
 
 const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
-    const [dragging, setDragging] = useState(false);
-    const [files, setFiles] = useState<File[]>([]);
+    const [dragging, setDragging] = useState(false)
+    const [files, setFiles] = useState<File[]>([])
 
     const handleDragIn = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragging(true);
-    };
+        e.preventDefault()
+        e.stopPropagation()
+        setDragging(true)
+    }
 
     const handleDragOut = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragging(false);
-    };
+        e.preventDefault()
+        e.stopPropagation()
+        setDragging(false)
+    }
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragging(false);
+        e.preventDefault()
+        e.stopPropagation()
+        setDragging(false)
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile) {
-            setFiles([...files, droppedFile]);
+            setFiles([...files, droppedFile])
             onChange([...files, droppedFile])
 
         }
-    };
+    }
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files ? e.target.files[0] : null;
+        const selectedFile = e.target.files ? e.target.files[0] : null
         if (selectedFile) {
-            setFiles([...files, selectedFile]);
+            setFiles([...files, selectedFile])
 
         }
-    };
+    }
 
     return (
         <div
@@ -44,7 +44,7 @@ const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
             onDrop={handleDrop}
             onDragEnter={handleDragIn}
             onDragLeave={handleDragOut}
-            className={`px-2 py-2 w-1/3 h-full  ${
+            className={`px-2 py-2   ${
                 dragging ? 'border-dashed border-2 border-primary-500' : 'border-dashed border-2 border-gray-500'
             } text-center rounded-lg`}
 
@@ -72,8 +72,8 @@ const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
             )}
 
         </div>
-    );
-};
+    )
+}
 
 
-export default FileInput;
+export default FileInput
