@@ -56,7 +56,7 @@ export default function LoginPage() {
 				if (err.response?.status === 401) {
 					setError("Email ou mot de passe incorrect");
 				} else {
-					setError("Une erreur est survenue lors de la connexion");
+					setError("Le mot de passe ou l'adresse mail n'est pas valide.");
 				}
 			} else {
 				setError("Erreur inattendue");
