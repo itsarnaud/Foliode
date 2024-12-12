@@ -1,5 +1,5 @@
 import React from "react";
-import ImgDashboard from "../../../../public/Dashboard.png";
+import ImgDashboard from "../../../public/Dashboard.png";
 import Image from "next/image";
 
 const BgLandingPage = () => {
@@ -55,13 +55,13 @@ const BgLandingPage = () => {
           </p>
         </div>
 
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] -top-[104px] left-[181px] w-[300px] h-[250px] sm:w-[400px] sm:h-[350px] md:w-2/5 md:h-[413px] bg-[#2B4557] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] -top-[120px] right-[275px] w-[300px] h-[350px] bg-[#2F5E73] sm:w-[350px] sm:h-[400px] md:w-[423px] md:h-[486px] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] top-[337px] left-[228px] w-[200px] h-[250px] bg-[#184254] sm:w-[220px] sm:h-[300px] md:w-[236px] md:h-[339px] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] top-[242px] right-[231px] w-[100px] h-[300px] bg-[#2B4557] sm:w-[115px] sm:h-[350px] md:w-[129px] md:h-[414px] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] top-[385px] left-1/2 right-1/2 -translate-x-1/2 translate-y-1/2 bg-[#3c607a] w-[300px] h-[150px] sm:w-[500px] sm:h-[180px] md:w-[700px] md:h-[200px] lg:w-[850px] lg:h-[220px] xl:w-[995px] xl:h-[253px] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] left-1/2 right-1/2 -translate-x-1/2 translate-y-1/2 bg-[#41657f] w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] md:w-[334px] md:h-[297px] opacity-50"></div>
-        <div className="absolute rounded-[50%] blur-[90px] z-[4] left-1/2 right-1/2 -translate-x-[90%] -translate-y-1/2 bg-[#2B4557] w-[200px] h-[180px] sm:w-[240px] sm:h-[200px] md:w-[272px] md:h-[220px] opacity-50"></div>
+        <div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] -top-[104px] left-[181px] w-[300px] h-[250px] sm:w-[400px] sm:h-[350px] md:w-2/5 md:h-[413px] bg-[#2B4557] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] -top-[120px] right-[275px] w-[300px] h-[350px] bg-[#2F5E73] sm:w-[350px] sm:h-[400px] md:w-[423px] md:h-[486px] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] top-[337px] left-[228px] w-[200px] h-[250px] bg-[#184254] sm:w-[220px] sm:h-[300px] md:w-[236px] md:h-[339px] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] top-[242px] right-[231px] w-[100px] h-[300px] bg-[#2B4557] sm:w-[115px] sm:h-[350px] md:w-[129px] md:h-[414px] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] top-[385px] left-1/2 right-1/2 -translate-x-1/2 translate-y-1/2 bg-[#3c607a] w-[300px] h-[150px] sm:w-[500px] sm:h-[180px] md:w-[700px] md:h-[200px] lg:w-[850px] lg:h-[220px] xl:w-[995px] xl:h-[253px] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] left-1/2 right-1/2 -translate-x-1/2 translate-y-1/2 bg-[#41657f] w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] md:w-[334px] md:h-[297px] opacity-50"></div>
+<div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] left-1/2 right-1/2 -translate-x-[90%] -translate-y-1/2 bg-[#2B4557] w-[200px] h-[180px] sm:w-[240px] sm:h-[200px] md:w-[272px] md:h-[220px] opacity-50"></div>
       </section>
       <div>
         <Image

@@ -1,0 +1,11 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: 'Foliode API'
+            description: 'Swagger des Api de Foliode'
+            version: '1.0.0'
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$) 
+    models:
+        use_jms: false 
