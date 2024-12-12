@@ -3,6 +3,7 @@ import GitHub       from "next-auth/providers/github";
 import Dribbble     from "next-auth/providers/dribbble";
 import axios        from 'axios';
 import { cookies }  from 'next/headers'
+import {apiPost} from "@/utils/apiRequester";
 
 
 declare module "next-auth" {
@@ -66,11 +67,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           } else if (token.provider === 'github') {
             try {
-              const response = await axios.post(`${process.env.API_CLIENT_URL}/api/auth/github`, 
-                { "github_token": `${token.accessToken}` },
-                { headers: { 'Content-Type': 'application/json' } }
-              );
-  
+              console.log(token.accessToken)
+              const response = await apiPost('auth/github', { "github_token": `${token.accessToken}` }, 'application/json')
               const cookieStore = await cookies();
               cookieStore.set({
                 name: 'token_github',

@@ -6,7 +6,7 @@ export const apiPost = async (url: string, data: object, contentType: 'multipart
     const token = getCookie('token_auth')
 
     const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${url}`,
+        `http://localhost:8080/api/${url}`,
         data,
         {
             headers: {
@@ -16,7 +16,15 @@ export const apiPost = async (url: string, data: object, contentType: 'multipart
         }
     );
 
+    return response
+}
+
+export const apiGet = async (url: string) => {
+    const token = getCookie('token_auth')
+
+    const response = await axios.get(`http://localhost:8080/api/${url}`)
 
     return response
 }
+
 
