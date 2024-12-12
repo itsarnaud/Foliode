@@ -52,6 +52,7 @@ class ExternalUserService
             ->setAvatarUrl($userData['avatar_url'] ?? null)
             ->setStudent(true)
             ->setTeacher(false);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
