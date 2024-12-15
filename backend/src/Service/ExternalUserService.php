@@ -15,7 +15,12 @@ class ExternalUserService
     private JWTTokenManagerInterface $JWTManager;
     private SerializerInterface $serializer;
 
-    public function __construct(UsersRepository $usersRepository, EntityManagerInterface $entityManager, JWTTokenManagerInterface $JWTManager, SerializerInterface $serializer)
+    public function __construct(
+        UsersRepository          $usersRepository,
+        EntityManagerInterface   $entityManager,
+        JWTTokenManagerInterface $JWTManager,
+        SerializerInterface      $serializer
+    )
     {
         $this->usersRepository = $usersRepository;
         $this->entityManager = $entityManager;
@@ -47,6 +52,7 @@ class ExternalUserService
             ->setAvatarUrl($userData['avatar_url'] ?? null)
             ->setStudent(true)
             ->setTeacher(false);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

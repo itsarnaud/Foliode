@@ -150,7 +150,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getDribbbleLogin(): string
+    public function getDribbbleLogin(): ?string
     {
         return $this->dribbble_login;
     }
@@ -161,7 +161,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getDribbbleId(): string
+    public function getDribbbleId(): ?string
     {
         return $this->dribbble_id;
     }
@@ -250,7 +250,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function eraseCredentials(): void
     {
-        $this->password = null;
+        // $this->password = null;
     }
 
     public function getUserIdentifier(): string
