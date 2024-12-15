@@ -10,7 +10,7 @@ interface ButtonProps {
     href?: string;
     type?: "button" | "submit" | "reset";
     isDisabled?: boolean;
-    subDescription?: string; // Nouvelle prop
+    subDescription?: string;
 }
 
 const Buttons: React.FC<ButtonProps> = ({
