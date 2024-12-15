@@ -39,7 +39,7 @@ export default function Avantages() {
       <div className="max-w-[900px] w-full">
         <h2 className="text-4xl font-bold mb-6 text-center mt-36">Nos Avantages</h2>
         <p className="text-1xl text-center max-w-2xl mx-auto mb-20">Foliode est un outil conçu pour les étudiants et enseignants des formations BUT. Simplifiez la création de portfolios en ligne adaptés à vos compétences et objectifs pédagogiques.</p>
-        <div className="flex">
+        <div className="flex bg-black">
           <Accordion items={accordionItems} />
           {/* <p>loremloremloremloremloremloremloremloremloremlorem</p> */}
         </div>

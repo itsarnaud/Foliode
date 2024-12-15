@@ -5,7 +5,7 @@ import Image from "next/image";
 const BgLandingPage = () => {
   return (
     <>
-      <section className="relative h-[700px]">
+      <section className="relative h-[700px] z-[-10]">
         <hr className="w-full h-px" />
         <div className="absolute w-full overflow-hidden px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
           <div className="flex justify-between relative overflow-hidden">
@@ -46,7 +46,7 @@ const BgLandingPage = () => {
         </div>
 
         <div className="text-center absolute w-full mt-20 z-10 px-6">
-          <h1 className="dayMode text-primary-900 w-9/12 mx-auto text-[40px] font-medium max-w-[992px] leading-[40px] sm:text-[50px] sm:leading-[50px] md:text-[65px] md:leading-[65px] lg:text-[80px] lg:leading-[80px] xl:text-[94px] xl:leading-[90px]">
+          <h1 className="dayMode text-primary-900 lg-w-9/12 mx-auto text-[40px] font-medium max-w-[992px] leading-[40px] sm:text-[50px] sm:leading-[50px] md:text-[65px] md:leading-[65px] lg:text-[80px] lg:leading-[80px] xl:text-[94px] xl:leading-[90px]">
             Transformez vos projets en un portfolio professionnel
           </h1>
           <p className="dayMode text-primary-900 mx-auto mt-10 text-absolute top-64 left-0 w-full h-px z-0 color-white text-16 font-normal max-w-lg">
@@ -70,7 +70,7 @@ const BgLandingPage = () => {
           width={1640}
           height={300}
           priority
-          className="dayMode w-10/12 z-40 text-center mx-auto relative -m-10 rounded-3xl  border-[26px] border-[#2B4557]"
+          className="dayMode -mt-52 lg:mt-0 w-10/12 z-40 text-center mx-auto relative -m-10 rounded-3xl  border-8  lg:border-[26px] border-[#2B4557]"
           sizes="(max-width: 640px) 100vw,
          (max-width: 768px) 80vw,
          (max-width: 1024px) 70vw,
