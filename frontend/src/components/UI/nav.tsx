@@ -71,12 +71,12 @@ export default function App() {
 
       <NavbarContent justify="end" className="gap-2">
         <NavbarItem className="hidden lg:flex">
-          <Button className="gap-9 text-20 bg-transparent p-0 box-border border-2 border-white/[0.04] rounded-[32px] shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)]" href="#">
+          <Button as={Link} href="/login" className="gap-9 text-20 bg-transparent p-0 box-border border-2 border-white/[0.04] rounded-[32px] shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)]">
             Login
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button className="text-20 bg-transparent p-0" as={Link} href="#" variant="flat">
+          <Button className="text-20 bg-transparent p-0" as={Link} href="/signup" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>

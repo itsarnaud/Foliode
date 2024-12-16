@@ -7,7 +7,7 @@ export default function Fonctionnalites() {
       Pourquoi choisir Foliode
       </h2>
       <div className="flex flex-col md:flex-row justify-center gap-6 px-8">
-        <Card className="max-w-[400px] bg-[#0B0B0C] mx-auto ">
+        <Card className="max-w-[400px]  mx-auto ">
           <CardHeader className="flex gap-3 pb-5 pt-8 px-8">
             <p className="text-md font-semibold">
               Orienté pour les formations BUT.
@@ -20,7 +20,7 @@ export default function Fonctionnalites() {
             </p>
           </CardBody>
         </Card>
-        <Card className="max-w-[400px] bg-[#0B0B0C] mx-auto ">
+        <Card className="max-w-[400px]  mx-auto ">
           <CardHeader className="flex gap-3 pb-5 pt-8 px-8">
             <p className="text-md font-semibold">
               Orienté pour les formations BUT.
@@ -33,7 +33,7 @@ export default function Fonctionnalites() {
             </p>
           </CardBody>
         </Card>
-        <Card className="max-w-[400px] bg-[#0B0B0C] mx-auto ">
+        <Card className="max-w-[400px]  mx-auto ">
           <CardHeader className="flex gap-3 pb-5 pt-8 px-8">
             <p className="text-md font-semibold">
               Orienté pour les formations BUT.
