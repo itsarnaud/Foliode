@@ -17,18 +17,15 @@ export function ThemeSwitcher() {
   if (!mounted) return null;
 
   return (
-    <Button
-      variant="light"
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className=" nightMode transition-all duration-300 hover:bg-primary-200"
-      isIconOnly
-    >
-      {theme === 'light' ? (
-        <FiSun className="text-xl text-[#B0B5BB] " />
-      ) : (
-        <IoMdMoon className="text-xl text-[#B0B5BB]" />
-
-      )}
-    </Button>
+    <button
+    onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    className="flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:bg-primary-200 justify-center w-10 h-10 bg-transparent"
+  >
+    {theme === 'light' ? (
+      <FiSun className="text-xl text-[#B0B5BB]" />
+    ) : (
+      <IoMdMoon className="text-xl text-[#B0B5BB]" />
+    )}
+  </button>
   );
 }

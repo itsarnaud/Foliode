@@ -6,6 +6,7 @@ import { FaGithub, FaDribbble, FaGraduationCap, FaProjectDiagram } from "react-i
 import CustomCard from "../../components/UI/card";
 import LargeCard from "../../components/UI/card";
 import GrandeCard from "../../components/UI/card";
+import DashboardTitle  from "@/components/DashboardTitle"
 type LocalCardVariant = 'gradient' | 'default';
 
 export default function Dashboard() {
@@ -59,12 +60,13 @@ export default function Dashboard() {
   ];
 
   return (
+    <>
+    <DashboardTitle title="Tableau de bord" email="john.doe@example.com" />
+
     <div className="min-h-screen w-full bg-background text-foreground p-4 md:p-6 lg:p-8">
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-6">
-        Tableau de bord
-      </h1>
+
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
         {cardData.map((card, index) => (
           <CustomCard
             key={index}
@@ -79,23 +81,23 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
-        <LargeCard
-          title=""
-          description="Couleur de votre portofolio"
-          variant="default"
-          onClick={() => console.log('clicked')}
-          className="w-full lg:w-[55%] h-auto min-h-[275px]"
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <LargeCard
+        title=""
+        description="Couleur de votre portofolio"
+        variant="default"
+        onClick={() => console.log('clicked')}
+        className="w-full h-auto min-h-[275px] relative"
+    />
 
-        <LargeCard
-          title=""
-          description="Typographie de votre portfolio"
-          variant="default"
-          onClick={() => console.log('clicked')}
-          className="w-full lg:w-[45%] h-auto min-h-[275px]"
-        />
-      </div>
+    <LargeCard
+        title=""
+        description="Typographie de votre portfolio"
+        variant="default"
+        onClick={() => console.log('clicked')}
+        className="w-full h-auto min-h-[275px] relative"
+    />
+</div>
       <div className="flex justify-center items-center mt-6 w-full">
         <GrandeCard
         variant="default"
@@ -105,5 +107,6 @@ export default function Dashboard() {
         />
           </div>
     </div>
+    </>
   );
 }
