@@ -88,6 +88,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups('getUsers')]
     private  ?bool $is_email_verified = null;
 
+    #[ORM\Column]
+    private ?bool $is_first_connection = null;
+
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     private ?Portfolios $portfolio = null;
 
@@ -223,6 +226,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setTeacher(bool $is_teacher): static
     {
         $this->is_teacher = $is_teacher;
+        return $this;
+    }
+
+    public function isFirstConnection(): ?bool
+    {
+        return $this->is_first_connection;
+    }
+
+    public function setFirstConnection(bool $is_first_connection): static
+    {
+        $this->is_first_connection = $is_first_connection;
         return $this;
     }
 
