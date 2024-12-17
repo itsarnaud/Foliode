@@ -1,6 +1,11 @@
 import { jwtDecode } from 'jwt-decode';
 
 export const getDecodedToken = (cookie: string) => {
+
+  if (!document.cookie) {
+    throw new Error('Aucun cookie trouvé');
+  }
+
   const token = document.cookie
     .split('; ')
     .find(row => row.startsWith(`${cookie}=`))

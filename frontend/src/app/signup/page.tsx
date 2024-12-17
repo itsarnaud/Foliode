@@ -20,7 +20,8 @@ export default function RegisterPage() {
 
   const [data, setData] = useState({
     email: "",
-    full_name: "",
+    name: "",
+    firstname: "",
     password: "",
     passwordConfirm: ""
   });
@@ -50,7 +51,8 @@ export default function RegisterPage() {
           {
             "email": data.email,
             "password": data.password,
-            "full_name": data.full_name
+            "name": data.name,
+            "firstname": data.firstname
           },
           { headers: { "Content-Type": "application/json" }}
       );
@@ -90,7 +92,8 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 items-center md:items-start">
             <Input isRequired isClearable value={data.email} type="email" name="email" variant="bordered" label="Email" placeholder="john.doe@example.com" classNames={styles} onChange={handleInputChange} />
-            <Input isRequired isClearable value={data.full_name} type="text" variant="bordered" name="full_name" label="Nom complet" placeholder="John DOE" classNames={styles} onChange={handleInputChange} />
+            <Input isRequired isClearable value={data.firstname} type="text" variant="bordered" name="firstname" label="Prénom" placeholder="John" classNames={styles} onChange={handleInputChange} />
+            <Input isRequired isClearable value={data.name} type="text" variant="bordered" name="name" label="Nom" placeholder="DOE" classNames={styles} onChange={handleInputChange} />
 
             <Input
                 isRequired
@@ -134,7 +137,7 @@ export default function RegisterPage() {
             />
             {/* TODO: Bien faire les messages d'erreur : https://nextui.org/docs/components/input */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Buttons text="S'inscrire" style="large-button" type="submit" />
+            <Buttons text="S'inscrire" style="form" type="submit" />
             <span className="text-sm sm:text-base">Déjà un compte ? <Link href="/login" className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline">Connectez-vous !</Link></span>
           </form>
 
