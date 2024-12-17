@@ -1,5 +1,3 @@
-// TODO: Trouver un moyen de virer le use client (pas bon pour les perfs), il est appelé à cause du hook usePathname qui permet de savoir dans quel page nous somme
-// TODO: Il sert à mettre en surbrillance le lien selon la page où on est
 
 "use client";
 
@@ -11,7 +9,6 @@ import { IoMdMenu }                           from "react-icons/io";
 import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
 import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
-// import { useState } from 'react';
 
 
 export default function Sidebar() {
@@ -82,16 +79,19 @@ export default function Sidebar() {
             </div>
           </div>
           
-          <div className={`flex items-center  my-3 rounded-lg justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
+          <div>
+            <div 
+            className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
               <ThemeSwitcher />
             </div>
-          <Link 
-            href="/logout" 
-            className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 justify-center ${isOpen ? 'lg:justify-start' : ''}`}
-          >
-            <span className="text-xl"><MdLogout /></span>
-            <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>Se déconnecter</span>
-          </Link>
+            <Link 
+              href="/logout" 
+              className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}
+            >
+              <span className="text-xl"><MdLogout /></span>
+              <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>Se déconnecter</span>
+            </Link>
+          </div>
         </div>
       </div>
     </>

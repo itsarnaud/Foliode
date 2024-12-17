@@ -37,7 +37,7 @@ const CustomCard: React.FC<CardProps> = ({
 
     return (
         <Card 
-            className={`w-full sm:w-[236px] min-h-[245px] ${getBackgroundClass()} ${className}`}
+            className={`w-full  min-h-[245px] ${getBackgroundClass()} ${className}`}
             onClick={onClick}
             style={{
                 flexShrink: 0,
@@ -58,24 +58,25 @@ const CustomCard: React.FC<CardProps> = ({
                 )}
                 <div className="mt-24 w-full px-4">
                     <h3 className={`font-archivo text-base font-medium leading-normal
-                        ${variant === 'gradient' ? 'text-white' : 'text-foreground'}`}>
+                        ${variant === 'gradient' ? 'text-white' : 'text'}`}>
                         {title}
                     </h3>
                     <p className={`font-archivo font-medium leading-normal
                         ${isLargeDescription ? 'text-[45px]' : 'text-[20px]'}
-                        ${variant === 'gradient' ? 'text-white' : 'text-foreground'}`}>
+                        ${variant === 'gradient' ? 'text-white' : 'text'}`}>
                         {description}
                     </p>
                     {buttonText && (
-                        <div className="mt-4 mb-4">
+                        <div className="mt-4 mb-4 flex justify-start">
                             <Buttons 
-                                text={buttonText}
-                                style="card"
+                            text={buttonText}
+                            style="card"
+                            className=""
                             />
-                        </div>
-                    )}
+                            </div>
+                        )}
                     {subDescription && (
-                        <p className="text-white font-archivo text-base font-medium leading-normal">
+                        <p className=" font-archivo text-base font-medium leading-normal">
                             {subDescription}
                             </p>
                         )}
@@ -84,10 +85,8 @@ const CustomCard: React.FC<CardProps> = ({
         </Card>
     );
 };
-
 interface LargeCardProps {
     variant?: 'default' | 'gradient';
-    title: string;
     description?: string;
     className?: string;
     onClick?: () => void;
@@ -96,12 +95,15 @@ interface LargeCardProps {
     isLargeDescription?: boolean;
     buttonText?: string;
     subDescription?: string;
+    descriptionClassName?: string; 
 }
 
 const LargeCard: React.FC<LargeCardProps> = ({
     variant = 'default',
-    title,
+    description,
     className,
+    descriptionClassName,
+    onClick,
 }) => {
     const getBackgroundClass = () => {
         if (variant === 'gradient') {
@@ -119,9 +121,15 @@ const LargeCard: React.FC<LargeCardProps> = ({
                 border: "none",
                 position: "relative",
             }}
+            onClick={onClick}
         >
             <CardBody>
-
+                {description && (
+                    <div className={`absolute top-0 left-0 ${descriptionClassName}`}>
+                        {description}
+                    </div>
+                )}
+                {}
             </CardBody>
         </Card>
     );
@@ -154,7 +162,7 @@ const GrandeCard: React.FC<GrandeCardProps> = ({
 
     return (
         <Card 
-            className={`w-full max-w-[1494px] h-[468px] ${getBackgroundClass()} ${className}`}
+            className={`w-full  h-[468px] ${getBackgroundClass()} ${className}`}
             onClick={onClick}
             style={{
                 flexShrink: 0,
