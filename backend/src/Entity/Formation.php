@@ -21,11 +21,11 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $type = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $duration = null;
 
     #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Promotion::class)]
     private Collection $promotions;
