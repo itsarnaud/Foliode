@@ -44,7 +44,8 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setFullName($userData['name'] ?? 'Unknown')
+            ->setName($userData['name'] ?? 'Unknown')
+            ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['url'])
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
@@ -78,7 +79,8 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setFullName($userData['name'] ?? 'Unknown')
+            ->setName($userData['name'] ?? 'Unknown')
+            ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['html_url'])
             ->setIsEmailVerified(true)
             ->setDribbbleLogin($userData['login'])
