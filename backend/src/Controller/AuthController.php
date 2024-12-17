@@ -2,56 +2,87 @@
 
 namespace App\Controller;
 
-use App\Service\SimpleAuthService;
+use App\Entity\Users;
+use App\Repository\UsersRepository;
+use App\Service\MailerService;
+use App\Service\ValidatorBaseService;
+use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthController extends AbstractController
 {
+    public function __construct(
+        private MailerService               $mailerService,
+        private UsersRepository             $usersRepository,
+        private EntityManagerInterface      $entityManager,
+        private ValidatorInterface          $validator,
+        private SerializerInterface         $serializer,
+        private UserPasswordHasherInterface $passwordHasher,
+        private JWTTokenManagerInterface    $jwtManager,
+        private ValidatorBaseService        $validatorBaseService,
+    )
+    {
+    }
 
     #[Route('/api/user/signup', methods: ['POST'])]
-    public function signup(
-        Request $request,
-        SimpleAuthService $authService
-    ): JsonResponse {
+    public function signup(Request $request): JsonResponse
+    {
         $data = $request->getContent();
-        $jsonUser = $authService->registerUser($data);
-        return new JsonResponse($jsonUser, Response::HTTP_CREATED, [], true);
+        $user = $this->serializer->deserialize($data, Users::class, 'json');
+        $user->setIsEmailVerified(false);
+        $user->setStudent(true);
+        $user->setTeacher(false);
+
+        $verificationCode = random_int(100000, 999999);
+        $user->setEmailVerificationCode($verificationCode);
+
+        $subject = 'Vérification de votre adresse email';
+        $content = "Votre code de vérification est : $verificationCode";
+
+        if (!$this->mailerService->sendEmail($subject, $content, $user->getEmail())) {
+            return new JsonResponse(["error" => 'internal serveur error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $errors = $this->validator->validate($user);
+        $this->validatorBaseService->CatchInvalidData($errors);
+
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
+        $user->setPassword($hashedPassword);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $token = $this->jwtManager->create($user);
+        return new JsonResponse(['token' => $token], Response::HTTP_CREATED);
     }
 
     #[Route('/api/user/signin', methods: ['POST'])]
-    public function auth_signin(
-        Request $request,
-        SimpleAuthService $authService
-    ): JsonResponse {
-
+    public function auth_signin(Request $request): JsonResponse
+    {
         $data = json_decode($request->getContent(), true);
         if (!isset($data['email'])) {
             return new JsonResponse(['error' => 'Email is required'], JsonResponse::HTTP_BAD_REQUEST);
         }
+        $email = $data['email'];
+        $user = $this->usersRepository->findOneBy(['email' => $email]);
 
-        $token = $authService->authUser($data);
-        return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
-    }
+        if (!$user || !$this->passwordHasher->isPasswordValid($user, $data['password'])) {
 
-    #[Route('/api/checkmail', methods: ['POST'])]
-    public function check_email(
-        Request $request,
-        SimpleAuthService $authService
-    ): JsonResponse {
-
-        $data = json_decode($request->getContent(), true);
-
-        if (!$data['code'] || !$data['email']) {
-            return new JsonResponse(['error' => 'code and email are required.'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'incorrect user or password'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $token = $authService->checkEmail($data);
-
+        $token = $this->jwtManager->create($user);
         return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
     }
+
+
 
 }
