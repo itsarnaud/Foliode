@@ -83,6 +83,4 @@ class AuthController extends AbstractController
         return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
     }
 
-
-
 }

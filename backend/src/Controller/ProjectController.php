@@ -7,7 +7,6 @@ use App\Entity\ProjectsImages;
 use App\Repository\PortfoliosRepository;
 use App\Repository\ProjectsRepository;
 use App\Service\FileUploaderService;
-use App\Service\ProjectService;
 use App\Service\ValidatorBaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
