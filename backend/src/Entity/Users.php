@@ -87,6 +87,10 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     private ?Portfolios $portfolio = null;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Promotion $promotion = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -271,6 +275,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
             $portfolio->setUsers($this);
         }
 
+        return $this;
+    }
+
+    public function getPromotion(): ?Promotion
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion(?Promotion $promotion): self
+    {
+        $this->promotion = $promotion;
         return $this;
     }
 }
