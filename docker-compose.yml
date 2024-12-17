@@ -1,3 +1,9 @@
+networks:
+  frontend:
+    driver: bridge
+  backend: 
+    driver: bridge
+
 services:
   backend:
     image: php:fpm
@@ -6,6 +12,7 @@ services:
       dockerfile: Dockerfile.backend
     container_name: foliode_backend
     working_dir: /var/www/html
+    command: php -S 0.0.0.0:9000 -t public
     volumes:
       - ./backend:/var/www/html
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
@@ -17,20 +24,20 @@ services:
       - .env
     depends_on:
       - db
-      - maildev
+      # - maildev
     networks:
-      - app_network
+      - backend
     ports:
       - "${BACKEND_PORT}:9000"
 
-  maildev:
-    image: maildev/maildev
-    container_name: maildev
-    ports:
-      - "1080:1080"
-      - "1026:1025"
-    networks:
-      - app_network
+  # maildev:
+  #   image: maildev/maildev
+  #   container_name: maildev
+  #   ports:
+  #     - "1080:1080"
+  #     - "1026:1025"
+  #   networks:
+  #     - app_network
 
   frontend:
     build:
@@ -49,7 +56,7 @@ services:
     env_file:
       - .env
     networks:
-      - app_network
+      - frontend
 
   db:
     image: postgres:13
@@ -61,7 +68,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
-      - app_network
+      - backend
     ports:
       - ${DB_PORT}:5432
 
@@ -77,11 +84,8 @@ services:
       - backend
       - frontend
     networks:
-      - app_network
-
-networks:
-  app_network:
-    driver: bridge
+      - frontend
+      - backend
 
 volumes:
   db_data:

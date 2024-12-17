@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ExternalAuthController extends AbstractController
 {
-    #[Route('/api/auth/github', methods: ['POST'])]
+    #[Route('/api/user/auth/github', methods: ['POST'])]
     public function githubAuth(
         Request             $request,
         AuthApiService      $authApiService,
@@ -43,7 +43,7 @@ class ExternalAuthController extends AbstractController
         return new JsonResponse($jsonUser, Response::HTTP_OK);
     }
 
-    #[Route('/api/auth/dribbble', methods: ['POST'])]
+    #[Route('/api/user/auth/dribbble', methods: ['POST'])]
     public function dribbbleAuth(
         Request             $request,
         AuthApiService      $authApiService,

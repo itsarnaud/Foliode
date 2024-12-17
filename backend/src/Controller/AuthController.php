@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthController extends AbstractController
 {
 
-    #[Route('/api/signup', methods: ['POST'])]
+    #[Route('/api/user/signup', methods: ['POST'])]
     public function signup(
         Request $request,
         SimpleAuthService $authService
@@ -22,7 +22,7 @@ class AuthController extends AbstractController
         return new JsonResponse($jsonUser, Response::HTTP_CREATED, [], true);
     }
 
-    #[Route('/api/auth', methods: ['POST'])]
+    #[Route('/api/user/signin', methods: ['POST'])]
     public function auth_signin(
         Request $request,
         SimpleAuthService $authService
