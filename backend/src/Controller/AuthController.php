@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthController extends AbstractController
 {
@@ -23,7 +22,6 @@ class AuthController extends AbstractController
         private MailerService               $mailerService,
         private UsersRepository             $usersRepository,
         private EntityManagerInterface      $entityManager,
-        private ValidatorInterface          $validator,
         private SerializerInterface         $serializer,
         private UserPasswordHasherInterface $passwordHasher,
         private JWTTokenManagerInterface    $jwtManager,
@@ -51,8 +49,11 @@ class AuthController extends AbstractController
             return new JsonResponse(["error" => 'internal serveur error'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $errors = $this->validator->validate($user);
-        $this->validatorBaseService->CatchInvalidData($errors);
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);

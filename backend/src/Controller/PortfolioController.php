@@ -12,18 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class PortfolioController extends AbstractController
 {
-
-
     public function __construct(
         private ValidatorBaseService   $validatorBaseService,
         private EntityManagerInterface $entityManager,
         private SerializerInterface    $serializer,
-        private ValidatorInterface     $validator,
         private PortfoliosRepository   $portfoliosRepository,
     )
     {
@@ -38,9 +34,11 @@ class PortfolioController extends AbstractController
 
         $portfolio = $this->serializer->deserialize($data, Portfolios::class, 'json');
         $portfolio->setUsers($user);
-        $errors = $this->validator->validate($portfolio);
-        $this->validatorBaseService->CatchInvalidData($errors);
 
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
 
         $this->entityManager->persist($portfolio);
         $this->entityManager->flush();
@@ -60,8 +58,10 @@ class PortfolioController extends AbstractController
         $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
 
         $this->serializer->deserialize($data, Portfolios::class, 'json', ['object_to_populate' => $portfolio]);
-        $errors = $this->validator->validate($portfolio);
-        $this->validatorBaseService->CatchInvalidData($errors);
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
 
         $this->entityManager->flush();
 

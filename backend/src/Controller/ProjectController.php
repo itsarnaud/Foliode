@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProjectController extends AbstractController
 {
@@ -26,7 +25,6 @@ class ProjectController extends AbstractController
         private ProjectsRepository     $projectsRepository,
         private SerializerInterface    $serializer,
         private PortfoliosRepository   $portfoliosRepository,
-        private ValidatorInterface     $validator,
         private FileUploaderService    $fileUploader,
         private ValidatorBaseService   $validatorBaseService
     )
@@ -91,8 +89,10 @@ class ProjectController extends AbstractController
         $project = $this->serializer->deserialize($data, Projects::class, 'json');
         $project->setPortfolio($portfolio);
 
-        $errors = $this->validator->validate($project);
-        $this->validatorBaseService->catchInvalidData($errors);
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
 
         foreach ($files as $file) {
             if (!$file instanceof UploadedFile) {
@@ -173,8 +173,10 @@ class ProjectController extends AbstractController
         }
 
         $this->serializer->deserialize($data, Projects::class, 'json', ['object_to_populate' => $project]);
-        $errors = $this->validator->validate($project);
-        $this->validatorBaseService->catchInvalidData($errors);
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
 
         $this->entityManager->flush();
 
