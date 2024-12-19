@@ -12,7 +12,7 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@ne
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Nav></Nav>
+      <Nav/>
        <BgLandingPage />
         <Avantages />
         <Fonctionnalites />

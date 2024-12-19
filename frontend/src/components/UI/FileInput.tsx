@@ -50,7 +50,7 @@ const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
 
         >
             {files.length === 0 && (
-                <MdOutlineCloudUpload className={`text-5xl text-primary font-light m-auto my-screen`}/>
+                <MdOutlineCloudUpload className={`dayMode text-5xl text-primary font-light m-auto my-screen`}/>
             )}
 
             <input
@@ -64,7 +64,7 @@ const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
                 <div className='m-2 p-2'>
                     {files.map((file, index) => (
                         <div key={index} className="flex items-center space-x-2  rounded-md ">
-                            <FcImageFile className="text-primary-500 text-4xl" title={`Image: ${file.name}`}/>
+                            <FcImageFile className="dayMode text-primary text-4xl" title={`Image: ${file.name}`}/>
                             <p className="text-primary-500 text-sm text-ellipsis">{file.name}</p>
                         </div>
                     ))}
