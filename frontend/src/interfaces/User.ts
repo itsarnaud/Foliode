@@ -1,8 +1,9 @@
 export interface User {
-    full_name: string
+    name: string
+    firstname: string
     email: string
     roles: string[]
     avatar_url: string | null
-    github_login: string
-    dribbble_login: string
+    github_login: string | null
+    dribbble_login: string | null
 }
