@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
 class ApiRequesterService
 {
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct(private HttpClientInterface $httpClient)
     {}
 
     public function get(string $url, array $header): ?array
