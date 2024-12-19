@@ -57,6 +57,7 @@ export default function RegisterPage() {
           { headers: { "Content-Type": "application/json" }}
       );
 
+
       router.push("/login");
 
     } catch (err) {

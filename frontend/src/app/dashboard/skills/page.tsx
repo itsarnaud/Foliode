@@ -60,10 +60,9 @@ export default function Skills() {
 
   return (
     <>
+      <DashboardTitle title="Mes compétences" />
       <div className="flex-1 p-6">
         <div className="mt-1 w-full">
-          <DashboardTitle title="Mes compétences" email="john.doe@example.com" />
-
           <div className="grid grid-cols-3 mt-10 gap-5">
             {skills.map((skill, index) => (
               <div

@@ -61,7 +61,7 @@ export default function Dashboard() {
 
   return (
     <>
-    <DashboardTitle title="Tableau de bord" email="john.doe@example.com" />
+    <DashboardTitle title="Tableau de bord"  />
 
     <div className="min-h-screen w-full bg-background text-foreground p-4 md:p-6 lg:p-8">
 
