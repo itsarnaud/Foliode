@@ -24,21 +24,8 @@ services:
       - .env
     depends_on:
       - db
-      # - maildev
     networks:
       - backend
-    ports:
-      - "${BACKEND_PORT}:9000"
-
-  # maildev:
-  #   image: maildev/maildev
-  #   container_name: maildev
-  #   ports:
-  #     - "1080:1080"
-  #     - "1026:1025"
-  #   networks:
-  #     - app_network
-
   frontend:
     build:
       context: ./frontend
@@ -49,15 +36,12 @@ services:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
-    ports:
-      - "${FRONTEND_PORT}:3000"
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL}
     env_file:
       - .env
     networks:
       - frontend
-
   db:
     image: postgres:13
     container_name: symfony_db
@@ -71,7 +55,6 @@ services:
       - backend
     ports:
       - ${DB_PORT}:5432
-
   web:
     image: nginx:alpine
     container_name: nginx_web
@@ -86,6 +69,5 @@ services:
     networks:
       - frontend
       - backend
-
 volumes:
   db_data:

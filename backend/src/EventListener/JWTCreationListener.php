@@ -17,8 +17,8 @@ class JWTCreationListener
         $payload['avatar_url'] = $user->getAvatarUrl();
         $payload['roles'] = $user->getRoles();
         $payload['email'] = $user->getEmail();
-        $payload['github_login'] = $user->getGithubLogin() || '';
-        $payload['dribbble_login'] = $user->getDribbbleLogin() || '';
+        $payload['github_login'] = $user->getGithubLogin() ?? null;
+        $payload['dribbble_login'] = $user->getDribbbleLogin() ?? null;
         
         $event->setData($payload);
     }
