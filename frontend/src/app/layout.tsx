@@ -12,9 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <html lang="fr" suppressHydrationWarning>
+       <body suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SessionProvider>
             <NextUIProvider>
               <SidebarProvider>
