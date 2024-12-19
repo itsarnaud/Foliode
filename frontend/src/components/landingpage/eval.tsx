@@ -13,8 +13,8 @@ export default function Eval() {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row justify-center px-8 ">
-        <Card className="max-w-[400px] bg-[#0B0B0C]  rounded-none mx-auto">
+      <div className="flex flex-col md:flex-row justify-center px-8  ">
+        <Card className="max-w-[400px] bg-transparent rounded-none shadow-none border border-[#393939] md:border-r-0">
           <CardHeader className="flex gap-3 pb-11 pt-9 px-8">
             <p className="text-md font-semibold">
               Création de classes simplifiée
@@ -27,7 +27,7 @@ export default function Eval() {
             </p>
           </CardBody>
         </Card>
-        <Card className="max-w-[400px] bg-[#0B0B0C]  rounded-none mx-auto">
+        <Card className="max-w-[400px] bg-transparent rounded-none shadow-none border border-[#393939]">
           <CardHeader className="flex gap-3 pb-11 pt-9 px-8">
             <p className="text-md font-semibold">
               Évaluation centralisée des portfolios
@@ -40,7 +40,7 @@ export default function Eval() {
             </p>
           </CardBody>
         </Card>
-        <Card className="max-w-[400px] bg-[#0B0B0C]  rounded-none mx-auto">
+        <Card className="max-w-[400px] bg-transparent rounded-none shadow-none border border-[#393939] md:border-l-0">
           <CardHeader className="flex gap-3 pb-11 pt-9 px-8">
             <p className="text-md font-semibold">
               Aligné avec vos objectifs pédagogiques

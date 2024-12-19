@@ -13,12 +13,13 @@ class JWTCreationListener
         $user = $event->getUser();
         $payload = $event->getData();
         
-        $payload['full_name'] = $user->getFullName();
+        $payload['name'] = $user->getName();
+        $payload['firstname'] = $user->getFirstName();
         $payload['avatar_url'] = $user->getAvatarUrl();
         $payload['roles'] = $user->getRoles();
         $payload['email'] = $user->getEmail();
-        $payload['github_login'] = $user->getGithubLogin() || '';
-        $payload['dribbble_login'] = $user->getDribbbleLogin() || '';
+        $payload['github_login'] = $user->getGithubLogin() ?? null;
+        $payload['dribbble_login'] = $user->getDribbbleLogin() ?? null;
         
         $event->setData($payload);
     }

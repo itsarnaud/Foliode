@@ -21,15 +21,15 @@ import ThirdStepForm, {
 
 type FormData = {
   step1: {
-    formation: string;
-    etablissement: string;
-    annee: string;
+    titre: string;
+    sousTitre: string;
+    presentation: string;
   };
   step2: {
     competences: Array<{
       nom: string;
       description: string;
-      lienProjet: string;
+      medias: string[];
     }>;
     projets: Array<{
       titre: string;
@@ -54,9 +54,9 @@ export default function MultiStepForm() {
 
   const [formData, setFormData] = useState<FormData>({
     step1: {
-      formation: "",
-      etablissement: "",
-      annee: "",
+      titre: "",
+      sousTitre: "",
+      presentation: "",
     },
     step2: {
       competences: [],
@@ -137,9 +137,9 @@ export default function MultiStepForm() {
                 setFormData((prev) => ({
                   ...prev,
                   step1: {
-                    formation: data.formation || "",
-                    etablissement: data.etablissement || "",
-                    annee: data.annee || "",
+                    titre: data.titre || "",
+                    sousTitre: data.sousTitre || "",
+                    presentation: data.presentation || "",
                   },
                 }))
               }
@@ -198,11 +198,14 @@ export default function MultiStepForm() {
               Précédent
             </Button>
             {currentStep < totalSteps ? (
-              <Button onClick={handleNext}  className="dayMode bg-primary text-white">
+              <Button
+                onClick={handleNext}
+                className="dayMode bg-primary text-white"
+              >
                 Suivant
               </Button>
             ) : (
-              <Button type="submit" className="bg-primary">
+              <Button type="submit" className="dayMode bg-primary text-white">
                 Publier
               </Button>
             )}

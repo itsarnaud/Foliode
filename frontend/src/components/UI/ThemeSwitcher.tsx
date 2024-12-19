@@ -2,7 +2,6 @@
 
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import { Button } from "@nextui-org/react";
 import { FiSun } from "react-icons/fi";
 import { IoMdMoon } from "react-icons/io";
 
@@ -14,21 +13,21 @@ export function ThemeSwitcher() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <Button
-      variant="light"
+    <button
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className=" nightMode transition-all duration-300 hover:bg-primary-200"
-      isIconOnly
+      className="flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:bg-primary-200 justify-center w-10 h-10 bg-transparent"
+      suppressHydrationWarning
     >
       {theme === 'light' ? (
-        <FiSun className="text-xl text-[#B0B5BB] " />
+        <FiSun className="text-xl text-[#B0B5BB]" />
       ) : (
         <IoMdMoon className="text-xl text-[#B0B5BB]" />
-
       )}
-    </Button>
+    </button>
   );
 }

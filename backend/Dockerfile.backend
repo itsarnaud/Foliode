@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
     unzip \
+    procps net-tools -y \
     && docker-php-ext-install pdo pdo_pgsql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -15,6 +16,8 @@ COPY . .
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
 COPY php-mail.ini /usr/local/etc/php/conf.d/php-mail.ini
+
+RUN sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/" /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 9000
 

@@ -63,7 +63,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (token.provider === 'dribbble') {
             try {
               const response = await axios.post(
-                `${process.env.API_CLIENT_URL}/api/auth/dribbble`,
+                `${process.env.API_CLIENT_URL}/api/user/auth/dribbble`,
                 { 'dribbble_token': `${token.accessToken}` },
                 { headers }
               );
@@ -79,7 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           } else if (token.provider === 'github') {
             try {
               const response = await axios.post(
-                `${process.env.API_CLIENT_URL}/api/auth/github`,
+                `${process.env.API_CLIENT_URL}/api/user/auth/github`,
                 { 'github_token': `${token.accessToken}` },
                 { headers }
               );

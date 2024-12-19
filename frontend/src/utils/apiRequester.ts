@@ -26,5 +26,3 @@ export const apiGet = async (url: string) => {
 
     return response
 }
-
-

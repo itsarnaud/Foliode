@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Portfolios;
 use App\Repository\PortfoliosRepository;
-use App\Service\PortfolioService;
+use App\Service\ValidatorBaseService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,47 +16,67 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PortfolioController extends AbstractController
 {
+    public function __construct(
+        private ValidatorBaseService   $validatorBaseService,
+        private EntityManagerInterface $entityManager,
+        private SerializerInterface    $serializer,
+        private PortfoliosRepository   $portfoliosRepository,
+    )
+    {
+    }
+
     #[Route('api/portfolio', methods: ['POST'])]
-    public function add_portfolio(
-        Request $request,
-        PortfolioService $portfolioService,
-    ): JsonResponse
+    public function add_portfolio(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
 
-        $jsonPortfolio = $portfolioService->CreatPortfolio($data, $user);
+        $portfolio = $this->serializer->deserialize($data, Portfolios::class, 'json');
+        $portfolio->setUsers($user);
 
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->entityManager->persist($portfolio);
+        $this->entityManager->flush();
+
+        $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 
 
     #[Route('api/portfolio', methods: ['PUT'])]
-    public function update_portfolio(
-        Request $request,
-        PortfolioService $portfolioService,
-    ): JsonResponse
+    public function update_portfolio(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
 
-        $jsonPortfolio = $portfolioService->UpdatePortfolio($data, $user);
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+
+        $this->serializer->deserialize($data, Portfolios::class, 'json', ['object_to_populate' => $portfolio]);
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+        if($errors) {
+            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->entityManager->flush();
+
+        $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
 
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 
     #[Route('api/portfolio', methods: ['GET'])]
-    public function get_portfolio(
-        SerializerInterface $serializer,
-        PortfoliosRepository $portfoliosRepository,
-        PortfolioService $portfolioService
-    ): JsonResponse
+    public function get_portfolio(): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
-        $jsonPortfolio = $portfolioService->getPortfolio($user);
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+        $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
 }

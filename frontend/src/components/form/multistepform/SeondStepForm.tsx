@@ -1,20 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Input, Button, Textarea } from "@nextui-org/react";
+import { Input, Button, Textarea, Select, SelectItem } from "@nextui-org/react";
 import FileInput from "@/components/UI/FileInput";
+import LinkInput from "@/components/UI/LinkInput";
 export interface StepTwoData {
   competences: Array<{
     nom: string;
     description: string;
-    lienProjet: string;
+    medias: string[];
   }>;
   projets: Array<{
     titre: string;
     description: string;
     technologies: string[];
     date: string;
+    dateFin: string;
     medias: string[];
+    links: string[];
   }>;
 }
 
@@ -32,16 +35,19 @@ function SecondStepForm({
     projets: [],
   });
 
-  const handleCompetenceChange = (
-    index: number,
-    field: string,
-    value: string
-  ) => {
+  const handleCompetenceChange = (index: number, field: string, value: any) => {
     const newCompetences = [...formData.competences];
-    newCompetences[index] = {
-      ...newCompetences[index],
-      [field]: value,
-    };
+    if (field === "medias") {
+      newCompetences[index] = {
+        ...newCompetences[index],
+        medias: value.map((file: File) => URL.createObjectURL(file)),
+      };
+    } else {
+      newCompetences[index] = {
+        ...newCompetences[index],
+        [field]: value,
+      };
+    }
     const newData = { ...formData, competences: newCompetences };
     setFormData(newData);
     onDataChange(newData);
@@ -70,7 +76,7 @@ function SecondStepForm({
       ...formData,
       competences: [
         ...formData.competences,
-        { nom: "", description: "", lienProjet: "" },
+        { nom: "", description: "", medias: [] },
       ],
     };
     setFormData(newData);
@@ -82,7 +88,15 @@ function SecondStepForm({
       ...formData,
       projets: [
         ...formData.projets,
-        { titre: "", description: "", technologies: [], date: "", medias: [] },
+        {
+          titre: "",
+          description: "",
+          technologies: [],
+          date: "",
+          dateFin: "",
+          medias: [],
+          links: []
+        },
       ],
     };
     setFormData(newData);
@@ -109,18 +123,24 @@ function SecondStepForm({
                 handleCompetenceChange(index, "description", e.target.value)
               }
             />
-            <Input
-              label="Lien vers le projet"
-              value={comp.lienProjet}
-              onChange={(e) =>
-                handleCompetenceChange(index, "lienProjet", e.target.value)
-              }
-            />
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Images de la compétence
+              </label>
+              <FileInput
+                onChange={(files) =>
+                  handleCompetenceChange(index, "medias", files)
+                }
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                Format recommandé : PNG ou JPG, max 2MB
+              </p>
+            </div>
           </div>
         ))}
         <Button
           onClick={addCompetence}
-          className="nightMode bg-primary text-white"
+          className="dayMode bg-primary text-white"
           variant="flat"
         >
           Ajouter une compétence
@@ -157,20 +177,45 @@ function SecondStepForm({
               )
             }
           />
-          <Input
-            type="date"
-            label="Date de réalisation"
-            value={projet.date}
-            onChange={(e) => handleProjetChange(index, "date", e.target.value)}
+          <div className="flex gap-4">
+            <Input
+              type="date"
+              label="Date de début"
+              value={projet.date}
+              onChange={(e) =>
+                handleProjetChange(index, "date", e.target.value)
+              }
+            />
+            <Input
+              type="date"
+              label="Date de fin"
+              value={projet.dateFin}
+              onChange={(e) =>
+                handleProjetChange(index, "dateFin", e.target.value)
+              }
+            />
+          </div>
+          <LinkInput
+            placeholder="Liens vers le projet"
+            name="links"
+            onChange={(value) => handleProjetChange(index, "links", value)}
           />
-          <FileInput
-            onChange={(files) => handleProjetChange(index, "medias", files)}
-          />
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Images du projet
+            </label>
+            <FileInput
+              onChange={(files) => handleProjetChange(index, "medias", files)}
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Format recommandé : PNG ou JPG, max 2MB
+            </p>
+          </div>
         </div>
       ))}
       <Button
         onClick={addProjet}
-        className="nightMode bg-primary text-white"
+        className="dayMode bg-primary text-white"
         variant="flat"
       >
         Ajouter un projet
