@@ -34,6 +34,14 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $bio = null;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups('getPortfolio')]
+    private ?array $config = null;
+    
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups('getPortfolio')]
+    private ?array $site = null;
+
     #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('getPortfolio') ]
@@ -98,6 +106,28 @@ class Portfolios
     {
         $this->bio = $bio;
 
+        return $this;
+    }
+
+    public function getConfig(): ?array
+    {
+        return $this->config;
+    }
+
+    public function setConfig(?array $config): self
+    {
+        $this->config = $config;
+        return $this;
+    }
+
+    public function getSite(): ?array
+    {
+        return $this->site;
+    }
+
+    public function setSite(?array $site): self
+    {
+        $this->site = $site;
         return $this;
     }
 
