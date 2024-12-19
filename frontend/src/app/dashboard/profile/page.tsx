@@ -3,7 +3,6 @@
 import DashboardTitle  from "@/components/DashboardTitle"
 import Avatar          from "@/components/Avatar"
 import Buttons         from "@/components/UI/button";
-import Cookies         from "js-cookie";
 
 import { signInGitHub }    from "@/actions";
 import { signInDribbble }  from "@/actions";
@@ -14,14 +13,15 @@ import { getDecodedToken } from "@/utils/jwtUtils";
 
 import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
 import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
-import { useState, useEffect }              from "react";
+import { useState }                         from "react";
 
 interface DecodedToken {
   avatar_url: string;
   dribbble_login: boolean;
   email: string;
   exp: number;
-  full_name: string;
+  name: string;
+  firstname: string;
   github_login: boolean;
   iat: number;
   roles: string[];
@@ -44,7 +44,6 @@ export default function Profile() {
 	}
 
   const decodedToken: DecodedToken = getDecodedToken('token_auth') as DecodedToken;
-  // console.log('Token décodé:', decodedToken);
 
   return (
     <>
@@ -55,7 +54,10 @@ export default function Profile() {
           <div className="mb-3">
             <Avatar email={decodedToken.email} size={150} />
           </div>
-          <p className="text-sm">{decodedToken.full_name}</p>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-sm">{decodedToken.firstname}</span>
+            <span className="text-sm">{decodedToken.name}</span>
+          </div>
           <p className="text-sm">Classe (s'il en a une)</p>
 
           <Link isExternal showAnchorIcon href="#" className="!text-primary mt-3">Lien du portfolio</Link>
@@ -66,8 +68,8 @@ export default function Profile() {
           <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
             <form action="" className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
               {/* TODO: Mettre en value, avec un fetch decryptedToken,  */}
-              <Input isRequired isClearable name="nom" type="text" variant="bordered" label="Nom" placeholder="Votre nom" classNames={styles} />
-              <Input isRequired isClearable name="prenom" type="text" variant="bordered" label="Prénom" placeholder="Votre prénom" classNames={styles} />
+              <Input isRequired isClearable value={decodedToken.name} name="name" type="text" variant="bordered" label="Nom" placeholder="Votre nom" classNames={styles} />
+              <Input isRequired isClearable value={decodedToken.firstname} name="firstname" type="text" variant="bordered" label="Prénom" placeholder="Votre prénom" classNames={styles} />
               <Input isRequired isClearable value={decodedToken.email} name="email" type="email" variant="bordered" label="Email" placeholder="Votre Email" classNames={styles} />
               <Input
                 isRequired
