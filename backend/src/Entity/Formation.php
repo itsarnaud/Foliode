@@ -30,9 +30,6 @@ class Formation
     #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Promotion::class)]
     private Collection $promotions;
 
-    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Semestre::class)]
-    private Collection $semestre;
-
     public function __construct()
     {
         $this->promotions = new ArrayCollection();
@@ -67,12 +64,12 @@ class Formation
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): static
+    public function setDuration(int $duration): static
     {
         $this->duration = $duration;
 
@@ -102,35 +99,6 @@ class Formation
         if ($this->promotions->removeElement($promotion)) {
             if ($promotion->getFormation() === $this) {
                 $promotion->setFormation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Semestre>
-     */
-    public function getSemestre(): Collection
-    {
-        return $this->semestre;
-    }
-
-    public function addSemestre(Semestre $semestre): self
-    {
-        if (!$this->semestre->contains($semestre)) {
-            $this->semestre->add($semestre);
-            $semestre->setFormation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSemestre(Semestre $semestre): self
-    {
-        if ($this->semestre->removeElement($semestre)) {
-            if ($semestre->getFormation() === $this) {
-                $semestre->setFormation(null);
             }
         }
 
