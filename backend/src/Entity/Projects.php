@@ -46,16 +46,6 @@ class Projects
     #[Groups('getPortfolio') ]
     private ?\DateTimeInterface $end_date = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 255, maxMessage: "category cannot exceed 255 characters")]
-    #[Groups('getPortfolio') ]
-    private ?string $category = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 255, maxMessage: "status cannot exceed 255 characters")]
-    #[Groups('getPortfolio') ]
-    private ?string $status = null;
-
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Portfolios $portfolio = null;
@@ -138,30 +128,6 @@ class Projects
     public function setEndDate(?\DateTimeInterface $end_date): static
     {
         $this->end_date = $end_date;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

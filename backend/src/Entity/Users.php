@@ -23,7 +23,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Name is required.")]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z\s]+$/',
+        pattern: '/^[\p{L}\s]+$/u',
         message: 'Name should only contain letters and spaces.'
     )]
     #[Groups('getUsers', 'getPortfolio')]
@@ -32,7 +32,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "First name is required.")]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z\s]+$/',
+        pattern: '/^[\p{L}\s]+$/u',
         message: 'First name should only contain letters and spaces.'
     )]
     #[Groups('getUsers', 'getPortfolio')]
@@ -88,14 +88,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups('getUsers')]
     private  ?bool $is_email_verified = null;
 
-    #[ORM\Column]
-    private ?bool $is_first_connection = null;
-
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     private ?Portfolios $portfolio = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Promotion $promotion = null;
 
     public function getId(): ?string
@@ -226,17 +223,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setTeacher(bool $is_teacher): static
     {
         $this->is_teacher = $is_teacher;
-        return $this;
-    }
-
-    public function isFirstConnection(): ?bool
-    {
-        return $this->is_first_connection;
-    }
-
-    public function setFirstConnection(bool $is_first_connection): static
-    {
-        $this->is_first_connection = $is_first_connection;
         return $this;
     }
 
