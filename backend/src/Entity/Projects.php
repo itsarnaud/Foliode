@@ -50,6 +50,10 @@ class Projects
     #[ORM\JoinColumn(nullable: false)]
     private ?Portfolios $portfolio = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('getUsers')]
+    private ?string $github_id = null;
+
     /**
      * @var Collection<int, ProjectsImages>
      */
@@ -118,6 +122,17 @@ class Projects
         $this->start_date = $start_date;
 
         return $this;
+    }
+
+    public function setGithubId (string $github_id): static
+    {
+        $this->github_id = $github_id;
+        return $this;
+    }
+
+    public function getGithubId() :string
+    {
+        return $this->github_id;
     }
 
     public function getEndDate(): ?\DateTimeInterface
