@@ -48,7 +48,10 @@ export default function Profile() {
                                 <div className="mb-3">
                                     <Avatar size={70}/>
                                 </div>
-                                <p className="text-sm">{user.full_name}</p>
+                                <div className="flex items-center gap-1">
+                                    <p className="text-sm">{user.name}</p>
+                                    <p className="text-sm">{user.firstname}</p>
+                                </div>
                                 <p className="text-sm">Classe (s'il en a une)</p>
 
                                 <Link isExternal showAnchorIcon href="#" className="!text-primary mt-3">Lien du
@@ -60,9 +63,9 @@ export default function Profile() {
                                 <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
                                     <form action="" className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
                                         {/* TODO: Mettre en value, avec un fetch decryptedToken,  */}
-                                        <Input isRequired isClearable name="nom" type="text" variant="bordered" label="Nom"
+                                        <Input isRequired isClearable value={user.name} name="nom" type="text" variant="bordered" label="Nom"
                                                placeholder="Votre nom" classNames={styles}/>
-                                        <Input isRequired isClearable name="prenom" type="text" variant="bordered"
+                                        <Input isRequired isClearable value={user.firstname} name="prenom" type="text" variant="bordered"
                                                label="Prénom"
                                                placeholder="Votre prénom" classNames={styles}/>
                                         <Input isRequired isClearable value={user.email} name="email" type="email"
