@@ -4,10 +4,11 @@ interface LinkInputProps {
     placeholder: string;
     name: string;
     onChange: (value: string[]) => void;
+    value?: string[];
 }
 
-const LinkInput: React.FC<LinkInputProps> = ({ placeholder, name, onChange }) => {
-    const [links, setLinks] = useState<string[]>([]);
+const LinkInput: React.FC<LinkInputProps> = ({ placeholder, name, onChange, value }) => {
+    const [links, setLinks] = useState<string[]>(value ? value : []);
     const [inputValue, setInputValue] = useState<string>('');
     const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
 

@@ -16,6 +16,7 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.7",
     "framer-motion": "^11.11.17",
+    "js-base64": "^3.7.7",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "next": "15.0.3",

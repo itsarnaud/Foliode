@@ -2,6 +2,8 @@
 import axios from "axios";
 import {getCookie} from "@/utils/cookiesHelpers";
 import {Repository} from "@/interfaces/Repository";
+import { Base64 } from 'js-base64';
+import {Readme} from "@/interfaces/Readme";
 
 export const apiPost = async (url: string, data: object, contentType: 'multipart/form-data' | 'application/json') => {
     const token = getCookie('token_auth')
@@ -45,4 +47,14 @@ export const githubApiGetRepos = async (login: string): Promise<Repository[] | n
         console.error('Error fetching repositories:', err);
         return null;
     }
-};
+}
+
+export const githubApiGetReadme = async (login: string, repo: string): Promise<string | null> => {
+    try {
+        const response = await axios.get<Readme>(`https://api.github.com/repos/${login}/${repo}/readme`)
+        return Base64.decode(response.data.content);
+    } catch (err) {
+        console.error('Error fetching readme:', err);
+        return null
+    }
+}

@@ -6,10 +6,13 @@ import {Repository} from '@/interfaces/Repository'
 import {Card, CardHeader, Divider, CardBody} from '@nextui-org/react'
 import {githubApiGetRepos} from '@/utils/apiRequester'
 import Buttons from "@/components/UI/button";
+import ExertnalProjectForm from "@/components/form/ExternalProjectForm";
 
 const GithubRepos = () => {
     const token = getDecodedToken();
-    const [repos, setRepos] = useState<Repository[]>([]);
+    const [repos, setRepos] = useState<Repository[]>([])
+    const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null)
+    const [isFormOpen, setIsFormOpen] = useState(false)
 
     useEffect(() => {
         const fetchRepos = async () => {
@@ -20,6 +23,11 @@ const GithubRepos = () => {
         }
         fetchRepos();
     }, [token]);
+
+    const openForm = (repo: Repository) => {
+        setSelectedRepo(repo);
+        setIsFormOpen(true);
+    }
 
     return (
         <>
@@ -51,7 +59,7 @@ const GithubRepos = () => {
                                             text="Ajouter"
                                             style='form'
                                             className="bg-primary w-auto"
-                                            onClick={() => console.log('Créer un projet')}
+                                            onClick={() => openForm(repo)}
                                         />
                                     </div>
 
@@ -60,6 +68,10 @@ const GithubRepos = () => {
                         ))}
                     </div>
                 </div>
+            )}
+            {isFormOpen && selectedRepo && (
+                < ExertnalProjectForm title={selectedRepo.name} description={selectedRepo.description}
+                                      links={[selectedRepo.html_url]} owner={selectedRepo.owner.login}/>
             )}
         </>
 
