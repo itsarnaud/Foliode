@@ -13,6 +13,7 @@ interface ExternalProjectFormProps {
     title: string
     description: string | null
     links: string[]
+    githubId: number
 }
 
 interface Project {
@@ -20,14 +21,16 @@ interface Project {
     description: string | null
     links: string[]
     images: string[]
+    githubId: number
 }
 
-function ExternalProjectForm({ owner, title, description, links }: ExternalProjectFormProps) {
+function ExternalProjectForm({ owner, title, description, links, githubId }: ExternalProjectFormProps) {
     const [project, setProject] = useState<Project>({
         title: title,
         description: description,
         links: links,
-        images: []
+        images: [],
+        githubId: githubId
     })
 
     useEffect(() => {

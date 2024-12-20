@@ -16,9 +16,11 @@ const GithubRepos = () => {
 
     useEffect(() => {
         const fetchRepos = async () => {
-            const response = await githubApiGetRepos('rboucheron');
-            if (response) {
-                setRepos(response);
+            if (token && token.github_login) {
+                const response = await githubApiGetRepos(token.github_login)
+                if (response) {
+                    setRepos(response)
+                }
             }
         }
         fetchRepos();
@@ -71,7 +73,8 @@ const GithubRepos = () => {
             )}
             {isFormOpen && selectedRepo && (
                 < ExertnalProjectForm title={selectedRepo.name} description={selectedRepo.description}
-                                      links={[selectedRepo.html_url]} owner={selectedRepo.owner.login}/>
+                                      links={[selectedRepo.html_url]} owner={selectedRepo.owner.login}
+                                      githubId={selectedRepo.id}/>
             )}
         </>
 
