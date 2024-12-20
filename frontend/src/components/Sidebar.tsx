@@ -9,6 +9,7 @@ import { IoMdMenu }                           from "react-icons/io";
 import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
 import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
+import SignOutButton from '@/components/UI/signoutbutton';
 
 
 export default function Sidebar() {
@@ -84,13 +85,7 @@ export default function Sidebar() {
             className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
               <ThemeSwitcher />
             </div>
-            <Link 
-              href="/logout" 
-              className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}
-            >
-              <span className="text-xl"><MdLogout /></span>
-              <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>Se déconnecter</span>
-            </Link>
+            <SignOutButton isOpen={isOpen} />
           </div>
         </div>
       </div>
