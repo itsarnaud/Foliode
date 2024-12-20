@@ -1,6 +1,7 @@
 "use client"
 import axios from "axios";
 import {getCookie} from "@/utils/cookiesHelpers";
+import {Repository} from "@/interfaces/Repository";
 
 export const apiPost = async (url: string, data: object, contentType: 'multipart/form-data' | 'application/json') => {
     const token = getCookie('token_auth')
@@ -30,9 +31,18 @@ export const apiAuth = async (url: string, data: object) => {
                 "Content-Type": "application/json",
             },
         });
-        return response
+        return response.data
     } catch (err) {
         return err
     }
 }
 
+export const githubApiGetRepos = async (login: string): Promise<Repository[] | null> => {
+    try {
+        const response = await axios.get(`https://api.github.com/users/${login}/repos`);
+        return response.data;
+    } catch (err) {
+        console.error('Error fetching repositories:', err);
+        return null;
+    }
+};
