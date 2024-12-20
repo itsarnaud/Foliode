@@ -1,6 +1,10 @@
-// card.tsx
-import {Card, CardBody} from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/react";
 import Buttons from "../../components/UI/button";
+import { FaCircleCheck, FaCircleXmark, FaGithub, FaDribbble } from "react-icons/fa6";
+import { LuExternalLink } from "react-icons/lu";
+import { signInGitHub, signInDribbble } from "@/actions";
+import Link from "next/link";
+import { useUser } from "@/utils/store";
 
 export type CardVariant = 'gradient' | 'default';
 
@@ -14,7 +18,8 @@ interface CardProps {
     imageUrl?: string;
     isLargeDescription?: boolean;
     buttonText?: string;
-    subDescription?: string; 
+    subDescription?: string;
+    status?: boolean;
 }
 
 const CustomCard: React.FC<CardProps> = ({
@@ -26,8 +31,11 @@ const CustomCard: React.FC<CardProps> = ({
     iconComponent,
     isLargeDescription,
     buttonText,
-    subDescription, 
+    subDescription,
+    status,
 }) => {
+    const { user } = useUser();
+
     const getBackgroundClass = () => {
         if (variant === 'gradient') {
             return 'bg-gradient-to-tr from-[#1D1A21] to-[#5F65A9]';
@@ -35,9 +43,29 @@ const CustomCard: React.FC<CardProps> = ({
         return 'bg-[#f5f5f5] dark:bg-[#191919]';
     };
 
+    const getFormAction = () => {
+        if (buttonText === "Lier") {
+            if (title.includes("GitHub")) {
+                return signInGitHub;
+            } else if (title.includes("Dribbble")) {
+                return signInDribbble;
+            }
+        }
+        return null;
+    };
+
+    const getProfileLink = () => {
+        if (title.includes("GitHub") && user?.github_login) {
+            return `https://github.com/${user.github_login}`;
+        } else if (title.includes("Dribbble") && user?.dribbble_login) {
+            return `https://dribbble.com/${user.dribbble_login}`;
+        }
+        return null;
+    };
+
     return (
-        <Card 
-            className={`w-full  min-h-[245px] ${getBackgroundClass()} ${className}`}
+        <Card
+            className={`w-full min-h-[245px] ${getBackgroundClass()} ${className}`}
             onClick={onClick}
             style={{
                 flexShrink: 0,
@@ -66,25 +94,52 @@ const CustomCard: React.FC<CardProps> = ({
                         ${variant === 'gradient' ? 'text-white' : 'text'}`}>
                         {description}
                     </p>
-                    {buttonText && (
-                        <div className="mt-4 mb-4 flex justify-start">
-                            <Buttons 
-                            text={buttonText}
-                            style="card"
-                            className=""
-                            />
+                    {status !== undefined && (
+                        <div className={`flex gap-2 items-center ${status ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
+                            {status ? <FaCircleCheck /> : <FaCircleXmark />}
+                            {status ? 'Associé' : 'Non Associé'}
+                        </div>
+                    )}
+                    {buttonText && buttonText === "Lier" ? (
+                        getProfileLink() ? (
+                            <div className="flex flex-col items-center xl:justify-between xl:items-start">
+                                {getProfileLink() && (
+                                    <a href={getProfileLink() as string} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-1">
+                                        Votre profil
+                                        <LuExternalLink />
+                                    </a>
+                                )}
                             </div>
-                        )}
+                        ) : (
+                            <form action={getFormAction() ?? (() => {})} className="flex w-full items-center hover:opacity-80 active:opacity-disabled transition-opacity cursor-pointer">
+                                <input type="submit" value="Associer" className="text-medium cursor-pointer" />
+                                <LuExternalLink className="mx-1" />
+                            </form>
+                        )
+                    ) : (
+                        buttonText && (
+                            <div className="mt-4 mb-4 flex justify-start">
+                                <Buttons
+                                    text={buttonText}
+                                    style="card"
+                                    className=""
+                                />
+                            </div>
+                        )
+                    )}
                     {subDescription && (
-                        <p className=" font-archivo text-base font-medium leading-normal">
+                        <p className="font-archivo text-base font-medium leading-normal">
                             {subDescription}
-                            </p>
-                        )}
+                        </p>
+                    )}
+                   
+                  
                 </div>
             </CardBody>
         </Card>
     );
 };
+
 interface LargeCardProps {
     variant?: 'default' | 'gradient';
     description?: string;
@@ -95,7 +150,8 @@ interface LargeCardProps {
     isLargeDescription?: boolean;
     buttonText?: string;
     subDescription?: string;
-    descriptionClassName?: string; 
+    descriptionClassName?: string;
+    status?: boolean;
 }
 
 const LargeCard: React.FC<LargeCardProps> = ({
@@ -104,6 +160,7 @@ const LargeCard: React.FC<LargeCardProps> = ({
     className,
     descriptionClassName,
     onClick,
+    status,
 }) => {
     const getBackgroundClass = () => {
         if (variant === 'gradient') {
@@ -113,7 +170,7 @@ const LargeCard: React.FC<LargeCardProps> = ({
     };
 
     return (
-        <Card 
+        <Card
             className={`${getBackgroundClass()} ${className}`}
             style={{
                 flexShrink: 0,
@@ -129,7 +186,12 @@ const LargeCard: React.FC<LargeCardProps> = ({
                         {description}
                     </div>
                 )}
-                {}
+                {status !== undefined && (
+                    <div className={`flex gap-2 items-center ${status ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
+                        {status ? <FaCircleCheck /> : <FaCircleXmark />}
+                        {status ? 'Associé' : 'Non Associé'}
+                    </div>
+                )}
             </CardBody>
         </Card>
     );
@@ -143,6 +205,7 @@ interface GrandeCardProps {
     onClick?: () => void;
     iconComponent?: React.ReactNode;
     imageUrl?: string;
+    status?: boolean;
 }
 
 const GrandeCard: React.FC<GrandeCardProps> = ({
@@ -151,7 +214,7 @@ const GrandeCard: React.FC<GrandeCardProps> = ({
     description,
     className,
     onClick,
-
+    status,
 }) => {
     const getBackgroundClass = () => {
         if (variant === 'gradient') {
@@ -161,8 +224,8 @@ const GrandeCard: React.FC<GrandeCardProps> = ({
     };
 
     return (
-        <Card 
-            className={`w-full  h-[468px] ${getBackgroundClass()} ${className}`}
+        <Card
+            className={`w-full h-[468px] ${getBackgroundClass()} ${className}`}
             onClick={onClick}
             style={{
                 flexShrink: 0,
@@ -175,19 +238,25 @@ const GrandeCard: React.FC<GrandeCardProps> = ({
                 <div className="flex flex-col gap-2 mb-6">
                     <h2 className={`font-archivo text-lg leading-normal pl-2 pt-2
                         ${variant === 'gradient' ? 'text-white' : 'text-foreground'}`}>
-            {title}
-            </h2>
-            {description && (
-                <p className={`font-archivo text-lg leading-normal pl-2
-                ${variant === 'gradient' ? 'text-white' : 'text-foreground'}`}>
-                {description}
-                </p>
-            )}
-            </div>
+                        {title}
+                    </h2>
+                    {description && (
+                        <p className={`font-archivo text-lg leading-normal pl-2
+                        ${variant === 'gradient' ? 'text-white' : 'text-foreground'}`}>
+                            {description}
+                        </p>
+                    )}
+                    {status !== undefined && (
+                        <div className={`flex gap-2 items-center ${status ? 'bg-green-500 border-green-700' : 'bg-red-500 border-red-700'} border rounded-full px-3 w-max h-max`}>
+                            {status ? <FaCircleCheck /> : <FaCircleXmark />}
+                            {status ? 'Associé' : 'Non Associé'}
+                        </div>
+                    )}
+                </div>
             </CardBody>
-            </Card>
-
-            );
+        </Card>
+    );
 };
 
-export default CustomCard; LargeCard; GrandeCard ;
+export default CustomCard;
+export { LargeCard, GrandeCard };

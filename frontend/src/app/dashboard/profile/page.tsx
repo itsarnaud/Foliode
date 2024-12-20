@@ -116,8 +116,7 @@ export default function Profile() {
                                                     className="flex flex-col items-center xl:justify-between xl:items-start">
                                                     <span>Github</span>
                                                     {user.github_login ? (
-                                                        // TODO: Ajouter le lien du compte de l'utilisateur avec decryptedToken
-                                                        <Link isExternal showAnchorIcon href="#" className="text-white">Votre
+                                                        <Link isExternal showAnchorIcon href={`https://github.com/${user.github_login}`} className="text-white">Votre
                                                             profil</Link>
                                                     ) : (
                                                         <form action={signInGitHub}
@@ -144,8 +143,7 @@ export default function Profile() {
                                                     className="flex flex-col items-center xl:justify-between xl:items-start">
                                                     <span>Dribbble</span>
                                                     {user.dribbble_login ? (
-                                                        // TODO: Ajouter le lien du compte de l'utilisateur avec decryptedToken
-                                                        <Link isExternal showAnchorIcon href="#" className="text-white">Votre
+                                                        <Link isExternal showAnchorIcon href={`https://github.com/${user.dribbble_login}`} className="text-white">Votre
                                                             profil</Link>
                                                     ) : (
                                                         <form action={signInDribbble}
