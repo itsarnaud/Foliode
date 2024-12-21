@@ -42,10 +42,11 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?array $site = null;
 
-    #[ORM\OneToOne(inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('getPortfolio') ]
     private ?Users $users = null;
+
 
     /**
      * @var Collection<int, Projects>

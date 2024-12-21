@@ -43,7 +43,7 @@ class PortfolioController extends AbstractController
         $this->entityManager->persist($portfolio);
         $this->entityManager->flush();
 
-        $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getUsers']);
+        $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 

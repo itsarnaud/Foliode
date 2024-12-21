@@ -62,8 +62,7 @@ class ProjectController extends AbstractController
      */
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
-        Request        $request,
-        ProjectService $projectService,
+        Request $request,
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -90,7 +89,7 @@ class ProjectController extends AbstractController
         $project->setPortfolio($portfolio);
 
         $errors = $this->validatorBaseService->CatchInvalidData($user);
-        if($errors) {
+        if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -150,8 +149,8 @@ class ProjectController extends AbstractController
      */
     #[Route('/api/project/{id}', methods: ['PUT'])]
     public function update_project(
-        string         $id,
-        Request        $request,
+        string  $id,
+        Request $request,
     ): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -174,7 +173,7 @@ class ProjectController extends AbstractController
 
         $this->serializer->deserialize($data, Projects::class, 'json', ['object_to_populate' => $project]);
         $errors = $this->validatorBaseService->CatchInvalidData($user);
-        if($errors) {
+        if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -183,4 +182,36 @@ class ProjectController extends AbstractController
         $jsonProject = $this->serializer->serialize($project, 'json', ['groups' => 'getPortfolio']);
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
+
+    #[Route('/api/project/{id}', methods: ['DELETE'])]
+    public function deleteProject(string $id): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse(['error' => 'Unauthorized profile'], Response::HTTP_UNAUTHORIZED);
+        }
+        $project = $this->projectsRepository->findOneBy(['id' => $id]);
+        if (!$project) {
+            return new JsonResponse(['error' => 'No project found'], Response::HTTP_NOT_FOUND);
+        }
+        if ($project->getPortfolio() !== $this->portfoliosRepository->findOneBy(['users' => $user])) {
+            return new JsonResponse(['error' => " no project found "], Response::HTTP_NOT_FOUND);
+        }
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+        return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
+    }
+
+    #[Route('/api/project/{id}', methods: ['GET'])]
+    public function getProject(string $id): JsonResponse
+    {
+        $project = $this->projectsRepository->findOneBy(['id' => $id]);
+        if (!$project) {
+            return new JsonResponse(['error' => 'No project found'], Response::HTTP_NOT_FOUND);
+        }
+        $jsonProject = $this->serializer->serialize($project, 'json', ['groups' => 'getPortfolio']);
+        return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
+    }
+
 }
