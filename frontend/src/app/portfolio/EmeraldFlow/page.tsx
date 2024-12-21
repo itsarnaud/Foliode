@@ -1,15 +1,18 @@
 import React from "react";
 import Image from "next/image";
+import NavPortfolio from "@/components/UI/navportfolio";
+
 const PortfolioLayout = () => {
   return (
     <main className="min-h-screen bg-portfolio-green-primary text-portfolio-green-text-primary">
+     <NavPortfolio className="custom-navbar-class" justify="end" />
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center">
         <h1 className="font-bold text-9xl">Portfolio</h1>
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-4 bg-portfolio-green-secondary">
+      <section id="quiJeSuis" className="py-20 px-4 bg-portfolio-green-secondary">
         <div className="flex  flex-col md:flex-row gap-6">
           <div className="flex-1">
             <h2 className="text-6xl font-bold text-portfolio-green-text-secondary">
