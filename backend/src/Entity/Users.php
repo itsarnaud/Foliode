@@ -41,7 +41,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "Email address is required.")]
     #[Assert\Email(message: "Invalid email format.")]
-    #[Groups('getUsers')]
+    #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
