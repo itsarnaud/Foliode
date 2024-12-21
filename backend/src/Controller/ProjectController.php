@@ -221,29 +221,4 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/api/project/{id}', methods: ['DELETE'])]
-    public function deleteProject(string $id): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $user = $this->getUser();
-        if (!$user) {
-            return new JsonResponse(['error' => 'Unauthorized profile'], Response::HTTP_UNAUTHORIZED);
-        }
-
-        $project = $this->projectsRepository->findOneBy(['id' => $id]);
-        if (!$project) {
-            return new JsonResponse(['error' => 'No project found'], Response::HTTP_NOT_FOUND);
-        }
-
-        if ($project->getPortfolio() !== $this->portfoliosRepository->findOneBy(['users' => $user])) {
-            return new JsonResponse(['error' => " no project found "], Response::HTTP_NOT_FOUND);
-        }
-
-        $this->entityManager->remove($project);
-        $this->entityManager->flush();
-
-        return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
-    }
-
 }
