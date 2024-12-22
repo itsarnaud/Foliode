@@ -17,15 +17,15 @@ class Tools
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $picto = null;
 
     /**
