@@ -13,6 +13,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        portfolio: {
+          green: {
+            primary: "#334B35",
+            secondary: "#F6EEE1",
+            accent: "#FAAF15",
+            text: {
+              primary: "#FFFFFF",
+              secondary: "#231C0A",
+            }
+          },
+        }
+      },
       borderColor: {
         custom: '#2C2D33',
       },
@@ -42,7 +55,7 @@ module.exports = {
   plugins: [nextui({
 
     themes:{
-      
+    
         "dayMode": {
           colors: {
           background: "#ffffff",
