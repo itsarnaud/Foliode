@@ -1,11 +1,14 @@
 "use client"
 import axios from "axios";
+import {AxiosResponse, AxiosError} from 'axios';
 import {getCookie} from "@/utils/cookiesHelpers";
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 export const apiPost = async (url: string, data: object, contentType: 'multipart/form-data' | 'application/json') => {
     const token = getCookie('token_auth')
     const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${url}`,
+        `${apiUrl}/api/${url}`,
         data,
         {
             headers: {
@@ -19,20 +22,21 @@ export const apiPost = async (url: string, data: object, contentType: 'multipart
 
 export const apiGet = async (url: string) => {
     const token = getCookie('token_auth')
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${url}`)
+    const response = await axios.get(`${apiUrl}/api/${url}`)
     return response
 }
 
-export const apiAuth = async (url: string, data: object) => {
+export const apiAuth = async (url: string, data: object): Promise<AxiosResponse | null> => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/${url}`, data, {
+        const response = await axios.post(`${apiUrl}/api/${url}`, data, {
             headers: {
                 "Content-Type": "application/json",
             },
         });
         return response
     } catch (err) {
-        return err
+        console.log(err)
+        return null
     }
 }
 

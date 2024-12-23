@@ -1,8 +1,6 @@
 export interface Project {
-    title: string | null
-    description: string | null
-    links: string[] | null
-
-    category: string
-    status: string
+    title: string
+    description: string
+    links: string[]
+    images: File[]
 }

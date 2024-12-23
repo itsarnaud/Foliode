@@ -37,14 +37,20 @@ export default function LoginPage() {
         setError("");
         const response = await apiAuth("user/signin", data)
 
-        if (response.status === 401) {
+
+        if (response !== null && response.status === 401) {
             setError("Email ou mot de passe incorrect");
         }
 
-        if (response.data.token) {
+        if (response !== null && response.data.token) {
             document.cookie = `token_auth=${response.data.token}; path=/`;
             router.push("/dashboard");
         }
+
+        if (response === null){
+            setError("Une erreur est survenue, veuillez réessayer plus tard");
+        }
+
     }
     const styles = {
         inputWrapper: [

@@ -11,11 +11,10 @@ import {apiPost} from "@/utils/apiRequester"
 
 function ProjectForm() {
     const [project, setProject] = useState<Project>({
-        title: null,
-        description: null,
-        links: null,
-        category: 'default',
-        status: 'finish'
+        title: '',
+        description: '',
+        links: [],
+        images: []
     })
     const [images, setImages] = useState<File[]>([])
     const [isExpanded, setIsExpanded] = useState(false)
