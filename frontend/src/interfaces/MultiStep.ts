@@ -1,20 +1,15 @@
 import {Project} from "@/interfaces/Project";
+import {Tools} from "@/interfaces/Tools";
 
 export interface MultiStep {
-    step1: {
+    portfolio: {
         titre: string;
         sousTitre: string;
         presentation: string;
     };
-    step2: {
-        competences: Array<{
-            nom: string;
-            description: string;
-            medias: string[];
-        }>;
-        projects: Project[]
-    };
-    step3: {
+    tools: Tools[];
+    projects: Project[]
+    step4: {
         template: string;
         couleurs: string;
         presentation: string;

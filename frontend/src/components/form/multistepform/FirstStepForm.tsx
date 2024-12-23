@@ -13,8 +13,8 @@ export interface StepOneData {
 function FirstStepForm() {
     const {multiStep, setMultiStep} = useMultiStep()
     const handleChange = (field: keyof StepOneData, value: string) => {
-        const updatedStep1 = {...multiStep.step1, [field]: value}
-        setMultiStep({...multiStep, step1: updatedStep1})
+        const portfolio = {...multiStep.portfolio, [field]: value}
+        setMultiStep({...multiStep, portfolio: portfolio})
     }
 
     return (
@@ -22,21 +22,21 @@ function FirstStepForm() {
             <Input
                 label="Titre du portfolio"
                 placeholder="Ex: Lucie Maillet"
-                value={multiStep.step1.titre}
+                value={multiStep.portfolio.titre}
                 onChange={(e) => handleChange("titre", e.target.value)}
             />
 
             <Input
                 label="Sous-titre"
                 placeholder="Ex: Étudiant en BUT Informatique"
-                value={multiStep.step1.sousTitre}
+                value={multiStep.portfolio.sousTitre}
                 onChange={(e) => handleChange("sousTitre", e.target.value)}
             />
 
             <Textarea
                 label="Présentation"
                 placeholder="Présentez-vous en quelques lignes..."
-                value={multiStep.step1.presentation}
+                value={multiStep.portfolio.presentation}
                 onChange={(e) => handleChange("presentation", e.target.value)}
                 minRows={3}
             />
