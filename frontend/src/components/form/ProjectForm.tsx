@@ -10,19 +10,18 @@ import { apiPost } from "@/utils/apiRequester";
 
 function ProjectForm() {
     const [project, setProject] = useState<Project>({
-        title: null,
-        description: null,
-        links: null,
-        category: 'default',
-        status: 'finish'
+        title: '',
+        description: '',
+        links: [],
+        images: []
     })
-    const [images, setImages] = useState<File[]>([])
+
 
     const createProject = async () => {
         const data = new FormData();
-        data.append("json", JSON.stringify(project));
+        data.append("json", JSON.stringify({title: project.title, description: project.description, links: project.links}));
 
-        images.forEach((image, index) => {
+        project.images.forEach((image, index) => {
             data.append(`images[${index}]`, image);
         });
 
@@ -40,7 +39,7 @@ function ProjectForm() {
 
     return (
         <div className="nightMode bg-foreground border border-gray rounded-md p-5 flex flex-col lg:flex-row w-full">
-            <FileInput onChange={files => setImages(files)}/>
+            <FileInput onChange={files => setProject({...project, images: files})}/>
             <div className='ml-2 space-y-2 w-full'>
                 <Input
                     type="text"

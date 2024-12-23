@@ -55,6 +55,10 @@ class AuthController extends AbstractController
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
+        if($this->usersRepository->findOneBy(['email' => $user->getEmail()])) {
+            return new JsonResponse(['error' => 'Email already exists'], Response::HTTP_BAD_REQUEST);
+        }
+
         $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);
 
