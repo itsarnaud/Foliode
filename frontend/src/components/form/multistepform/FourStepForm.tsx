@@ -1,15 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import {useMultiStep} from "@/utils/store";
 import {
-    Input,
     Select,
     SelectItem,
-    Textarea,
     Card,
-    CardBody,
-    RadioGroup,
-    Radio,
     CardHeader,
     Image,
 } from "@nextui-org/react";
@@ -20,16 +15,10 @@ export interface StepThreeData {
     typo: string;
 }
 
-interface FourStepFormProps {
-    onDataChange: (data: StepThreeData) => void;
-}
 
-function FourStepForm({ onDataChange }: FourStepFormProps) {
-    const [formData, setFormData] = useState<StepThreeData>({
-        template: "",
-        couleurs: "",
-        typo: "",
-    });
+function FourStepForm() {
+    const {multiStep, setMultiStep} = useMultiStep();
+
 
     const templates = [
         {
@@ -49,11 +38,10 @@ function FourStepForm({ onDataChange }: FourStepFormProps) {
         },
     ];
 
-    const handleChange = (value: string) => {
-        const newData = { ...formData, template: value };
-        setFormData(newData);
-        onDataChange(newData);
-    };
+    const handleChange = (key: string, value: string) => {
+        const newData = {...multiStep.style, key: value}
+        setMultiStep({...multiStep, style: newData})
+    }
 
     return (
         <div className="w-full">
@@ -63,12 +51,13 @@ function FourStepForm({ onDataChange }: FourStepFormProps) {
                     <Card
                         key={template.id}
                         isPressable
-                        onPress={() => handleChange(template.id)}
+                        onPress={() => handleChange('templette', template.id)}
                         className={`h-[300px] ${
-                            formData.template === template.id ? "border-4 border-primary" : ""
+                            multiStep.style.template === template.id ? "border-4 border-primary" : ""
                         }`}
                     >
-                        <CardHeader className="absolute z-10 top-0 flex-col !items-start bg-black/40 rounded-t-xl w-full">
+                        <CardHeader
+                            className="absolute z-10 top-0 flex-col !items-start bg-black/40 rounded-t-xl w-full">
                             <h4 className="text-white font-medium text-large">
                                 {template.name}
                             </h4>
@@ -87,7 +76,7 @@ function FourStepForm({ onDataChange }: FourStepFormProps) {
                 <Select
                     label="Palette de couleurs"
                     placeholder="Choisissez vos couleurs"
-                    value={formData.couleurs}
+                    value={multiStep.style.couleurs}
                     onChange={(e) => handleChange("couleurs", e.target.value)}
                     className="mt-6"
                 >
@@ -105,7 +94,7 @@ function FourStepForm({ onDataChange }: FourStepFormProps) {
                 <Select
                     label="Typographie"
                     placeholder="Choisissez votre typographie"
-                    value={formData.typo}
+                    value={multiStep.style.typo}
                     onChange={(e) => handleChange("typo", e.target.value)}
                 >
                     <SelectItem key="poppins" value="poppins">
@@ -129,4 +118,4 @@ function FourStepForm({ onDataChange }: FourStepFormProps) {
     );
 }
 
-export default ThirdStepForm;
+export default FourStepForm;

@@ -1,22 +1,19 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {
-    Button,
-    Card,
-    Progress,
-} from "@nextui-org/react";
+import {Button, Card, Progress} from "@nextui-org/react";
 
 import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
 import SecondStepForm from "@/components/form/multistepform/SecondStepForm";
 import {useMultiStep} from "@/utils/store";
 import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
+import FourStepForm from "@/components/form/multistepform/FourStepForm";
+import {apiPost} from "@/utils/apiRequester";
 
 
 export default function MultiStepForm() {
     const [currentStep, setCurrentStep] = useState(0);
     const totalSteps = 3;
     const progress = (currentStep / totalSteps) * 100;
-
     const {multiStep} = useMultiStep();
 
     const handleNext = () => {
@@ -27,12 +24,10 @@ export default function MultiStepForm() {
         setCurrentStep(currentStep - 1);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Form submitted:", multiStep);
-
+    const handleSubmit = () => {
+        const response = apiPost("portfolio", multiStep.portfolio, 'application/json')
+        console.log(response)
     }
-
 
     return (
         <div className="max-w-2xl py-8 mx-auto">
@@ -76,7 +71,7 @@ export default function MultiStepForm() {
                     )}
 
                     {currentStep === 3 && (
-                        <h1> salut </h1>
+                        < FourStepForm />
                     )}
                     <div className="flex justify-between mt-6">
                         <Button onClick={handlePrevious} disabled={currentStep === 0}>
@@ -90,7 +85,7 @@ export default function MultiStepForm() {
                                 Suivant
                             </Button>
                         ) : (
-                            <Button type="submit" className="dayMode bg-primary text-white">
+                            <Button onClick={handleSubmit} className="dayMode bg-primary text-white">
                                 Publier
                             </Button>
                         )}
