@@ -3,16 +3,15 @@
 import {Input, Textarea} from "@nextui-org/react";
 import {useMultiStep} from "@/utils/store";
 
-export interface StepOneData {
-    titre: string;
-    sousTitre: string;
-    presentation: string;
-    logo: File | null;
+export interface Portfolio {
+    title: string;
+    subtitle: string;
+    bio: string;
 }
 
 function FirstStepForm() {
     const {multiStep, setMultiStep} = useMultiStep()
-    const handleChange = (field: keyof StepOneData, value: string) => {
+    const handleChange = (field: keyof Portfolio, value: string) => {
         const portfolio = {...multiStep.portfolio, [field]: value}
         setMultiStep({...multiStep, portfolio: portfolio})
     }
@@ -22,22 +21,22 @@ function FirstStepForm() {
             <Input
                 label="Titre du portfolio"
                 placeholder="Ex: Lucie Maillet"
-                value={multiStep.portfolio.titre}
-                onChange={(e) => handleChange("titre", e.target.value)}
+                value={multiStep.portfolio.title}
+                onChange={(e) => handleChange("title", e.target.value)}
             />
 
             <Input
                 label="Sous-titre"
                 placeholder="Ex: Étudiant en BUT Informatique"
-                value={multiStep.portfolio.sousTitre}
-                onChange={(e) => handleChange("sousTitre", e.target.value)}
+                value={multiStep.portfolio.subtitle}
+                onChange={(e) => handleChange("subtitle", e.target.value)}
             />
 
             <Textarea
                 label="Présentation"
                 placeholder="Présentez-vous en quelques lignes..."
-                value={multiStep.portfolio.presentation}
-                onChange={(e) => handleChange("presentation", e.target.value)}
+                value={multiStep.portfolio.bio}
+                onChange={(e) => handleChange("bio", e.target.value)}
                 minRows={3}
             />
 

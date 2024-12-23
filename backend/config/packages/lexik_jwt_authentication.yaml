@@ -2,8 +2,8 @@ lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
-    token_ttl: 3600 # Durée de validité du token en secondes
-    user_id_claim: email # Remplace user_identity_field
+    token_ttl: 7200
+    user_id_claim: email
     token_extractors:
         authorization_header:
             enabled: true
