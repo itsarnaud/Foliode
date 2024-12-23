@@ -4,11 +4,12 @@ import { FcImageFile } from "react-icons/fc"
 
 interface FileInputProps {
     onChange: (files: File[]) => void
+    value?: File[]
 }
 
-const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
+const FileInput = ({onChange, value}: FileInputProps) => {
     const [dragging, setDragging] = useState(false)
-    const [files, setFiles] = useState<File[]>([])
+    const [files, setFiles] = useState<File[]>(value || [])
 
     const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()

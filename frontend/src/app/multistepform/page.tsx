@@ -1,32 +1,30 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Card,
     Progress,
 } from "@nextui-org/react";
 
-import FirstStepForm, { StepOneData } from "@/components/form/multistepform/FirstStepForm";
-import SecondStepForm, { StepTwoData } from "@/components/form/multistepform/SecondStepForm";
-import ThirdStepForm, { StepThreeData } from "@/components/form/multistepform/ThirdStepForm";
-import { useMultiStep } from "@/utils/store";
+import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
+import SecondStepForm from "@/components/form/multistepform/SecondStepForm";
+import {useMultiStep} from "@/utils/store";
+import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
 
 
 export default function MultiStepForm() {
-    const [currentStep, setCurrentStep] = useState(1);
-    const totalSteps = 4;
+    const [currentStep, setCurrentStep] = useState(0);
+    const totalSteps = 3;
     const progress = (currentStep / totalSteps) * 100;
-    const {multiStep, setMultiStep} = useMultiStep();
+
+    const {multiStep} = useMultiStep();
+
     const handleNext = () => {
-        if (currentStep < 4) {
-            setCurrentStep(currentStep + 1);
-        }
+        setCurrentStep(currentStep + 1);
     }
 
     const handlePrevious = () => {
-        if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
-        }
+        setCurrentStep(currentStep - 1);
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -40,7 +38,7 @@ export default function MultiStepForm() {
         <div className="max-w-2xl py-8 mx-auto">
             <Card className="p-6">
                 <h2 className="text-xl font-bold mb-4">
-                    Étape {currentStep}: {getStepTitle(currentStep)}
+                    Étape {currentStep + 1}: {getStepTitle(currentStep)}
                 </h2>
 
                 <div className="flex items-center justify-between mb-6 relative">
@@ -48,7 +46,7 @@ export default function MultiStepForm() {
                         <div key={step} className="flex items-center z-10">
                             <div
                                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                    step <= currentStep && !(currentStep === 3 && step > 2)
+                                    step <= currentStep
                                         ? "dayMode bg-primary text-white"
                                         : "bg-gray-500"
                                 }`}
@@ -65,19 +63,23 @@ export default function MultiStepForm() {
                 </div>
 
                 <form onSubmit={handleSubmit}>
+                    {currentStep === 0 && (
+                        <FirstStepForm/>
+                    )}
+
                     {currentStep === 1 && (
-                        <FirstStepForm />
+                        <SecondStepForm/>
                     )}
 
                     {currentStep === 2 && (
-                        <SecondStepForm />
+                        < ThirdStepForm/>
                     )}
 
-
-
-
+                    {currentStep === 3 && (
+                        <h1> salut </h1>
+                    )}
                     <div className="flex justify-between mt-6">
-                        <Button onClick={handlePrevious} disabled={currentStep === 1}>
+                        <Button onClick={handlePrevious} disabled={currentStep === 0}>
                             Précédent
                         </Button>
                         {currentStep < totalSteps ? (
@@ -101,16 +103,15 @@ export default function MultiStepForm() {
 
 function getStepTitle(step: number): string {
     switch (step) {
-        case 1:
+        case 0:
             return "Informations Personnelles";
-        case 2:
+        case 1:
             return "Compétences";
-        case 3:
+        case 2:
             return "Projets";
-        case 4:
+        case 3:
             return "Personnalisation";
-        case 5:
-            return "Déploiement";
+
         default:
             return "";
     }

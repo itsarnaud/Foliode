@@ -20,16 +20,14 @@ interface multiStepState {
 
 export const useMultiStep = create<multiStepState>((set) => ({
     multiStep: {
-        step1: {
+        portfolio: {
             titre: "",
             sousTitre: "",
             presentation: "",
         },
-        step2: {
-            competences: [],
-            projects: [],
-        },
-        step3: {
+        tools: [],
+        projects: [],
+        step4: {
             template: "",
             couleurs: "",
             presentation: "",
