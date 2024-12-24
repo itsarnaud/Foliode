@@ -54,7 +54,7 @@ export default function RegisterPage() {
 
         if (response !== null && response.data.token) {
             document.cookie = `token_auth=${response.data.token}; path=/`;
-            router.push("/multistepform");
+            router.push("/portfolio/edit");
         }
 
 

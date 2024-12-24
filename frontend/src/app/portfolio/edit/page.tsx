@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button, Card, Progress} from "@nextui-org/react";
 
 import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
@@ -11,22 +11,34 @@ import {apiPost} from "@/utils/apiRequester";
 
 
 export default function MultiStepForm() {
-    const [currentStep, setCurrentStep] = useState(0);
-    const totalSteps = 3;
-    const progress = (currentStep / totalSteps) * 100;
-    const {multiStep} = useMultiStep();
+    const [currentStep, setCurrentStep] = useState(0)
+    const totalSteps = 3
+    const progress = (currentStep / totalSteps) * 100
+    const {multiStep} = useMultiStep()
 
     const handleNext = () => {
-        setCurrentStep(currentStep + 1);
+        setCurrentStep(currentStep + 1)
     }
 
     const handlePrevious = () => {
-        setCurrentStep(currentStep - 1);
+        setCurrentStep(currentStep - 1)
     }
 
-    const handleSubmit = () => {
-        const response = apiPost("portfolio", multiStep.portfolio, 'application/json')
-        console.log(response)
+    const handleSubmit = async () => {
+
+            const formData = new FormData()
+
+            multiStep.tools.forEach((tool, index) => {
+                formData.append(`tools[${index}][name]`, tool.name)
+                if (tool.image) {
+                    formData.append(`tools[${index}][image]`, tool.image)
+                }
+            })
+
+            const toolsResponse = await apiPost("portfolio/tools", formData, 'multipart/form-data')
+            console.log(toolsResponse)
+
+
     }
 
     return (
@@ -71,7 +83,7 @@ export default function MultiStepForm() {
                     )}
 
                     {currentStep === 3 && (
-                        < FourStepForm />
+                        < FourStepForm/>
                     )}
                     <div className="flex justify-between mt-6">
                         <Button onClick={handlePrevious} disabled={currentStep === 0}>

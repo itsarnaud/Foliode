@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Input, Textarea } from "@nextui-org/react";
+import {Button, Input, Textarea} from "@nextui-org/react";
 import FileInput from "@/components/UI/FileInput";
 import { useMultiStep } from "@/utils/store";
 import LinkInput from "@/components/UI/LinkInput";
@@ -73,12 +73,13 @@ function ThirdStepForm() {
               </div>
             </div>
         ))}
-        <button
+        <Button
             onClick={addProject}
-            className="dayMode bg-primary text-white p-2 rounded-lg"
+            className="dayMode bg-primary text-white"
+            variant="flat"
         >
           Ajouter un projet
-        </button>
+        </Button>
       </div>
   );
 }
