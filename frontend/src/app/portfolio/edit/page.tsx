@@ -8,6 +8,8 @@ import {useMultiStep} from "@/utils/store";
 import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
 import FourStepForm from "@/components/form/multistepform/FourStepForm";
 import {apiPost} from "@/utils/apiRequester";
+import {formatProjectsData, formatToolsData} from "@/utils/formatData";
+import {useRouter} from "next/navigation";
 
 
 export default function MultiStepForm() {
@@ -15,6 +17,7 @@ export default function MultiStepForm() {
     const totalSteps = 3
     const progress = (currentStep / totalSteps) * 100
     const {multiStep} = useMultiStep()
+    const router = useRouter()
 
     const handleNext = () => {
         setCurrentStep(currentStep + 1)
@@ -25,20 +28,17 @@ export default function MultiStepForm() {
     }
 
     const handleSubmit = async () => {
+       const response = await apiPost("portfolio", multiStep.portfolio, 'application/json')
 
-            const formData = new FormData()
+        if (response !== null && response.status === 201) {
+            const tools = formatToolsData(multiStep.tools)
+            const projects = formatProjectsData(multiStep.projects)
 
-            multiStep.tools.forEach((tool, index) => {
-                formData.append(`tools[${index}][name]`, tool.name)
-                if (tool.image) {
-                    formData.append(`tools[${index}][image]`, tool.image)
-                }
-            })
+            await apiPost("portfolio/tools", tools, 'multipart/form-data')
+            await apiPost("projects", projects, 'multipart/form-data')
+        }
 
-            const toolsResponse = await apiPost("portfolio/tools", formData, 'multipart/form-data')
-            console.log(toolsResponse)
-
-
+        router.push("/dashboard")
     }
 
     return (
