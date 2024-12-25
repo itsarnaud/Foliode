@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react'
 import { MdOutlineCloudUpload } from "react-icons/md"
 import { FcImageFile } from "react-icons/fc"
+import { MultiStep } from '@/interfaces/MultiStep'
 
 interface FileInputProps {
     onChange: (files: File[]) => void
     value?: File[]
 }
 
-const FileInput = ({onChange, value}: FileInputProps) => {
+const FileInput: React.FC<FileInputProps> = ({ onChange, value }) => {
     const [dragging, setDragging] = useState(false)
     const [files, setFiles] = useState<File[]>(value || [])
 
