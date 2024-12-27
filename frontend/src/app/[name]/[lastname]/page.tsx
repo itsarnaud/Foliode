@@ -1,4 +1,4 @@
-import EmeraldFlow from "@/components/tamplettes/EmeraldFlow";
+
 import NextFlow from "@/components/tamplettes/NextFlow";
 import { Portfolio } from "@/interfaces/Portfolio";
 import { apiGet } from "@/utils/serverApiRequester";
@@ -11,7 +11,7 @@ async function PortfolioPage({
   try {
     const response = await apiGet(
       `public/portfolio/${params.name}/${params.lastname}`
-    );
+    )
 
     const portfolio: Portfolio = response.data;
 

@@ -37,14 +37,14 @@ class Portfolios
     #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups('getPortfolio')]
     private ?array $config = null;
-    
-    #[ORM\Column(type: Types::JSON, nullable: true)]
+
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups('getPortfolio')]
-    private ?array $site = null;
+    private ?string $template = null;
 
     #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('getPortfolio') ]
+    #[Groups('getPortfolio')]
     private ?Users $users = null;
 
 
@@ -52,14 +52,14 @@ class Portfolios
      * @var Collection<int, Projects>
      */
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'portfolio', cascade: ["persist"])]
-    #[Groups('getPortfolio') ]
+    #[Groups('getPortfolio')]
     private Collection $projects;
 
     /**
      * @var Collection<int, Tools>
      */
     #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'portfolios', cascade: ["persist"])]
-    #[Groups('getPortfolio') ]
+    #[Groups('getPortfolio')]
     private Collection $tools;
 
     public function __construct()
@@ -121,16 +121,18 @@ class Portfolios
         return $this;
     }
 
-    public function getSite(): ?array
+    public function getTemplate(): ?string
     {
-        return $this->site;
+        return $this->template;
     }
 
-    public function setSite(?array $site): self
+    public function setTemplate(string $template): static
     {
-        $this->site = $site;
+        $this->template = $template;
         return $this;
     }
+
+
 
     public function getUsers(): ?Users
     {
@@ -201,5 +203,4 @@ class Portfolios
 
         return $this;
     }
-
 }

@@ -1,10 +1,20 @@
-import { Project } from "./Project";
-
 export interface Portfolio {
   title: string;
   subtitle: string;
   bio: string;
-  config: string[] | null;
+  config: {
+    style: {
+      colors: {
+        primary: string;
+        secondary: string;
+        warning: string,
+        success: string,
+        info: string,
+        light: string
+     
+      };
+    };
+  };
   site: string | null;
   users: {
     name: string;

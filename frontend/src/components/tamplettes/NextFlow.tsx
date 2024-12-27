@@ -2,15 +2,32 @@ import { Portfolio } from "@/interfaces/Portfolio";
 import { Card, Image } from "@nextui-org/react";
 
 function NextFlow({ portfolio }: { portfolio: Portfolio }) {
+  const { primary, secondary, warning, success, info, light } = portfolio.config.style.colors;
+
   return (
-    <div className="bg-gradient-to-br from-[#003049] to-[#669BBC] min-h-screen p-8 font-sans">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden col-span-2">
-          <div className="bg-[#669BBC] p-6">
-            <h1 className="text-4xl font-bold text-[#FDF0D5] mb-2 transition-colors duration-300">
+    <div
+      className="bg-gradient-to-br min-h-screen font-sans p-8"
+      style={{ backgroundColor: light }}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:w-3/4 m-auto">
+        <Card
+          className="shadow-xl rounded-xl overflow-hidden col-span-2"
+          style={{ backgroundColor: secondary }}
+        >
+          <div
+            className="p-6"
+            style={{ backgroundColor: primary}}
+          >
+            <h1
+              className="text-4xl font-bold mb-2 transition-colors duration-300"
+              style={{ color: light }}
+            >
               {portfolio.title}
             </h1>
-            <h3 className="text-xl text-[#FDF0D5] transition-colors duration-300">
+            <h3
+              className="text-xl transition-colors duration-300"
+              style={{ color: light }}
+            >
               {portfolio.subtitle}
             </h3>
           </div>
@@ -28,16 +45,25 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
                   className="rounded-lg shadow-md object-cover"
                 />
               </div>
-              <p className="text-lg text-[#003049] col-span-2 leading-relaxed p-4">
+              <p
+                className="text-lg col-span-2 leading-relaxed p-4"
+                style={{ color: light }}
+              >
                 {portfolio.bio}
               </p>
             </div>
           </div>
         </Card>
 
-        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+        <Card
+          className="shadow-xl rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl"
+          style={{ backgroundColor: secondary }}
+        >
           <div className="p-6">
-            <h2 className="text-2xl font-bold text-[#003049] mb-4">
+            <h2
+              className="text-2xl font-bold mb-4"
+              style={{ color: light }}
+            >
               Compétences
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -45,6 +71,7 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
                 <div
                   key={index}
                   className="flex flex-col items-center space-y-2 p-3"
+                
                 >
                   <Image
                     width={40}
@@ -52,7 +79,10 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
                     src={tool.picto}
                     className="rounded-sm"
                   />
-                  <p className="text-sm font-semibold text-center text-[#003049]">
+                  <p
+                    className="text-sm font-semibold text-center"
+                    style={{  color: light }}
+                  >
                     {tool.name}
                   </p>
                 </div>
@@ -60,10 +90,12 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
             </div>
           </div>
         </Card>
+
         {portfolio.projects.map((project, index) => (
           <Card
             key={index}
-            className="bg-[#003049] shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            className="shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            style={{ backgroundColor: primary, color: light }}
           >
             <div className="flex flex-col h-full justify-between">
               {project.projectsImages.length !== 0 ? (
@@ -79,10 +111,16 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
               )}
 
               <div className="p-4">
-                <h3 className="text-2xl first-letter:uppercase font-bold text-[#FDF0D5] mb-4">
+                <h3
+                  className="text-2xl first-letter:uppercase font-bold mb-4"
+                  style={{ color: light }}
+                >
                   {project.title}
                 </h3>
-                <p className="text-sm text-[#FDF0D5] mb-4 line-clamp-2">
+                <p
+                  className="text-sm mb-4 line-clamp-2"
+                  style={{ color: light }}
+                >
                   {project.description}
                 </p>
               </div>
