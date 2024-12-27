@@ -79,4 +79,15 @@ class PortfolioController extends AbstractController
         $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
+
+    #[Route('api/portfolio', methods: ['DELETE'])]
+    public function delete_portfolio(): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+        $this->entityManager->remove($portfolio);
+        $this->entityManager->flush();
+        return new JsonResponse(['message' => 'Portfolio deleted'], Response::HTTP_OK);
+    }
 }

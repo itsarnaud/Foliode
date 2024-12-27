@@ -1,59 +1,121 @@
 "use client";
-import { useState } from "react";
-import { Input, Select, SelectItem } from "@nextui-org/react";
 
-export interface StepOneData {
-    formation: string | null;
-    etablissement: string | null;
-    annee: string | null;
+import {useMultiStep} from "@/utils/store";
+import {
+    Select,
+    SelectItem,
+    Card,
+    CardHeader,
+    Image,
+} from "@nextui-org/react";
+
+export interface StepThreeData {
+    template: string;
+    couleurs: string;
+    typo: string;
 }
 
-interface FirstStepFormProps {
-    onDataChange: (data: StepOneData) => void;
-}
 
-function FirstStepForm({ onDataChange }: FirstStepFormProps) {
-    const [formData, setFormData] = useState<StepOneData>({
-        formation: null,
-        etablissement: null,
-        annee: null
-    });
+function FourStepForm() {
+    const {multiStep, setMultiStep} = useMultiStep();
 
-    const handleChange = (field: keyof StepOneData, value: string) => {
-        const newData = { ...formData, [field]: value };
-        setFormData(newData);
-        onDataChange(newData);
-    };
+
+    const templates = [
+        {
+            id: "modern",
+            name: "Modern",
+            preview: "/dashboard.png",
+        },
+        {
+            id: "classic",
+            name: "Classic",
+            preview: "/previews/classic-template.png",
+        },
+        {
+            id: "minimal",
+            name: "Minimal",
+            preview: "/previews/minimal-template.png",
+        },
+    ];
+
+    const handleChange = (key: string, value: string) => {
+        const newData = {...multiStep.style, key: value}
+        setMultiStep({...multiStep, style: newData})
+    }
 
     return (
-        <div className='space-y-4 w-full'>
-            <Select 
-                label="Formation"
-                placeholder="Sélectionnez votre formation"
-                onChange={(e) => handleChange('formation', e.target.value)}
-            >
-                <SelectItem key="BUT-INFO" value="BUT Informatique">BUT Informatique</SelectItem>
-                <SelectItem key="BUT-GEII" value="BUT GEII">BUT GEII</SelectItem>
-            </Select>
+        <div className="w-full">
+            <h3 className="text-lg font-semibold mb-4">Choisissez votre template</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {templates.map((template) => (
+                    <Card
+                        key={template.id}
+                        isPressable
+                        onPress={() => handleChange('templette', template.id)}
+                        className={`h-[300px] ${
+                            multiStep.style.template === template.id ? "border-4 border-primary" : ""
+                        }`}
+                    >
+                        <CardHeader
+                            className="absolute z-10 top-0 flex-col !items-start bg-black/40 rounded-t-xl w-full">
+                            <h4 className="text-white font-medium text-large">
+                                {template.name}
+                            </h4>
+                        </CardHeader>
+                        <Image
+                            removeWrapper
+                            alt={`Template ${template.name}`}
+                            className="z-0 w-full h-full object-cover"
+                            src={template.preview}
+                        />
+                    </Card>
+                ))}
+            </div>
 
-            <Input
-                type="text"
-                label="Établissement"
-                placeholder="Nom de l'établissement"
-                onChange={(e) => handleChange('etablissement', e.target.value)}
-            />
+            <div className="space-y-4">
+                <Select
+                    label="Palette de couleurs"
+                    placeholder="Choisissez vos couleurs"
+                    value={multiStep.style.couleurs}
+                    onChange={(e) => handleChange("couleurs", e.target.value)}
+                    className="mt-6"
+                >
+                    <SelectItem key="light" value="light">
+                        Claire
+                    </SelectItem>
+                    <SelectItem key="dark" value="dark">
+                        Sombre
+                    </SelectItem>
+                    <SelectItem key="colorful" value="colorful">
+                        Colorée
+                    </SelectItem>
+                </Select>
 
-            <Select 
-                label="Année d'études"
-                placeholder="Sélectionnez votre année"
-                onChange={(e) => handleChange('annee', e.target.value)}
-            >
-                <SelectItem key="1">1ère année</SelectItem>
-                <SelectItem key="2">2ème année</SelectItem>
-                <SelectItem key="3">3ème année</SelectItem>
-            </Select>
+                <Select
+                    label="Typographie"
+                    placeholder="Choisissez votre typographie"
+                    value={multiStep.style.typo}
+                    onChange={(e) => handleChange("typo", e.target.value)}
+                >
+                    <SelectItem key="poppins" value="poppins">
+                        Poppins
+                    </SelectItem>
+                    <SelectItem key="roboto" value="roboto">
+                        Roboto
+                    </SelectItem>
+                    <SelectItem key="openSans" value="openSans">
+                        Open Sans
+                    </SelectItem>
+                    <SelectItem key="montserrat" value="montserrat">
+                        Montserrat
+                    </SelectItem>
+                    <SelectItem key="lato" value="lato">
+                        Lato
+                    </SelectItem>
+                </Select>
+            </div>
         </div>
     );
 }
 
-export default FirstStepForm;
+export default FourStepForm;

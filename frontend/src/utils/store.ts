@@ -1,6 +1,7 @@
 "use client"
 import {create} from 'zustand'
 import {User} from '../interfaces/User'
+import {MultiStep} from '../interfaces/MultiStep'
 
 interface UserState {
     user: User | null;
@@ -11,3 +12,26 @@ export const useUser = create<UserState>((set) => ({
     user: null,
     setUser: (user: User) => set({ user }),
 }));
+
+interface multiStepState {
+    multiStep: MultiStep;
+    setMultiStep: (multiStep: MultiStep) => void;
+}
+
+export const useMultiStep = create<multiStepState>((set) => ({
+    multiStep: {
+        portfolio: {
+            title: "",
+            subtitle: "",
+            bio: "",
+        },
+        tools: [],
+        projects: [],
+        style: {
+            template: '',
+            couleurs: '',
+            typo: ''
+        },
+    },
+    setMultiStep: (multiStep: MultiStep) => set({ multiStep }),
+}))

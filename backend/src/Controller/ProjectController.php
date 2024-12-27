@@ -112,6 +112,52 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);
     }
 
+    #[Route('/api/projects', methods: ['POST'])]
+    public function add_projects(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $data = $request->request->all();
+        $files = $request->files->all();
+        $uploadDir = $this->getParameter('upload_directory') . '/project';
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+
+        if (!$data || !$files) {
+            return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $projects = [];
+        foreach ($data['projects'] as $index => $projectData) {
+            if (!isset($projectData['title']) || !isset($files['projects'][$index]['images'])) {
+                return new JsonResponse(['error' => "Invalid data for project at index $index"], Response::HTTP_BAD_REQUEST);
+            }
+
+            $project = new Projects();
+            $project->setTitle($projectData['title']);
+            $project->setDescription($projectData['description']);
+            $project->setPortfolio($portfolio);
+
+            foreach ($files['projects'][$index]['images'] as $file) {
+                if (!$file instanceof UploadedFile) {
+                    return new JsonResponse(['error' => 'Invalid file format'], Response::HTTP_BAD_REQUEST);
+                }
+
+                $filePath = $this->fileUploader->uploadFile($file, $uploadDir);
+                $projectImage = new ProjectsImages();
+                $projectImage->setImgSrc($filePath);
+                $projectImage->setImgAlt($project->getTitle());
+                $project->addProjectsImage($projectImage);
+            }
+
+            $this->entityManager->persist($project);
+            $projects[] = $project;
+        }
+
+        $this->entityManager->flush();
+
+        return new JsonResponse($projects, Response::HTTP_CREATED);
+    }
+
     /**
      * @OA\Put(
      *     path="/api/project/{id}",

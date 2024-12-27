@@ -2,9 +2,14 @@ import React, {useState} from 'react'
 import {MdOutlineCloudUpload} from "react-icons/md"
 import {FcImageFile} from "react-icons/fc"
 
-const FileInput = ({onChange}: { onChange: (files: File[]) => void }) => {
+interface FileInputProps {
+    onChange: (files: File[]) => void
+    value?: File[]
+}
+
+const FileInput = ({onChange, value}: FileInputProps) => {
     const [dragging, setDragging] = useState(false)
-    const [files, setFiles] = useState<File[]>([])
+    const [files, setFiles] = useState<File[]>(value || [])
 
     const handleDragIn = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
