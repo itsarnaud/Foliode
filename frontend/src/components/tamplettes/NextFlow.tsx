@@ -1,13 +1,13 @@
 import { Portfolio } from "@/interfaces/Portfolio";
-import { Card, Button, Image } from "@nextui-org/react";
+import { Card, Image } from "@nextui-org/react";
 
 function NextFlow({ portfolio }: { portfolio: Portfolio }) {
   return (
     <div className="bg-gradient-to-br from-[#003049] to-[#669BBC] min-h-screen p-8 font-sans">
-      <div className=" mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden mb-10 col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden col-span-2">
           <div className="bg-[#669BBC] p-6">
-            <h1 className="text-4xl font-bold text-[#FDF0D5]  mb-2 transition-colors duration-300">
+            <h1 className="text-4xl font-bold text-[#FDF0D5] mb-2 transition-colors duration-300">
               {portfolio.title}
             </h1>
             <h3 className="text-xl text-[#FDF0D5] transition-colors duration-300">
@@ -35,7 +35,7 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
           </div>
         </Card>
 
-        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden mb-10 transition-all duration-300 hover:shadow-2xl">
+        <Card className="bg-[#FDF0D5] shadow-xl rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
           <div className="p-6">
             <h2 className="text-2xl font-bold text-[#003049] mb-4">
               Compétences
@@ -63,17 +63,28 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
         {portfolio.projects.map((project, index) => (
           <Card
             key={index}
-            className="bg-[#003049]  shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl pb-4 pt-4 cursor-pointer"
+            className="bg-[#003049] shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer"
           >
-            <div className=" inset-0  bg-opacity-50 flex items-end p-4 transition-opacity duration-300 opacity-100">
-              <div>
-                <h3 className="text-xl first-letter:uppercase font-bold text-[#FDF0D5] mb-4">
+            <div className="flex flex-col h-full justify-between">
+              {project.projectsImages.length !== 0 ? (
+                <Image
+                  src={`${project.projectsImages[0].img_src}`}
+                  alt=""
+                  width={500}
+                  height={250}
+                  className="object-cover rounded-none"
+                />
+              ) : (
+                ""
+              )}
+
+              <div className="p-4">
+                <h3 className="text-2xl first-letter:uppercase font-bold text-[#FDF0D5] mb-4">
                   {project.title}
                 </h3>
                 <p className="text-sm text-[#FDF0D5] mb-4 line-clamp-2">
                   {project.description}
                 </p>
-            
               </div>
             </div>
           </Card>

@@ -1,4 +1,3 @@
-
 import { Project } from "./Project";
 
 export interface Portfolio {
@@ -14,6 +13,11 @@ export interface Portfolio {
     avatar_url: string | null;
   };
 
-  projects: Project[];
+  projects: {
+    title: string;
+    description: string;
+    links: string[];
+    projectsImages: { img_src: string; img_alt: string }[];
+  }[];
   tools: { name: string; picto: string }[];
 }
