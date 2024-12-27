@@ -12,6 +12,7 @@
     "@dicebear/collection": "^9.2.2",
     "@dicebear/core": "^9.2.2",
     "@nextui-org/react": "^2.6.8",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/js-cookie": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.7",
