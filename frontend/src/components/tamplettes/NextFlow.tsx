@@ -1,15 +1,16 @@
 import { Portfolio } from "@/interfaces/Portfolio";
 import { Card, Image } from "@nextui-org/react";
+import { formatImage } from "@/utils/formatImage";
 
 function NextFlow({ portfolio }: { portfolio: Portfolio }) {
-  const { primary, secondary, warning, success, info, light } = portfolio.config.style.colors;
+  const { primary, secondary, warning, success, info, light } = portfolio.config.colors;
 
   return (
     <div
       className="bg-gradient-to-br min-h-screen font-sans p-8"
-      style={{ backgroundColor: light }}
+      style={{ background: `linear-gradient(to bottom right, ${light}, ${primary})` }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:w-3/4 m-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 2xl:w-3/4 xl:w-5/6 m-auto">
         <Card
           className="shadow-xl rounded-xl overflow-hidden col-span-2"
           style={{ backgroundColor: secondary }}
@@ -20,13 +21,13 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
           >
             <h1
               className="text-4xl font-bold mb-2 transition-colors duration-300"
-              style={{ color: light }}
+              style={{ color: secondary }}
             >
               {portfolio.title}
             </h1>
             <h3
               className="text-xl transition-colors duration-300"
-              style={{ color: light }}
+              style={{ color: secondary }}
             >
               {portfolio.subtitle}
             </h3>
@@ -76,7 +77,7 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
                   <Image
                     width={40}
                     height={40}
-                    src={tool.picto}
+                    src={formatImage(tool.picto)}
                     className="rounded-sm"
                   />
                   <p
@@ -94,17 +95,17 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
         {portfolio.projects.map((project, index) => (
           <Card
             key={index}
-            className="shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer"
-            style={{ backgroundColor: primary, color: light }}
+            className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${index == 3 && 'col-span-2'}`}
+            style={{ backgroundColor: light, color: primary  }}
           >
             <div className="flex flex-col h-full justify-between">
               {project.projectsImages.length !== 0 ? (
                 <Image
-                  src={`${project.projectsImages[0].img_src}`}
+                  src={formatImage(project.projectsImages[0].img_src)}
                   alt=""
-                  width={500}
+                  width={1000}
                   height={250}
-                  className="object-cover rounded-none"
+                  className="object-cover rounded-none w-full h-28"
                 />
               ) : (
                 ""
@@ -113,13 +114,13 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
               <div className="p-4">
                 <h3
                   className="text-2xl first-letter:uppercase font-bold mb-4"
-                  style={{ color: light }}
+                  style={{ color: secondary }}
                 >
                   {project.title}
                 </h3>
                 <p
                   className="text-sm mb-4 line-clamp-2"
-                  style={{ color: light }}
+                  style={{ color: secondary }}
                 >
                   {project.description}
                 </p>

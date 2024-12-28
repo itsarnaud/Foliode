@@ -3,16 +3,13 @@ export interface Portfolio {
   subtitle: string;
   bio: string;
   config: {
-    style: {
-      colors: {
-        primary: string;
-        secondary: string;
-        warning: string,
-        success: string,
-        info: string,
-        light: string
-     
-      };
+    colors: {
+      primary: string;
+      secondary: string;
+      warning: string;
+      success: string;
+      info: string;
+      light: string;
     };
   };
   site: string | null;

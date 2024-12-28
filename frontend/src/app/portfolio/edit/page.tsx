@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Progress} from "@nextui-org/react";
 
 import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
@@ -26,6 +26,10 @@ export default function MultiStepForm() {
     const handlePrevious = () => {
         setCurrentStep(currentStep - 1)
     }
+
+    useEffect(() => {
+        console.log(multiStep)
+    }, [multiStep])
 
     const handleSubmit = async () => {
        const response = await apiPost("portfolio", multiStep.portfolio, 'application/json')

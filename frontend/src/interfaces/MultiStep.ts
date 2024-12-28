@@ -1,31 +1,17 @@
-import {Project} from "@/interfaces/Project";
-import {Tools} from "@/interfaces/Tools";
+import { Project } from "@/interfaces/Project";
+import { Tools } from "@/interfaces/Tools";
+import { colors } from "./Colors";
 
 export interface MultiStep {
-    portfolio: {
-        title: string
-        subtitle: string
-        bio: string
-        template: string
-        config: config
-
+  portfolio: {
+    title: string;
+    subtitle: string;
+    bio: string;
+    template: string;
+    config: {
+      colors: colors | null;
     };
-    tools: Tools[];
-    projects: Project[]
-    style: {
-        template: string
-        colors: string[]
-        typo: string
-    }
-}
-
-
-interface config {
-    style: {
-        colors: {
-            primary: string
-            secondary: string
-            background: string
-        }
-    }
+  };
+  tools: Tools[];
+  projects: Project[];
 }

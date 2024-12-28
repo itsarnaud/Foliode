@@ -24,14 +24,15 @@ export const useMultiStep = create<multiStepState>((set) => ({
             title: "",
             subtitle: "",
             bio: "",
+            template: '',
+            config: {
+                colors: null,
+            }
+            
         },
         tools: [],
         projects: [],
-        style: {
-            template: '',
-            couleurs: '',
-            typo: ''
-        },
+       
     },
     setMultiStep: (multiStep: MultiStep) => set({ multiStep }),
 }))

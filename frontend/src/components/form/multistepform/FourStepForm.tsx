@@ -2,7 +2,9 @@
 
 import ColorPicker from "@/components/UI/ColorPicker";
 import { useMultiStep } from "@/utils/store";
+import { template } from "@/interfaces/templates";
 import { Select, SelectItem, Card, CardHeader, Image } from "@nextui-org/react";
+import { colors } from "@/interfaces/Colors";
 
 export interface StepThreeData {
   template: string;
@@ -13,35 +15,62 @@ export interface StepThreeData {
 function FourStepForm() {
   const { multiStep, setMultiStep } = useMultiStep();
 
-  const templates = [
+  const templates: template[] = [
     {
       id: "modern",
       name: "Modern",
       preview: "/dashboard.png",
-      color: ["#FFFDD7", "#669BBC", "#003049"],
+      color: {
+        primary: "#669BBC",
+        secondary: "#FDF0D5",
+        warning: "#ffc107",
+        success: "#28a745",
+        info: "#17a2b8",
+        light: "#003049",
+      },
     },
     {
       id: "banto",
       name: "Banto",
       preview: "/banto.png",
-      color: ["#FDF0D5", "#669BBC", "#003049"],
+      color: {
+        primary: "#669BBC",
+        secondary: "#FDF0D5",
+        warning: "#ffc107",
+        success: "#28a745",
+        info: "#17a2b8",
+        light: "#003049",
+      },
     },
     {
       id: "minimal",
       name: "Minimal",
       preview: "/previews/minimal-template.png",
-      color: ["#FDF0D5", "#669BBC", "#003049"],
+      color: {
+        primary: "#669BBC",
+        secondary: "#FDF0D5",
+        warning: "#ffc107",
+        success: "#28a745",
+        info: "#17a2b8",
+        light: "#003049",
+      },
     },
   ];
 
-  const handleChange = (key: string, value: string) => {
-    const newData = { ...multiStep.style, [key]: value };
-    setMultiStep({ ...multiStep, style: newData });
+  const handleChange = (value: template) => {
+    const newData = { ...multiStep.portfolio, template: value.id, config: { colors: value.color } };
+    setMultiStep({ ...multiStep, portfolio: newData });
   };
 
-  const handleColorChange = (value: string[]) => {
-    const newData = { ...multiStep.style, colors: value };
-    setMultiStep({ ...multiStep, style: newData });
+  const handleColorChange = (value: colors) => {
+    const newData = { ...multiStep.portfolio.config, colors: value };
+    setMultiStep({
+      ...multiStep,
+      portfolio: {
+        ...multiStep.portfolio,
+        config: newData,
+      },
+    });
   };
 
   return (
@@ -52,9 +81,9 @@ function FourStepForm() {
           <Card
             key={template.id}
             isPressable
-            onPress={() => handleChange("template", template.id)}
+            onPress={() => handleChange(template)}
             className={`h-[300px] ${
-              multiStep.style.template === template.id
+              multiStep.portfolio.template === template.id
                 ? "border-4 border-primary"
                 : ""
             }`}
@@ -75,14 +104,14 @@ function FourStepForm() {
       </div>
 
       <div className="mt-4 space-y-4">
-        {multiStep.style.template !== "" && (
+        {multiStep.portfolio.template !== "" && (
           <ColorPicker
-            addNewColor={false}
             onChange={(value) => handleColorChange(value)}
-            colors={templates
-              .filter((template) => template.id === multiStep.style.template)
-              .map((template) => template.color)
-              .flat()}
+            colors={
+              multiStep.portfolio.config.colors
+                ? multiStep.portfolio.config.colors
+                : undefined
+            }
           />
         )}
         {/*
