@@ -17,11 +17,13 @@ async function PortfolioPage({
     const template = portfolio.template
 
     if (template == "banto") {
+
       return <BantoFlow portfolio={portfolio} />;
       
     }
 
     if (template == "emerald"){
+      
       return < EmeraldFlow portfolio={portfolio} /> 
     }
     

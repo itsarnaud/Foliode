@@ -15,7 +15,7 @@ function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
         <Card
           className="shadow-xl rounded-xl overflow-hidden col-span-2"
           style={{ backgroundColor: secondary }}
-        >
+        >  
           <div
             className="p-6"
             style={{ backgroundColor: primary}}
@@ -97,7 +97,7 @@ function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
         {portfolio.projects.map((project, index) => (
           <Card
             key={index}
-            className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${index == 3 && 'col-span-2'}`}
+            className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${index == 3 && 'col-span-2 row-span-2'}`}
             style={{ backgroundColor: light, color: primary  }}
           >
             <div className="flex flex-col h-full justify-between">
