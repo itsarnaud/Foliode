@@ -2,6 +2,7 @@ export interface Portfolio {
   title: string;
   subtitle: string;
   bio: string;
+  template: string;
   config: {
     colors: {
       primary: string;
@@ -12,10 +13,10 @@ export interface Portfolio {
       light: string;
     };
   };
-  site: string | null;
+  
   users: {
     name: string;
-    firstName: string;
+    firstname: string;
     email: string;
     avatar_url: string | null;
   };

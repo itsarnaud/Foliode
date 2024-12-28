@@ -1,8 +1,9 @@
 import { Portfolio } from "@/interfaces/Portfolio";
 import { Card, Image } from "@nextui-org/react";
 import { formatImage } from "@/utils/formatImage";
+import { generateAvatar } from "@/utils/generateAvatar";
 
-function NextFlow({ portfolio }: { portfolio: Portfolio }) {
+function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
   const { primary, secondary, warning, success, info, light } = portfolio.config.colors;
 
   return (
@@ -38,12 +39,13 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
                 <Image
                   src={
                     portfolio.users.avatar_url ||
-                    "/placeholder.svg?height=250&width=250"
+              
+                    generateAvatar(50, portfolio.users.email )
                   }
                   alt={portfolio.title}
                   width={250}
                   height={250}
-                  className="rounded-lg shadow-md object-cover"
+                  className="rounded-lg  object-cover"
                 />
               </div>
               <p
@@ -133,4 +135,4 @@ function NextFlow({ portfolio }: { portfolio: Portfolio }) {
   );
 }
 
-export default NextFlow;
+export default BantoFlow;

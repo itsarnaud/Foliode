@@ -1,12 +1,16 @@
 import React from "react";
-import Image from "next/image";
+import {Image } from "@nextui-org/react";
 import NavPortfolio from "@/components/UI/navportfolio";
 import { Portfolio } from "@/interfaces/Portfolio";
+import { generateAvatar } from "@/utils/generateAvatar";
+import { formatImage } from "@/utils/formatImage";
 
 const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
+  const avatar = portfolio.users.avatar_url;
+  const email = portfolio.users.email;
   return (
     <main className="min-h-screen bg-portfolio-green-primary text-portfolio-green-text-primary">
-      <NavPortfolio className="custom-navbar-class" justify="end" />
+   
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center">
         <h1 className="font-bold text-9xl">{portfolio.title}</h1>
@@ -20,7 +24,7 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
         <div className="flex  flex-col md:flex-row gap-6">
           <div className="flex-1">
             <h2 className="text-6xl font-bold text-portfolio-green-text-secondary">
-              Bonjour,je suis  {portfolio.users.firstName} 
+              Bonjour,je suis {portfolio.users.firstname}
             </h2>
             <h3 className="text-2xl mt-4 text-portfolio-green-text-secondary">
               {portfolio.subtitle}
@@ -30,9 +34,15 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
             </p>
           </div>
           <div className="w-full md:w-1/2">
-            <div className="aspect-video bg-gray-200 rounded">
-              < Image src={portfolio.users.avatar_url ? portfolio.users.avatar_url : ''} alt={`avatar of ${portfolio.users.firstName}`} width={200} height={200}/>
-            </div> 
+            <div className="aspect-video rounded">
+              <Image
+                src={avatar ? avatar : generateAvatar(50, email)}
+                alt={`avatar of ${portfolio.users.firstname}`}
+                width={200}
+                height={200}
+        
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -44,16 +54,15 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
         </h2>
 
         <div className=" gap-8">
-          {portfolio.projects.map((project) => (
-            <div className="flex flex-col md:flex-row gap-6 bg-portfolio-green-accent p-6 rounded-lg shadow">
+          {portfolio.projects.map((project, key) => (
+            <div key={key} className="flex flex-col md:flex-row gap-6 bg-portfolio-green-accent p-6 rounded-lg shadow m-10" >
               <div className="flex-1">
                 <h3 className="text-2xl font-semibold text-portfolio-green-text-secondary">
                   {project.title}
                 </h3>
-                
+
                 <p className="mt-4 text-portfolio-green-text-secondary">
-                  
-                {project.description}
+                  {project.description}
                 </p>
                 <a
                   href="#"
@@ -63,8 +72,14 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
                 </a>
               </div>
               <div className="w-full md:w-1/2">
-                <div className="aspect-video bg-gray-200 rounded">
-                
+                <div className="aspect-video  rounded">
+                  <Image
+                    src={formatImage(project.projectsImages[0].img_src)}
+                    alt={project.title}
+                    width={1000}
+                    height={500}
+                    className="object-cover w-full"
+                  />
                 </div>
               </div>
             </div>
