@@ -8,7 +8,9 @@ interface FileInputProps {
     value?: File[]
 }
 
-const FileInput: React.FC<FileInputProps> = ({ onChange, value }) => {
+
+const FileInput = ({onChange, value}: FileInputProps) => {
+
     const [dragging, setDragging] = useState(false)
     const [files, setFiles] = useState<File[]>(value || [])
 
