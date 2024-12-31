@@ -3,4 +3,5 @@ export interface Project {
     description: string
     links: string[]
     images: File[]
+    projectsImages: {img_src: string,  img_alt: string}[] | null
 }
