@@ -8,6 +8,7 @@ import LinkInput from "@/components/UI/LinkInput";
 import Buttons from "@/components/UI/button";
 import { Project } from "@/interfaces/Project";
 import { apiPost } from "@/utils/apiRequester";
+import LinkAdder from "../UI/LinkAdder";
 
 function ProjectForm() {
   const [project, setProject] = useState<Project>({
@@ -15,8 +16,7 @@ function ProjectForm() {
     description: "",
     links: [],
     images: [],
-    start_date: "",
-    end_date: "",
+
     projectsImages: [],
   });
   const [images, setImages] = useState<File[]>([]);
@@ -102,29 +102,7 @@ function ProjectForm() {
             maxRows={isExpanded ? 20 : 10}
             className={isExpanded ? "flex-grow" : ""}
           />
-          <LinkInput
-            placeholder="Liens vers le projet"
-            name="link"
-            onChange={(value) => setProject({ ...project, links: value })}
-          />
-
-          <DateRangePicker
-            label="Date du projet"
-            variant="bordered"
-            onChange={({ start, end }: any) => {
-              setProject({
-                ...project,
-                start_date: start,
-                end_date: end,
-              });
-            }}
-            classNames={{
-                ...inputStyles,
-                input: `${inputStyles.input}`,
-                inputWrapper: `${inputStyles.inputWrapper} focus-within:border-primary`,
-              }}
-          />
-
+         < LinkAdder onChange={links => setProject({...project, links: links})} />
           <div className="flex justify-start mt-5">
             <Buttons
               text="Créer un projet"
