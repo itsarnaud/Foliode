@@ -5,9 +5,10 @@ import Buttons from "@/components/UI/button";
 
 import { LuX, LuListPlus } from "react-icons/lu";
 import { Input } from "@nextui-org/react";
+
 interface Link {
   name: string;
-  link: string;
+  url: string;
 }
 
 interface LinkAdderProps {
@@ -17,20 +18,22 @@ interface LinkAdderProps {
 export default function LinkAdder({ onChange }: LinkAdderProps) {
   const [links, setLinks] = useState<Link[]>([]);
   const [name, setName] = useState("");
-  const [link, setLink] = useState("");
+  const [url, setUrl] = useState(""); // Corrected to use `url`
 
   const addLink = () => {
-    if (name && link) {
-      setLinks([...links, { name, link }]);
-      onChange([...links, { name, link }]);
+    if (name && url) {
+      const newLinks = [...links, { name, url }];
+      setLinks(newLinks);
+      onChange(newLinks);
       setName("");
-      setLink("");
+      setUrl("");
     }
   };
 
   const removeLink = (index: number) => {
-    setLinks(links.filter((_, i) => i !== index));
-    onChange(links.filter((_, i) => i !== index));
+    const updatedLinks = links.filter((_, i) => i !== index);
+    setLinks(updatedLinks);
+    onChange(updatedLinks);
   };
 
   const inputStyles = {
@@ -40,7 +43,7 @@ export default function LinkAdder({ onChange }: LinkAdderProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-4">
+    <div className="w-full max-w-md space-y-4">
       <div className="flex space-x-2">
         <Input
           type="text"
@@ -53,12 +56,12 @@ export default function LinkAdder({ onChange }: LinkAdderProps) {
         <Input
           type="url"
           placeholder="URL du lien"
-          value={link}
+          value={url} // Corrected to use `url`
           classNames={inputStyles}
           variant="bordered"
-          onChange={(e) => setLink(e.target.value)}
+          onChange={(e) => setUrl(e.target.value)} // Corrected to update `url`
         />
-        <button onClick={addLink}>
+        <button onClick={addLink} className="flex items-center justify-center">
           <LuListPlus className="w-4 h-4" />
         </button>
       </div>
@@ -70,7 +73,7 @@ export default function LinkAdder({ onChange }: LinkAdderProps) {
             className="flex items-center justify-between bg-gray-400 rounded p-2"
           >
             <a
-              href={link.link}
+              href={link.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-800 hover:underline my-2"

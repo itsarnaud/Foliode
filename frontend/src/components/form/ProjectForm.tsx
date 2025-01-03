@@ -14,7 +14,7 @@ function ProjectForm() {
   const [project, setProject] = useState<Project>({
     title: "",
     description: "",
-    links: [],
+    projectsLinks: [],
     images: [],
 
     projectsImages: [],
@@ -102,7 +102,7 @@ function ProjectForm() {
             maxRows={isExpanded ? 20 : 10}
             className={isExpanded ? "flex-grow" : ""}
           />
-         < LinkAdder onChange={links => setProject({...project, links: links})} />
+         < LinkAdder onChange={links => setProject({...project, projectsLinks: links})} />
           <div className="flex justify-start mt-5">
             <Buttons
               text="Créer un projet"

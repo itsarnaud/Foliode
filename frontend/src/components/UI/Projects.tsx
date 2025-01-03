@@ -12,6 +12,7 @@ import {
   Image,
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+import { link } from "fs";
 
 function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -45,7 +46,7 @@ function Projects() {
                       : " grid-cols-2 grid-rows-2"
                   }`}
                 >
-                  {project.projectsImages !== null &&
+                  {project.projectsImages !== undefined &&
                     project.projectsImages.map((image, key) => (
                       <Image
                         key={key}
@@ -62,7 +63,16 @@ function Projects() {
               </div>
             </CardBody>
             <CardFooter>
-              <Button  className="bg-red-700">
+              <div className="flex">
+                {project.projectsLinks &&
+                  project.projectsLinks.length !== 0 &&
+                  project.projectsLinks.map((link, index) => (
+                    <a key={index} href={link.url}>
+                      {link.name}
+                    </a>
+                  ))}
+              </div>
+              <Button className="bg-red-700">
                 <RiDeleteBin5Fill />
               </Button>
             </CardFooter>

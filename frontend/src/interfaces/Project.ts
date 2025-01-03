@@ -1,9 +1,9 @@
 export interface Project {
   title: string;
   description: string;
-  links: {
+  projectsLinks: {
     name: string;
-    link: string;
+    url: string;
   }[];
   images: File[];
 

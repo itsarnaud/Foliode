@@ -26,7 +26,7 @@ function ThirdStepForm() {
     const newProject = {
       title: "",
       description: "",
-      links: [],
+      projectsLinks: [],
       images: [],
       projectsImages: [],
     };
@@ -57,7 +57,7 @@ function ThirdStepForm() {
             }
           />
           <LinkAdder
-            onChange={(links) => handleProjectChange(index, "links", links)}
+            onChange={(links) => handleProjectChange(index, "projectsLinks", links)}
           />
           <div>
             <label className="block text-sm font-medium mb-1">
