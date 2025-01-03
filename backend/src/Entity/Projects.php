@@ -53,14 +53,14 @@ class Projects
     /**
      * @var Collection<int, ProjectsImages>
      */
-    #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist"])]
+    #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist", "remove"])]
     #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $projectsImages;
 
     /**
      * @var Collection<int, ProjectsLinks>
      */
-    #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist"])]
+    #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist", "remove"])]
     #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $projectsLinks;
 

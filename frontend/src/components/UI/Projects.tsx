@@ -1,6 +1,6 @@
 "use client";
-import { Project } from "@/interfaces/Project";
-import { apiGetWithAuth } from "@/utils/apiRequester";
+import { Project, receivedProject } from "@/interfaces/Project";
+import { apiDelete, apiGetWithAuth } from "@/utils/apiRequester";
 import { formatImage } from "@/utils/formatImage";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import {
@@ -12,13 +12,19 @@ import {
   Image,
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { link } from "fs";
 
 function Projects() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<receivedProject[]>([]);
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const deleteProject = async (id: string) => {
+    await apiDelete(`project/${id}`);
+    setProjects((prevProjects) =>
+      prevProjects.filter((project) => project.id !== id)
+    );
+  };
 
   const fetchProjects = async () => {
     const response = await apiGetWithAuth("projects");
@@ -63,16 +69,10 @@ function Projects() {
               </div>
             </CardBody>
             <CardFooter>
-              <div className="flex">
-                {project.projectsLinks &&
-                  project.projectsLinks.length !== 0 &&
-                  project.projectsLinks.map((link, index) => (
-                    <a key={index} href={link.url}>
-                      {link.name}
-                    </a>
-                  ))}
-              </div>
-              <Button className="bg-red-700">
+              <Button
+                className="bg-red-700"
+                onClick={() => deleteProject(project.id)}
+              >
                 <RiDeleteBin5Fill />
               </Button>
             </CardFooter>

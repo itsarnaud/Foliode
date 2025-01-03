@@ -2,6 +2,7 @@
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
 import { getCookie } from "@/utils/cookiesHelpers";
+import { url } from "inspector";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -19,6 +20,17 @@ export const apiPost = async (
   });
   return response;
 };
+
+export const apiDelete = async (url: string) => {
+  const token = getCookie("token_auth");
+  const response = await axios.delete(`${apiUrl}/api/${url}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response
+}
 
 export const apiGetWithAuth = async (url: string) => {
   const token = getCookie("token_auth");

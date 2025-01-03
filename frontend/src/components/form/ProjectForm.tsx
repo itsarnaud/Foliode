@@ -68,51 +68,112 @@ function ProjectForm() {
           {isExpanded ? <FaCompress size={24} /> : <FaExpand size={24} />}
         </button>
       </div>
-      <div
-        className={`flex flex-col gap-4 ${
-          isExpanded ? "h-full" : "lg:flex-row"
-        }`}
-      >
-        <div className={`${isExpanded ? "flex-grow" : "lg:w-1/3"}`}>
-          <FileInput onChange={(files) => setImages(files)} />
-        </div>
-        <div
-          className={`space-y-4 ${
-            isExpanded ? "flex-grow flex flex-col" : "lg:w-2/3"
-          }`}
-        >
-          <Input
-            type="text"
-            placeholder="Titre du projet"
-            onChange={(e) => setProject({ ...project, title: e.target.value })}
-            name="title"
-            classNames={inputStyles}
-            variant="bordered"
-            className={isExpanded ? "flex-grow" : ""}
-          />
-          <Textarea
-            placeholder="Description du projet"
-            name="content"
-            onChange={(e) =>
-              setProject({ ...project, description: e.target.value })
-            }
-            classNames={inputStyles}
-            variant="bordered"
-            minRows={isExpanded ? 10 : 3}
-            maxRows={isExpanded ? 20 : 10}
-            className={isExpanded ? "flex-grow" : ""}
-          />
-         < LinkAdder onChange={links => setProject({...project, projectsLinks: links})} />
-          <div className="flex justify-start mt-5">
-            <Buttons
-              text="Créer un projet"
-              style="form"
-              className="bg-primary w-auto"
-              onClick={createProject}
-            />
+
+      <>
+        {isExpanded ? (
+          <div className="space-y-4  lg:w-1/2 m-auto ">
+            <div className="p-4 border bg-foreground rounded-lg space-y-2 m-8 p4">
+              <div className="space-y-5">
+                <Input
+                  label="Titre du projet"
+                  value={project.title}
+                  onChange={(e) =>
+                    setProject({ ...project, title: e.target.value })
+                  }
+                  classNames={inputStyles}
+                  variant="bordered"
+                  className={isExpanded ? "flex-grow" : ""}
+                />
+                <Textarea
+                  label="Description"
+                  value={project.description}
+                  onChange={(e) =>
+                    setProject({ ...project, description: e.target.value })
+                  }
+                  classNames={inputStyles}
+                  variant="bordered"
+                  className={isExpanded ? "flex-grow" : ""}
+                />
+                <LinkAdder
+                  onChange={(links) =>
+                    setProject({ ...project, projectsLinks: links })
+                  }
+                />
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Images du projet
+                  </label>
+                  <FileInput onChange={(files) => setImages(files)} />
+                  <p className="text-sm text-ray-500 mt-1">
+                    Format recommandé : PNG ou JPG, max 2MB
+                  </p>
+                </div>
+
+                <div className="flex justify-start mt-5">
+                  <Buttons
+                    text="Créer un projet"
+                    style="form"
+                    className="bg-primary w-auto"
+                    onClick={createProject}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        ) : (
+          <div
+            className={`flex flex-col gap-4 ${
+              isExpanded ? "h-full" : "lg:flex-row"
+            }`}
+          >
+            <div className={`${isExpanded ? "flex-grow" : "lg:w-1/3"}`}>
+              <FileInput onChange={(files) => setImages(files)} />
+            </div>
+            <div
+              className={`space-y-4 ${
+                isExpanded ? "flex-grow flex flex-col" : "lg:w-2/3"
+              }`}
+            >
+              <Input
+                type="text"
+                placeholder="Titre du projet"
+                onChange={(e) =>
+                  setProject({ ...project, title: e.target.value })
+                }
+                name="title"
+                classNames={inputStyles}
+                variant="bordered"
+                className={isExpanded ? "flex-grow" : ""}
+              />
+              <Textarea
+                placeholder="Description du projet"
+                name="content"
+                onChange={(e) =>
+                  setProject({ ...project, description: e.target.value })
+                }
+                classNames={inputStyles}
+                variant="bordered"
+                minRows={isExpanded ? 10 : 3}
+                maxRows={isExpanded ? 20 : 10}
+                className={isExpanded ? "flex-grow" : ""}
+              />
+              <LinkAdder
+                onChange={(links) =>
+                  setProject({ ...project, projectsLinks: links })
+                }
+              />
+              <div className="flex justify-start mt-5">
+                <Buttons
+                  text="Créer un projet"
+                  style="form"
+                  className="bg-primary w-auto"
+                  onClick={createProject}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     </div>
   );
 }

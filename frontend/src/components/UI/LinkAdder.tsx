@@ -13,12 +13,13 @@ interface Link {
 
 interface LinkAdderProps {
   onChange: (links: Link[]) => void;
+  value?: Link[]
 }
 
-export default function LinkAdder({ onChange }: LinkAdderProps) {
-  const [links, setLinks] = useState<Link[]>([]);
+export default function LinkAdder({ onChange, value }: LinkAdderProps) {
+  const [links, setLinks] = useState<Link[]>(value !== undefined ? value : []);
   const [name, setName] = useState("");
-  const [url, setUrl] = useState(""); // Corrected to use `url`
+  const [url, setUrl] = useState("");
 
   const addLink = () => {
     if (name && url) {
@@ -56,15 +57,16 @@ export default function LinkAdder({ onChange }: LinkAdderProps) {
         <Input
           type="url"
           placeholder="URL du lien"
-          value={url} // Corrected to use `url`
+          value={url}
           classNames={inputStyles}
           variant="bordered"
-          onChange={(e) => setUrl(e.target.value)} // Corrected to update `url`
+          onChange={(e) => setUrl(e.target.value)}
         />
         <button onClick={addLink} className="flex items-center justify-center">
           <LuListPlus className="w-4 h-4" />
         </button>
       </div>
+ 
 
       <ul className="space-y-2">
         {links.map((link, index) => (
