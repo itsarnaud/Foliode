@@ -63,7 +63,7 @@ class ExternalAuthController extends AbstractController
             return new JsonResponse(['error' => 'dribbble token is missing'], Response::HTTP_BAD_REQUEST);
         }
 
-        $userData = $this->apiRequester->get('https://api.dribbble.com/v2/user', ['headers' => ['Authorization' => 'Bearer ' . $dribbbleToken,]]);
+        $userData = $this->apiRequester->get('https://api.dribbble.com/v2/user', ['Authorization' => 'Bearer ' . $dribbbleToken]);
 
         if (!$userData) {
             return new JsonResponse(['error' => 'dribbble Token is invalid'], Response::HTTP_BAD_REQUEST);

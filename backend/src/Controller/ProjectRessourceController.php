@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProjectResourceController extends AbstractController
+class ProjectRessourceController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

@@ -179,7 +179,7 @@ export default function Profile() {
                           <Link
                             isExternal
                             showAnchorIcon
-                            href={`https://github.com/${user.dribbble_login}`}
+                            href={`https://dribbble.com/${user.dribbble_login}`}
                             className="text-primary"
                           >
                             Votre profil
