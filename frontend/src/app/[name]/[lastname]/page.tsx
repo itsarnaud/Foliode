@@ -25,7 +25,7 @@ async function PortfolioPage({
       return <EmeraldFlow portfolio={portfolio} />;
     }
 
-    if (template === "Prestige") {
+    if (template === "prestige") {
       return <PrestigeNoir portfolio={portfolio} />;
     }
   } catch (error) {
