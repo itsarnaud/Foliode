@@ -19,22 +19,22 @@ class Projects
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "The name is required.")]
     #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\DateTime(message: "start date must be a valid date format")]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?\DateTimeInterface $start_date = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -43,18 +43,8 @@ class Projects
         "this.getEndDate() === null || this.getStartDate() === null || this.getEndDate() >= this.getStartDate()",
         message: "end date must be greater than or equal to the start date"
     )]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private ?\DateTimeInterface $end_date = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 255, maxMessage: "category cannot exceed 255 characters")]
-    #[Groups('getPortfolio') ]
-    private ?string $category = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 255, maxMessage: "status cannot exceed 255 characters")]
-    #[Groups('getPortfolio') ]
-    private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
@@ -63,22 +53,22 @@ class Projects
     /**
      * @var Collection<int, ProjectsImages>
      */
-    #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist"])]
-    #[Groups('getPortfolio') ]
+    #[ORM\OneToMany(targetEntity: ProjectsImages::class, mappedBy: 'project', cascade: ["persist", "remove"])]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $projectsImages;
 
     /**
      * @var Collection<int, ProjectsLinks>
      */
-    #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist"])]
-    #[Groups('getPortfolio') ]
+    #[ORM\OneToMany(targetEntity: ProjectsLinks::class, mappedBy: 'project', cascade: ["persist", "remove"])]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $projectsLinks;
 
     /**
      * @var Collection<int, Tools>
      */
     #[ORM\ManyToMany(targetEntity: Tools::class, mappedBy: 'projects', cascade: ["persist"])]
-    #[Groups('getPortfolio') ]
+    #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $tools;
 
 
@@ -138,30 +128,6 @@ class Projects
     public function setEndDate(?\DateTimeInterface $end_date): static
     {
         $this->end_date = $end_date;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

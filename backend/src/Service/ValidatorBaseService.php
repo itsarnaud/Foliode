@@ -1,20 +1,32 @@
 <?php
+
 namespace App\Service;
 
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-abstract class ValidatorBaseService
+class ValidatorBaseService
 {
-    protected function CatchInvalidData(ConstraintViolationListInterface $errors): void
+    private ValidatorInterface $validator;
+
+    public function __construct(ValidatorInterface $validator)
     {
+        $this->validator = $validator;
+    }
+
+    public function CatchInvalidData(object $data): ?array
+    {
+        $errors = $this->validator->validate($data);
+
         if (count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
-                $errorMessages[] = $error->getMessage();
+                $errorMessages[$error->getPropertyPath()] = $error->getMessage();
             }
 
-            throw new \InvalidArgumentException(implode(", ", $errorMessages));
+            return $errorMessages;
         }
-    }
 
+        return null;
+    }
 }

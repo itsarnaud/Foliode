@@ -15,7 +15,12 @@ class ExternalUserService
     private JWTTokenManagerInterface $JWTManager;
     private SerializerInterface $serializer;
 
-    public function __construct(UsersRepository $usersRepository, EntityManagerInterface $entityManager, JWTTokenManagerInterface $JWTManager, SerializerInterface $serializer)
+    public function __construct(
+        UsersRepository          $usersRepository,
+        EntityManagerInterface   $entityManager,
+        JWTTokenManagerInterface $JWTManager,
+        SerializerInterface      $serializer
+    )
     {
         $this->usersRepository = $usersRepository;
         $this->entityManager = $entityManager;
@@ -39,7 +44,8 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setFullName($userData['name'] ?? 'Unknown')
+            ->setName($userData['name'] ?? 'Unknown')
+            ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['url'])
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
@@ -47,6 +53,7 @@ class ExternalUserService
             ->setAvatarUrl($userData['avatar_url'] ?? null)
             ->setStudent(true)
             ->setTeacher(false);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -72,7 +79,8 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setFullName($userData['name'] ?? 'Unknown')
+            ->setName($userData['name'] ?? 'Unknown')
+            ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['html_url'])
             ->setIsEmailVerified(true)
             ->setDribbbleLogin($userData['login'])

@@ -49,16 +49,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           token.accessToken = account.access_token;
           token.provider = account.provider;
 
+          const cookieStore = await cookies();
+          const authToken = cookieStore.get('token_auth')?.value;
+
+          const headers: { 'Content-Type': string; 'Authorization'?: string } = {
+            'Content-Type': 'application/json'
+          };
+
+          if (authToken) {
+            headers['Authorization'] = `Bearer ${authToken}`;
+          }
+
           if (token.provider === 'dribbble') {
             try {
-              const response = await axios.post(`${process.env.API_CLIENT_URL}/api/auth/dribbble`,
-                { "dribbble_token": `${token.accessToken}` },
-                { headers: { 'Content-Type': 'application/json' } }
+              const response = await axios.post(
+                `${process.env.API_CLIENT_URL}/api/user/auth/dribbble`,
+                { 'dribbble_token': `${token.accessToken}` },
+                { headers }
               );
 
               const cookieStore = await cookies();
               cookieStore.set({
-                name: 'token_dribbble',
+                name: 'token_auth',
                 value: response.data.token
               });
             } catch(error) {
@@ -66,14 +78,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           } else if (token.provider === 'github') {
             try {
-              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/github`, 
-                { "github_token": `${token.accessToken}` },
-                { headers: { 'Content-Type': 'application/json' } }
+              const response = await axios.post(
+                `${process.env.API_CLIENT_URL}/api/user/auth/github`,
+                { 'github_token': `${token.accessToken}` },
+                { headers }
               );
   
               const cookieStore = await cookies();
               cookieStore.set({
-                name: 'token_github',
+                name: 'token_auth',
                 value: response.data.token
               });
             } catch(error) {

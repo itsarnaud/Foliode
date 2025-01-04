@@ -20,24 +20,28 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Name is required.")]
+    #[Assert\Regex(
+        pattern: '/^[\p{L}\s]+$/u',
+        message: 'Name should only contain letters and spaces.'
+    )]
+    #[Groups(['getUsers', 'getPortfolio'])]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Full name is required.")]
+    #[Assert\NotBlank(message: "First name is required.")]
     #[Assert\Regex(
-        pattern: '/^[a-zA-Z\s]+$/',
-        message: 'Full name should only contain letters and spaces.'
+        pattern: '/^[\p{L}\s]+$/u',
+        message: 'First name should only contain letters and spaces.'
     )]
-    #[Assert\Length(
-        min: 5,
-        minMessage: "Full name must be at least {{ limit }} characters long."
-    )]
-    #[Groups('getUsers', 'getPortfolio')]
-    private ?string $full_name = null;
+    #[Groups(['getUsers', 'getPortfolio'])]
+    private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "Email address is required.")]
     #[Assert\Email(message: "Invalid email format.")]
-    #[Groups('getUsers')]
+    #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -65,7 +69,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $dribbble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('getUsers', 'getPortfolio')]
+    #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]
@@ -87,19 +91,34 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     private ?Portfolios $portfolio = null;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Promotion $promotion = null;
+
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getFullName(): ?string
+    public function getName(): ?string
     {
-        return $this->full_name;
+        return $this->name;
     }
 
-    public function setFullName(string $full_name): static
+    public function setName(string $name): static
     {
-        $this->full_name = $full_name;
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstName(string $firstname): static
+    {
+        $this->firstname = $firstname;
         return $this;
     }
 
@@ -150,7 +169,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getDribbbleLogin(): string
+    public function getDribbbleLogin(): ?string
     {
         return $this->dribbble_login;
     }
@@ -161,7 +180,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getDribbbleId(): string
+    public function getDribbbleId(): ?string
     {
         return $this->dribbble_id;
     }
@@ -250,7 +269,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function eraseCredentials(): void
     {
-        $this->password = null;
+        // $this->password = null;
     }
 
     public function getUserIdentifier(): string
@@ -271,6 +290,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
             $portfolio->setUsers($this);
         }
 
+        return $this;
+    }
+
+    public function getPromotion(): ?Promotion
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion(?Promotion $promotion): self
+    {
+        $this->promotion = $promotion;
         return $this;
     }
 }
