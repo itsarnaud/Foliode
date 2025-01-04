@@ -40,3 +40,22 @@ export const apiAuth = async (url: string, data: object): Promise<AxiosResponse 
     }
 }
 
+export const apiPut = async (url: string, data: object) => {
+    const token = getCookie('token_auth')
+    try {
+      const response = await axios.put(
+        `${apiUrl}/api/${url}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response
+    } catch (err) {
+      console.log(err)
+      return null
+    }
+  }
