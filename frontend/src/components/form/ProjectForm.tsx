@@ -35,16 +35,16 @@ function ProjectForm() {
     }
 
     const inputStyles = {
-        input: "px-2 py-1 text-gray-400 bg-foreground",
+        input: "px-2 py-1 text-gray-400 bg-[#f5f5f5] dark:bg-[#191919]",
         inputWrapper: "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus:border-primary rounded-md transition-all duration-300 ease-in-out"
     }
 
     const toggleExpand = () => setIsExpanded(!isExpanded)
 
     return (
-        <div className={`nightMode bg-foreground rounded-md p-5 flex flex-col transition-all duration-300 ease-in-out ${
+        <div className={` bg-[#f5f5f5] dark:bg-[#191919] rounded-md p-5 flex flex-col transition-all duration-300 ease-in-out ${
             isExpanded
-                ? 'fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 backdrop-blur-sm'
+                ? 'fixed inset-0 z-50 overflow-auto bg-[#f5f5f5] dark:bg-[#191919] bg-opacity-50 backdrop-blur-sm'
                 : 'relative w-full '
         }`}>
             <div className="absolute bottom-2 right-5 z-10">
