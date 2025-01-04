@@ -67,20 +67,20 @@ export default function Skills() {
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="nightMode flex items-center justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground w-full h-[fit-content]"
+                className=" flex items-center justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]"
               >
                 <div className="flex-shrink-0">
-                  <div className="text-white">{skill.logo}</div>
+                  <div className="">{skill.logo}</div>
                 </div>
                 <div className="flex-grow ml-4">
-                  <h3 className="text-xl text-white">{skill.competence}</h3>
+                  <h3 className="text-xl ">{skill.competence}</h3>
                 </div>
                 <div className="cursor-pointer" onClick={() => handleDelete(index)}>
-                  <RxCross2 size={40} color="#FFFFFF" />
+                  <RxCross2 size={40}  />
                 </div>
               </div>
             ))}
-            <div className="nightMode flex flex-col justify-between h-full rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground w-full h-[fit-content]">
+            <div className=" flex flex-col justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]">
               <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 items-center justify-center">
                 <Input
                   type="text"

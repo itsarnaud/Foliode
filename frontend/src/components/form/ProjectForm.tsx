@@ -41,11 +41,10 @@ function ProjectForm() {
     }
   };
 
-  const inputStyles = {
-    input: "px-2 py-1 text-gray-400 bg-foreground focus:gray-blue-800",
-    inputWrapper:
-      "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus-within:border-primary rounded-md transition-all duration-300 ease-in-out",
-  };
+    const inputStyles = {
+        input: "px-2 py-1 text-gray-400 bg-[#f5f5f5] dark:bg-[#191919]",
+        inputWrapper: "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus:border-primary rounded-md transition-all duration-300 ease-in-out"
+    }
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
