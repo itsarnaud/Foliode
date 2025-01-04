@@ -1,16 +1,20 @@
-
-import {NextRequest, NextResponse} from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { getDecodedToken } from "./utils/serverJwtUtils";
 
 export function middleware(request: NextRequest) {
-    const authCookie = request.cookies.get('token_auth');
+  const authCookie = getDecodedToken(request);
 
-    if (!authCookie) {
-        return NextResponse.redirect(new URL('/login', request.url));
-    }
+  if (!authCookie) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-    return NextResponse.next();
+  if (authCookie.exp * 1000 < Date.now()) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*'],
+  matcher: ["/dashboard/:path*", "/portfolio/edit"],
 };

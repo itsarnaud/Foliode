@@ -17,8 +17,8 @@ function FourStepForm() {
 
   const templates: template[] = [
     {
-      id: "modern",
-      name: "Modern",
+      id: "prestige",
+      name: "prestige",
       preview: "/dashboard.png",
       color: {
         primary: "#669BBC",
