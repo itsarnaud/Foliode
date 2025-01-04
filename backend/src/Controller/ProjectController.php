@@ -27,9 +27,7 @@ class ProjectController extends AbstractController
         private PortfoliosRepository   $portfoliosRepository,
         private FileUploaderService    $fileUploader,
         private ValidatorBaseService   $validatorBaseService
-    )
-    {
-    }
+    ) {}
 
     /**
      * @OA\Post(
@@ -63,8 +61,7 @@ class ProjectController extends AbstractController
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->get('json');
@@ -197,8 +194,7 @@ class ProjectController extends AbstractController
     public function update_project(
         string  $id,
         Request $request,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
@@ -260,4 +256,23 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
 
+    #[Route('/api/projects', methods: ['GET'])]
+    public function getProjects(): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse(['error' => 'Unauthorized profile'], Response::HTTP_UNAUTHORIZED);
+        }
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+
+        if (!$portfolio) {
+            return new JsonResponse(['error' => 'projects not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $projects = $portfolio->getProjects();
+
+        $jsonProjects = $this->serializer->serialize($projects, 'json', ['groups' => 'getProject']);
+        return new JsonResponse($jsonProjects, Response::HTTP_OK, [], true);
+    }
 }

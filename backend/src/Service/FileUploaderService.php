@@ -2,11 +2,13 @@
 
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\ByteString;
 
 class FileUploaderService
 {
+    public function __construct(private Filesystem $filesystem) {}
 
     public function uploadFile(UploadedFile $file, string $directory): string
     {
@@ -28,6 +30,13 @@ class FileUploaderService
         return $relativePath . '/' .  $fileName;
     }
 
+    public function deleteFile(string $filePath): void
+    {
+        if ($this->filesystem->exists($filePath)) {
+            $this->filesystem->remove($filePath);
+        }
+    }
+
     private function generateRandomString(): string
     {
         return ByteString::fromRandom(25, 'abcdefghijklmnopqrstuvwxyz0123456789');
@@ -42,5 +51,4 @@ class FileUploaderService
         }
         return null;
     }
-
 }
