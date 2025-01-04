@@ -28,7 +28,7 @@ export default function Sidebar() {
   return (
     <>
       <div className="h-screen p-2 fixed duration-300">
-        <div className={`nightMode flex flex-col justify-between h-full rounded-xl p-5 border-2 border-[#2C2D33] bg-foreground w-[80px] duration-300 ${isOpen ? 'lg:w-[300px]' : ''}`}>
+        <div className={` flex flex-col justify-between h-full rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-[80px] duration-300 ${isOpen ? 'lg:w-[300px]' : ''}`}>
           <div>
             <div className={`flex items-center justify-between mb-10 ${isOpen ? '' : 'flex-col gap-5'}`}>
               <div>
@@ -49,14 +49,14 @@ export default function Sidebar() {
               {isOpen ? 
               <button 
                 onClick={toggle}
-                className="hover:text-white text-[#B0B5BB] transition-colors hidden text-xl lg:block"
+                className="hover:text-white text-foreground transition-colors hidden text-xl lg:block"
               >
                 <LuArrowLeftFromLine />
               </button> 
               :  
               <button 
                 onClick={toggle}
-                className="hover:text-white text-[#B0B5BB] transition-colors hidden text-xl lg:block"
+                className="hover:text-white text-foreground transition-colors hidden text-xl lg:block"
               >
                 <IoMdMenu />
               </button>}
@@ -70,7 +70,7 @@ export default function Sidebar() {
                 <Link 
                   href={`/${element.link}`} 
                   key={index} 
-                  className={`flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white hover:bg-primary-200 justify-center ${isActive ? 'bg-primary-200 !text-white' : ''} ${isOpen ? 'lg:justify-start' : ''}`}
+                  className={`flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-foreground hover:text-white hover:bg-primary-200 justify-center ${isActive ? 'bg-primary-200 !text-white' : ''} ${isOpen ? 'lg:justify-start' : ''}`}
                 >
                   <span className="text-xl">{element.icon}</span>
                   <span className={`hidden ${isOpen ? 'lg:block' : ''}`}>{element.name}</span>
@@ -82,7 +82,7 @@ export default function Sidebar() {
           
           <div>
             <div 
-            className={`nightMode flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
+            className={`bg-[#f5f5f5] dark:bg-[#191919] flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-foreground hover:text-white justify-center ${isOpen ? 'lg:justify-start' : ''}`}>
               <ThemeSwitcher />
             </div>
             <SignOutButton isOpen={isOpen} />
