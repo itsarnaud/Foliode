@@ -1,6 +1,5 @@
 import React from "react";
 import { Image } from "@nextui-org/react";
-import NavPortfolio from "@/components/UI/navportfolio";
 import { Portfolio } from "@/interfaces/Portfolio";
 import { generateAvatar } from "@/utils/generateAvatar";
 import { formatImage } from "@/utils/formatImage";

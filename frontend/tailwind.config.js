@@ -24,6 +24,14 @@ module.exports = {
               secondary: "#231C0A",
             }
           },
+          gold: {
+            primary: "#0E0E0E",
+            secondary: "#181716",
+            accent: "#343230",
+            text: {
+              primary: "#DAC6A7",
+            }
+          },
         }
       },
       borderColor: {
