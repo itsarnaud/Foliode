@@ -6,6 +6,7 @@ use App\Repository\PromotionRepository;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,15 +18,23 @@ class Promotion
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups(['getPromotion'])]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getPromotion'])]
     private ?string $institution = null;
 
     #[ORM\OneToMany(mappedBy: 'promotion', targetEntity: Users::class)]
+    #[Groups(['getPromotion'])]
     private Collection $users;
 
+    #[ORM\Column(type: 'string', length: 6, unique: true)]
+    #[Groups(['getPromotion'])]
+    private ?string $code = null;
+
     #[ORM\ManyToOne(targetEntity: Formation::class, inversedBy: 'promotions')]
+    #[Groups(['getPromotion'])]
     private ?Formation $formation = null;
 
     public function __construct()
@@ -36,6 +45,17 @@ class Promotion
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+        return $this;
     }
 
     public function getInstitution(): ?string

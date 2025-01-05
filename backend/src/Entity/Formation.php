@@ -17,19 +17,19 @@ class Formation
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::INTEGER)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?int $duration = null;
 
     #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Promotion::class)]
@@ -39,7 +39,7 @@ class Formation
      * @var Collection<int, Ac>
      */
     #[ORM\OneToMany(targetEntity: Ac::class, mappedBy: 'formation', cascade: ["persist", "remove"])]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private Collection $acs;
 
     public function __construct()

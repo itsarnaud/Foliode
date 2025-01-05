@@ -20,11 +20,11 @@ class Ressources
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $subject = null;
 
     /**

@@ -19,11 +19,11 @@ class Ac
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private ?string $code = null;
 
     #[ORM\ManyToOne(inversedBy: 'acs')]
@@ -33,7 +33,7 @@ class Ac
      * @var Collection<int, Ressources>
      */
     #[ORM\ManyToMany(targetEntity: Ressources::class, mappedBy: 'acs', cascade: ["persist"])]
-    #[Groups('getFormation')]
+    #[Groups(['getFormation', 'getPromotion'])]
     private Collection $ressources;
 
     public function __construct()

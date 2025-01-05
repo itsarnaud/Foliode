@@ -28,7 +28,7 @@ class FormationController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/formation', methods: ['POST'])]
-    public function createFormation(Request $request): Response
+    public function createFormation(Request $request): JsonResponse
     {
         $data = $request->getContent();
 
@@ -42,7 +42,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/api/formation', methods: ['GET'])]
-    public function getFormations(): Response
+    public function getFormations(): JsonResponse
     {
         $formations = $this->formationRepository->findAll();
 
@@ -51,7 +51,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/api/formation/{id}', methods: ['GET'])]
-    public function getFormation(int $id): Response
+    public function getFormation(int $id): JsonResponse
     {
         $formation = $this->formationRepository->find($id);
 
@@ -65,7 +65,7 @@ class FormationController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/formation/{id}', methods: ['PUT'])]
-    public function updateFormation(Request $request, int $id): Response
+    public function updateFormation(Request $request, int $id): JsonResponse
     {
         $formation = $this->formationRepository->find($id);
 
@@ -84,7 +84,7 @@ class FormationController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/formation/{id}', methods: ['DELETE'])]
-    public function deleteFormation(int $id): Response
+    public function deleteFormation(int $id):JsonResponse
     {
         $formation = $this->formationRepository->find($id);
 
