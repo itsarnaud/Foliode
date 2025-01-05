@@ -25,6 +25,7 @@ class PromotionController extends AbstractController
         private EntityManagerInterface $entityManager,
     ) {}
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/promotion', methods: ['POST'])]
     public function createPromotion(Request $request): JsonResponse
     {
@@ -77,7 +78,7 @@ class PromotionController extends AbstractController
         return new JsonResponse($jsonPromotion, Response::HTTP_CREATED, [], true);
     }
 
-  //  #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/promotion/{id}', methods: ['GET'])]
     public function getPromotion(
         String $id
