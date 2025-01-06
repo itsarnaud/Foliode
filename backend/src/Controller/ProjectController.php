@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProjectController extends AbstractController
 {
@@ -58,11 +59,11 @@ class ProjectController extends AbstractController
      *     )
      * )
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
         Request $request,
     ): JsonResponse {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->get('json');
         $files = $request->files->get('images');
@@ -109,10 +110,10 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_CREATED, [], true);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/projects', methods: ['POST'])]
     public function add_projects(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->request->all();
         $files = $request->files->all();
@@ -190,12 +191,12 @@ class ProjectController extends AbstractController
      *     )
      * )
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/project/{id}', methods: ['PUT'])]
     public function update_project(
         string  $id,
         Request $request,
     ): JsonResponse {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
 
@@ -225,10 +226,11 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
 
+
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/project/{id}', methods: ['DELETE'])]
     public function deleteProject(string $id): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         if (!$user) {
             return new JsonResponse(['error' => 'Unauthorized profile'], Response::HTTP_UNAUTHORIZED);
@@ -245,6 +247,7 @@ class ProjectController extends AbstractController
         return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/project/{id}', methods: ['GET'])]
     public function getProject(string $id): JsonResponse
     {
@@ -256,10 +259,10 @@ class ProjectController extends AbstractController
         return new JsonResponse($jsonProject, Response::HTTP_OK, [], true);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/projects', methods: ['GET'])]
     public function getProjects(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         if (!$user) {
             return new JsonResponse(['error' => 'Unauthorized profile'], Response::HTTP_UNAUTHORIZED);

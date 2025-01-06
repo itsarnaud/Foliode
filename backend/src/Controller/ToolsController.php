@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ToolsController extends AbstractController
 {
@@ -20,14 +21,12 @@ class ToolsController extends AbstractController
         private FileUploaderService $uploader,
         private EntityManagerInterface $entityManager,
         private PortfoliosRepository $portfoliosRepository
-    )
-    {
-    }
+    ) {}
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/portfolio/tool', methods: ['POST'])]
     public function add_tool(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->get('json');
         $files = $request->files->get('images');
@@ -51,10 +50,10 @@ class ToolsController extends AbstractController
         return new JsonResponse($tool, Response::HTTP_CREATED);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/portfolio/tools', methods: ['POST'])]
     public function add_tools(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->request->all();
         $files = $request->files->all();
@@ -87,10 +86,10 @@ class ToolsController extends AbstractController
         return new JsonResponse($tools, Response::HTTP_CREATED);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/portfolio/tool/{id}', methods: ['DELETE'])]
     public function delete_tool(Tools $tool): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
 
@@ -104,10 +103,10 @@ class ToolsController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/portfolio/tool/{id}', methods: ['PUT'])]
     public function update_tool(Tools $tool, Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
 
@@ -135,10 +134,10 @@ class ToolsController extends AbstractController
         return new JsonResponse($tool, Response::HTTP_OK);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/portfolio/tools', methods: ['GET'])]
     public function get_tools(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
 

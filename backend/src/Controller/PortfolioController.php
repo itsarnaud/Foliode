@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class PortfolioController extends AbstractController
@@ -21,14 +22,12 @@ class PortfolioController extends AbstractController
         private EntityManagerInterface $entityManager,
         private SerializerInterface    $serializer,
         private PortfoliosRepository   $portfoliosRepository,
-    )
-    {
-    }
+    ) {}
 
+    #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['POST'])]
     public function add_portfolio(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
 
@@ -36,7 +35,7 @@ class PortfolioController extends AbstractController
         $portfolio->setUsers($user);
 
         $errors = $this->validatorBaseService->CatchInvalidData($user);
-        if($errors) {
+        if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -47,11 +46,10 @@ class PortfolioController extends AbstractController
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 
-
+    #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['PUT'])]
     public function update_portfolio(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $data = $request->getContent();
 
@@ -59,7 +57,7 @@ class PortfolioController extends AbstractController
 
         $this->serializer->deserialize($data, Portfolios::class, 'json', ['object_to_populate' => $portfolio]);
         $errors = $this->validatorBaseService->CatchInvalidData($user);
-        if($errors) {
+        if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -70,20 +68,20 @@ class PortfolioController extends AbstractController
         return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['GET'])]
     public function get_portfolio(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
         $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
         return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['DELETE'])]
     public function delete_portfolio(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
         $this->entityManager->remove($portfolio);

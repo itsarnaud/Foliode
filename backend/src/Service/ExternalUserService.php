@@ -10,23 +10,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ExternalUserService
 {
-    private UsersRepository $usersRepository;
-    private EntityManagerInterface $entityManager;
-    private JWTTokenManagerInterface $JWTManager;
-    private SerializerInterface $serializer;
+
 
     public function __construct(
-        UsersRepository          $usersRepository,
-        EntityManagerInterface   $entityManager,
-        JWTTokenManagerInterface $JWTManager,
-        SerializerInterface      $serializer
-    )
-    {
-        $this->usersRepository = $usersRepository;
-        $this->entityManager = $entityManager;
-        $this->JWTManager = $JWTManager;
-        $this->serializer = $serializer;
-    }
+        private UsersRepository $usersRepository,
+        private EntityManagerInterface $entityManager,
+        private JWTTokenManagerInterface $JWTManager,
+        private SerializerInterface $serializer,
+    ) {}
 
     private function getJsonUser(Users $user): array
     {
@@ -103,5 +94,4 @@ class ExternalUserService
 
         return $this->getJsonUser($user);
     }
-
 }
