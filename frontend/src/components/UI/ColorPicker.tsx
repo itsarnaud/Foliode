@@ -21,11 +21,11 @@ const predefinedStyles = {
   },
   emerald: {
     primary: "#334B35",
-    secondary: "#DAC6A7",
+    secondary: "#FFFFFF",
     warning: "#F6EEE1",
-    success: "#DAC6A7",
-    info: "#343230",
-    light: "#003049",
+    success: "#FAAF15",
+    info: "#231C0A",
+    light: "#334B35",
   },
   // Ajoutez d'autres styles prédéfinis ici
 };
@@ -124,28 +124,42 @@ export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
           {Object.keys(predefinedStyles).map((style) => (
             <Button
               key={style}
+              variant={
+                palette ===
+                predefinedStyles[style as keyof typeof predefinedStyles]
+                  ? "solid"
+                  : "bordered"
+              }
+              color={
+                palette ===
+                predefinedStyles[style as keyof typeof predefinedStyles]
+                  ? "primary"
+                  : "default"
+              }
               onClick={() =>
                 applyPredefinedStyle(style as keyof typeof predefinedStyles)
               }
+              className="transition-all"
             >
               {style}
             </Button>
           ))}
-          <Button onClick={handleCustomizeClick}>Personnaliser</Button>
         </div>
       </div>
       {showCustomColors && (
         <div className="flex gap-4 flex-wrap mt-4">
           {palette &&
             (Object.keys(palette) as Array<keyof colors>).map((key) => (
-              <div className="dayMode bg-foreground p-2 border-2 border-[#252525] rounded-xl">
+              <div
+                key={key} // Ajouter la clé ici sur l'élément parent
+                className="dayMode bg-foreground p-2 border-2 border-[#252525] rounded-xl"
+              >
                 <div
-                  key={key}
                   className="p-4 flex flex-col items-start space-y-2 cursor-pointer bg-content1 rounded-md w-52 h-28"
                   style={{ backgroundColor: palette[key] }}
                   onClick={(e) => handleCardClick(key, palette[key], e)}
                 >
-                  <h3 className="text-md text-white font-semibold">{[key]}:</h3>
+                  <h3 className="text-md text-white font-semibold">{key}:</h3>
                   <div className="w-full flex items-center space-x-2">
                     <Input
                       value={palette[key]}
