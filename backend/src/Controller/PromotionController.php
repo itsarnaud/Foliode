@@ -25,11 +25,12 @@ class PromotionController extends AbstractController
         private EntityManagerInterface $entityManager,
     ) {}
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/promotion', methods: ['POST'])]
     public function createPromotion(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+        $user = $this->getUser(); 
     
         if (!isset($data['formationId'])) {
             return new JsonResponse(['error' => 'Formation ID is required'], Response::HTTP_BAD_REQUEST);
@@ -44,6 +45,7 @@ class PromotionController extends AbstractController
         $promotion = $this->serializer->deserialize($request->getContent(), Promotion::class, 'json');
     
         $promotion->setFormation($formation);
+        $promotion->setCreator($user); 
     
         $code = random_int(100000, 999999);
         $promotion->setCode($code);

@@ -48,4 +48,20 @@ class StudentEnrollmentController extends AbstractController
         $token = $this->jwtManager->create($user);
         return new JsonResponse(['token' => $token], JsonResponse::HTTP_OK);
     }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/api/show/promotions', methods:['GET'])]
+    public function showPromotions(): JsonResponse
+    {
+        $user = $this->getUser();
+        $promotions = $user->getPromotions();
+
+        if(!$promotions){
+            return new JsonResponse(['error' => 'No promotions found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = $this->serializer->serialize($promotions, 'json');
+
+        return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+    }
 }

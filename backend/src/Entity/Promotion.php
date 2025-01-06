@@ -37,6 +37,10 @@ class Promotion
     #[Groups(['getPromotion'])]
     private ?Formation $formation = null;
 
+    #[ORM\ManyToOne]
+    #[Groups(['getPromotion'])]
+    private ?Users $creator = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -104,6 +108,18 @@ class Promotion
     public function setFormation(?Formation $formation): self
     {
         $this->formation = $formation;
+        return $this;
+    }
+
+    public function getCreator(): ?Users
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?Users $creator): static
+    {
+        $this->creator = $creator;
+
         return $this;
     }
 }

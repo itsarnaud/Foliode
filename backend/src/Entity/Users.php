@@ -95,6 +95,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Promotion $promotion = null;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formation::class)]
+    private $createdFormations;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -232,6 +235,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function getCreatedFormations(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->createdFormations;
+    }
+
+    public function setCreatedFormations(\Doctrine\Common\Collections\Collection $createdFormations): self
+    {
+        $this->createdFormations = $createdFormations;
+        return $this;
     }
 
     public function setRoles(array $roles): self

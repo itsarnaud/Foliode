@@ -8,14 +8,12 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class MailerService
 {
-    private MailerInterface $mailer;
+
 
     public function __construct(
-        MailerInterface $mailInterface
+        private MailerInterface $mailer
     )
-    {
-        $this->mailer = $mailInterface;
-    }
+    {}
 
     public function sendEmail(string $subject, string $content, string $recipient): bool
     {
