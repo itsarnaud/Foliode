@@ -27,6 +27,14 @@ const predefinedStyles = {
     info: "#231C0A",
     light: "#334B35",
   },
+  blue: {
+    primary: "#669BBC",
+    secondary: "#FDF0D5",
+    warning: "#ffc107",
+    success: "#28a745",
+    info: "#17a2b8",
+    light: "#003049",
+  },
   // Ajoutez d'autres styles prédéfinis ici
 };
 
