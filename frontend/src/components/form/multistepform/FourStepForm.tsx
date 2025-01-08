@@ -114,30 +114,7 @@ function FourStepForm() {
             }
           />
         )}
-        {/*
-    <Select
-    label="Typographie"
-    placeholder="Choisissez votre typographie"
-    value={multiStep.style.typo}
-    onChange={(e) => handleChange("typo", e.target.value)}
-  >
-    <SelectItem key="poppins" value="poppins">
-      Poppins
-    </SelectItem>
-    <SelectItem key="roboto" value="roboto">
-      Roboto
-    </SelectItem>
-    <SelectItem key="openSans" value="openSans">
-      Open Sans
-    </SelectItem>
-    <SelectItem key="montserrat" value="montserrat">
-      Montserrat
-    </SelectItem>
-    <SelectItem key="lato" value="lato">
-      Lato
-    </SelectItem>
-  </Select>
-*/}
+
       </div>
     </div>
   );
