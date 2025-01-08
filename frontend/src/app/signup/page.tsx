@@ -33,10 +33,8 @@ export default function RegisterPage() {
     passwordConfirm: "",
   });
 
-  // Toggles password visibility
   const toggleVisibility = () => setIsVisible(!isVisible);
   const toggleVisibilityConfirm = () => setIsVisibleConfirm(!isVisibleConfirm);
-
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,19 +42,35 @@ export default function RegisterPage() {
       ...prev,
       [name]: value,
     }));
+    setError((prev) => ({
+      ...prev,
+      [name]: undefined,
+    }));
+  };
+
+
+
+  const validateForm = (): boolean => {
+    const newErrors: FormError = {};
+    if (!data.email) newErrors.email = "L'adresse email est obligatoire.";
+    if (!data.firstname) newErrors.firstname = "Le prénom est obligatoire.";
+    if (!data.name) newErrors.name = "Le nom est obligatoire.";
+    if (!data.password) newErrors.password = "Le mot de passe est obligatoire.";
+    if (!data.passwordConfirm) {
+      newErrors.confirmPassword =
+        "La confirmation du mot de passe est obligatoire.";
+    } else if (data.password !== data.passwordConfirm) {
+      newErrors.confirmPassword = "Les mots de passe ne correspondent pas.";
+    }
+    setError(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError({});
 
-    if (data.password !== data.passwordConfirm) {
-      setError((prev) => ({
-        ...prev,
-        confirmPassword: "Les mots de passe ne correspondent pas.",
-      }));
-      return;
-    }
+    if (!validateForm()) return;
 
     const response = await apiAuth("user/signup", data);
 
@@ -69,13 +83,14 @@ export default function RegisterPage() {
     }
   };
 
-  // Styles for inputs
   const styles = {
     inputWrapper: [
       "border-primary",
       "data-[hover=true]:border-primary-100",
       "group-data-[focus=true]:border-primary",
     ],
+    input: ["text-white", "placeholder:text-gray-400", "focus:text-blue-500"],
+    label: "text-white",
     clearButton: "text-primary",
   };
 
@@ -107,6 +122,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.email}
+            onClear={() => setData({...data, email: ''})}
           />
           <Input
             isRequired
@@ -120,6 +136,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.firstname}
+            onClear={() => setData({...data, firstname: ''})}
           />
           <Input
             isRequired
@@ -133,6 +150,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.name}
+            onClear={() => setData({...data, name: ''})}
           />
           <Input
             isRequired
@@ -158,6 +176,7 @@ export default function RegisterPage() {
             type={isVisible ? "text" : "password"}
             classNames={styles}
             errorMessage={error.password}
+
           />
           <Input
             isRequired

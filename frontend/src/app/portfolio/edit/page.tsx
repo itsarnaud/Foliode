@@ -29,7 +29,7 @@ export default function MultiStepForm() {
         setCurrentStep(currentStep - 1)
     }
 
-    const handleSubmit = async () => {
+    const postData = async () => {
        const response = await apiPost("portfolio", multiStep.portfolio, 'application/json')
 
         if (response !== null && response.status === 201) {
@@ -71,7 +71,7 @@ export default function MultiStepForm() {
                     />
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <div>
                     {currentStep === 0 && (
                         <FirstStepForm/>
                     )}
@@ -81,30 +81,30 @@ export default function MultiStepForm() {
                     )}
 
                     {currentStep === 2 && (
-                        < ThirdStepForm/>
+                        <ThirdStepForm/>
                     )}
 
                     {currentStep === 3 && (
-                        < FourStepForm/>
+                        <FourStepForm/>
                     )}
                     <div className="flex justify-between mt-6">
-                        <Button onClick={handlePrevious} disabled={currentStep === 0}>
+                        <Button onPress={handlePrevious} disabled={currentStep === 0}>
                             Précédent
                         </Button>
                         {currentStep < totalSteps ? (
                             <Button
-                                onClick={handleNext}
+                            onPress={handleNext}
                                 className="dayMode bg-primary text-white"
                             >
                                 Suivant
                             </Button>
                         ) : (
-                            <Button onClick={handleSubmit} className="dayMode bg-primary text-white">
+                            <Button onPress={postData} className="dayMode bg-primary text-white">
                                 Publier
                             </Button>
                         )}
                     </div>
-                </form>
+                </div>
             </Card>
         </div>
     );

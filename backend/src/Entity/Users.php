@@ -26,7 +26,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         pattern: '/^[\p{L}\s]+$/u',
         message: 'Name should only contain letters and spaces.'
     )]
-    #[Groups(['getUsers', 'getPortfolio'])]
+    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -35,13 +35,13 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         pattern: '/^[\p{L}\s]+$/u',
         message: 'First name should only contain letters and spaces.'
     )]
-    #[Groups(['getUsers', 'getPortfolio'])]
+    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "Email address is required.")]
     #[Assert\Email(message: "Invalid email format.")]
-    #[Groups(['getUsers', 'getPortfolio'])]
+    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -69,7 +69,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $dribbble_id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['getUsers', 'getPortfolio'])]
+    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]
@@ -93,7 +93,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['getPortfolio'])]
     private ?Promotion $promotion = null;
+
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formation::class)]
+    private $createdFormations;
 
     public function getId(): ?string
     {
@@ -232,6 +236,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function getCreatedFormations(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->createdFormations;
+    }
+
+    public function setCreatedFormations(\Doctrine\Common\Collections\Collection $createdFormations): self
+    {
+        $this->createdFormations = $createdFormations;
+        return $this;
     }
 
     public function setRoles(array $roles): self

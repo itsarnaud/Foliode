@@ -71,7 +71,7 @@ function ThirdStepForm() {
                   files.map((file) => file)
                 )
               }
-              value={project.images}
+              files={project.images}
             />
             <p className="text-sm text-gray-500 mt-1">
               Format recommandé : PNG ou JPG, max 2MB

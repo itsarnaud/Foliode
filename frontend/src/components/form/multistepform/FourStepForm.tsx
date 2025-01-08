@@ -21,12 +21,12 @@ function FourStepForm() {
       name: "prestige",
       preview: "/dashboard.png",
       color: {
-        primary: "#669BBC",
-        secondary: "#FDF0D5",
-        warning: "#ffc107",
-        success: "#28a745",
-        info: "#17a2b8",
-        light: "#003049",
+        primary: "#0E0E0E",
+        secondary: "#DAC6A7",
+        warning: "#0E0E0E",
+        success: "#DAC6A7",
+        info: "#343230",
+        light: "#181716",
       },
     },
     {
@@ -47,12 +47,12 @@ function FourStepForm() {
       name: "Emerald",
       preview: "/emerald.png",
       color: {
-        primary: "#fffff",
-        secondary: "#f7eee1",
-        warning: "#faaf15",
-        success: "#334b35",
-        info: "#17a2b8",
-        light: "#003049",
+        primary: "#334B35",
+        secondary: "#FFFFFF",
+        warning: "#F6EEE1",
+        success: "#FAAF15",
+        info: "#231C0A",
+        light: "#334B35",
       },
     },
   ];
@@ -114,30 +114,7 @@ function FourStepForm() {
             }
           />
         )}
-        {/*
-    <Select
-    label="Typographie"
-    placeholder="Choisissez votre typographie"
-    value={multiStep.style.typo}
-    onChange={(e) => handleChange("typo", e.target.value)}
-  >
-    <SelectItem key="poppins" value="poppins">
-      Poppins
-    </SelectItem>
-    <SelectItem key="roboto" value="roboto">
-      Roboto
-    </SelectItem>
-    <SelectItem key="openSans" value="openSans">
-      Open Sans
-    </SelectItem>
-    <SelectItem key="montserrat" value="montserrat">
-      Montserrat
-    </SelectItem>
-    <SelectItem key="lato" value="lato">
-      Lato
-    </SelectItem>
-  </Select>
-*/}
+
       </div>
     </div>
   );

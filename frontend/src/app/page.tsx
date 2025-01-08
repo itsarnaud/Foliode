@@ -14,8 +14,6 @@ export default function Home() {
         <Fonctionnalites />
         <Eval />
         <Footer />
-
-     
     </div>
   );
 }

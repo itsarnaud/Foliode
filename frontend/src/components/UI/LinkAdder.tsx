@@ -62,9 +62,9 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
           variant="bordered"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <button onClick={addLink} className="flex items-center justify-center">
+        <div onClick={addLink} className="flex items-center justify-center">
           <LuListPlus className="w-4 h-4" />
-        </button>
+        </div>
       </div>
  
 

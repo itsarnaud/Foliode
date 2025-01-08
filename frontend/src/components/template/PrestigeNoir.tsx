@@ -15,7 +15,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
     <main
       className="min-h-screen bg-portfolio-gold-primary text-portfolio-gold-text-primary"
       style={{
-        background: `linear-gradient(to bottom right, ${light}, ${primary})`,
+        background: `linear-gradient(to bottom right, ${primary}, ${primary})`,
       }}
     >
       {/* Hero Section */}
@@ -30,13 +30,13 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
       <section
         id="quiJeSuis"
         className="py-20 px-4"
-        style={{ backgroundColor: secondary }}
+        style={{ backgroundColor: primary }}
       >
         <div className="flex  flex-col items-center gap-6">
           <div className="flex-1">
             <h2
               className="text-6xl font-bold text-portfolio-gold-text-primary  text-center"
-              style={{ color: light }}
+              style={{ color: success }}
             >
               Bonjour,je suis{" "}
               <span className="uppercase">{portfolio.users.firstname}</span>
@@ -46,7 +46,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
             </h3> */}
             <p
               className="mt-8 text-base text-portfolio-gold-text-primary max-w-[832px] text-center mx-auto"
-              style={{ color: light }}
+              style={{ color: success }}
             >
               {portfolio.bio}
             </p>
@@ -65,7 +65,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
       {/* Projects Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl md:text-7xl mb-12 text-center" style={{ color: light }}>
+          <h2 className="text-5xl md:text-7xl mb-12 text-center" style={{ color: secondary }}>
             Mes Projets
           </h2>
           <div className="space-y-16">
@@ -74,14 +74,14 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                 {" "}
                 {/* Changement ici: key={index} au lieu de key={project.id} */}
                 <div
-                  className="absolute md:left-1/2 -mt-2 px-3 py-1 rounded-full border transform -translate-x-1/2"
-                  style={{ backgroundColor: secondary, borderColor: light }}
+                  className="absolute md:left-1/2 -mt-2 px-3 py-1 rounded-full border transform -translate-x-1/2 z-10"
+                  style={{ backgroundColor: light, borderColor: info,  color: secondary }}
                 >
                   {index + 1}
                 </div>
                 <div
-                  className="absolute left-4 md:left-1/2 h-[120%] w-px bg-portfolio-gold-secondary transform -translate-x-1/2"
-                  style={{ backgroundColor: secondary, borderColor: light }}
+                  className="absolute left-4 md:left-1/2 h-[120%] w-px bg-portfolio-gold-secondary transform -translate-x-1/2 z-0"
+                  style={{ backgroundColor: info }}
                 ></div>
                 <div
                   className={`flex flex-col md:w-5/12 ${
@@ -89,19 +89,19 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                   }`}
                 >
                   <div
-                    className="p-6"
-                    style={{ backgroundColor: secondary, borderColor: light }}
+                    className="p-6 border"
+                    style={{ backgroundColor: light,  borderColor: info }}
                   >
-                    <h3 className="text-xl font-bold" style={{ color: light }}>
+                    <h3 className="text-xl font-bold" style={{ color: secondary }}>
                       {project.title}
                     </h3>
-                    <p className="mt-4" style={{ color: light }}>
+                    <p className="mt-4" style={{ color: secondary }}>
                       {project.description}
                     </p>
                     <Link
                       href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
                       className="mt-4 inline-block px-6 py-2 hover:bg-opacity-90"
-                      style={{ backgroundColor: light, color: secondary }}
+                      style={{ backgroundColor: primary, color: secondary }}
                     >
                       Voir le projet
                     </Link>
@@ -123,10 +123,12 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-4 bg-portfolio-gold-secondary">
+      <section className="py-20 px-4 mt-10"
+        style={{ backgroundColor: light }}
+        >
         <h2
           className="text-5xl md:text-7xl  mb-10 text-portfolio-gold-text-primary text-center "
-          style={{ color: light }}
+          style={{ color: secondary }}
         >
           Compétences
         </h2>
@@ -134,12 +136,9 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
           {portfolio.tools.map((tool) => (
             <div
               className="p-4 bg-portfolio-gold-text-primary shadow  flex items-center gap-4"
-              style={{ backgroundColor: light, opacity: 0.75 }}
+              style={{ backgroundColor: secondary }}
             >
-              <div
-                className=" p-1 rounded-lg bg-white"
-                style={{ backgroundColor: secondary }}
-              >
+              <div>
                 {/* Correction ici: ajout du = manquant */}
                 <Image
                   src={formatImage(tool.picto)}
@@ -151,7 +150,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
               <div>
                 <h3
                   className="font-semibold text-portfolio-gold-secondary"
-                  style={{ color: secondary }}
+                  style={{ color: light }}
                 >
                   {tool.name}
                 </h3>
