@@ -1,3 +1,6 @@
+import { receivedProject } from "./Project";
+import { Promotion } from "./Promotion";
+
 export interface Portfolio {
   title: string;
   subtitle: string;
@@ -13,19 +16,15 @@ export interface Portfolio {
       light: string;
     };
   };
-  
+
   users: {
     name: string;
     firstname: string;
     email: string;
     avatar_url: string | null;
+    promotion: Promotion | null;
   };
 
-  projects: {
-    title: string;
-    description: string;
-    links: string[];
-    projectsImages: { img_src: string; img_alt: string }[];
-  }[];
+  projects: receivedProject[];
   tools: { name: string; picto: string }[];
 }

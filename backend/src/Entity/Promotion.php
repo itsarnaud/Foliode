@@ -22,7 +22,7 @@ class Promotion
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['getPromotion'])]
+    #[Groups(['getPromotion', 'getPortfolio'])]
     private ?string $institution = null;
 
     #[ORM\OneToMany(mappedBy: 'promotion', targetEntity: Users::class)]
@@ -34,7 +34,7 @@ class Promotion
     private ?string $code = null;
 
     #[ORM\ManyToOne(targetEntity: Formation::class, inversedBy: 'promotions')]
-    #[Groups(['getPromotion'])]
+    #[Groups(['getPromotion', 'getPortfolio' ])]
     private ?Formation $formation = null;
 
     #[ORM\ManyToOne]

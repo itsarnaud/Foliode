@@ -51,7 +51,7 @@ export default function Profile() {
               </div>
               <p className="text-sm">Classe (s'il en a une)</p>
 
-              <Link isExternal showAnchorIcon href="#" className="!text-primary mt-3">
+              <Link showAnchorIcon href={`/${user.firstname}/${user.name}`} className="!text-primary mt-3">
                 Lien du portfolio
               </Link>
             </section>
@@ -69,6 +69,7 @@ export default function Profile() {
                     label="Nom"
                     placeholder="Votre nom"
                     classNames={styles}
+                  
                   />
                   <Input
                     isRequired

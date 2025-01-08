@@ -93,6 +93,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['getPortfolio'])]
     private ?Promotion $promotion = null;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formation::class)]

@@ -146,6 +146,7 @@ interface LargeCardProps {
     className?: string;
     onClick?: () => void;
     iconComponent?: React.ReactNode;
+    children: React.ReactNode
     imageUrl?: string;
     isLargeDescription?: boolean;
     buttonText?: string;
@@ -161,6 +162,7 @@ const LargeCard: React.FC<LargeCardProps> = ({
     descriptionClassName,
     onClick,
     status,
+    children
 }) => {
     const getBackgroundClass = () => {
         if (variant === 'gradient') {
@@ -192,6 +194,7 @@ const LargeCard: React.FC<LargeCardProps> = ({
                         {status ? 'Associé' : 'Non Associé'}
                     </div>
                 )}
+                {children}
             </CardBody>
         </Card>
     );
