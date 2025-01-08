@@ -20,7 +20,7 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
     >
       {/* Hero Section */}
       <section className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-portfolio-green-accent opacity-10 z-0"></div>
+        <div className="absolute inset-0  opacity-10 z-0"></div>
         <h1
           className="font-bold text-7xl md:text-9xl text-center z-10 tracking-tight"
           style={{ color: secondary }}
@@ -39,20 +39,20 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
       <section
         id="quiJeSuis"
         className="py-20 px-4 "
-        style={{ backgroundColor: secondary }}
+        style={{ backgroundColor: warning }}
       >
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-center">
           <div className="flex-1 space-y-6">
             <h2
               className="text-5xl md:text-6xl font-bold leading-tight"
-              style={{ color: light }}
+              style={{ color: info }}
             >
               Bonjour, je suis{" "}
               <span className="uppercase">{portfolio.users.firstname}</span>
             </h2>
             <p
               className="text-xl text-portfolio-green-text-secondary leading-relaxed"
-              style={{ color: light }}
+              style={{ color: info }}
             >
               {portfolio.bio}
             </p>
@@ -83,26 +83,26 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
             {portfolio.projects.map((project, key) => (
               <div
                 key={key}
-                className="flex relative flex-col md:flex-row gap-8 bg-portfolio-green-accent bg-opacity-10 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                style={{ backgroundColor: secondary }}
+                className="flex relative flex-col md:flex-row gap-8 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                style={{ backgroundColor: success }}
               >
                 <div className="flex-1 space-y-4">
                   <h3
                     className="text-3xl font-semibold text-portfolio-green-text-secondary"
-                    style={{ color: light }}
+                    style={{ color: info }}
                   >
                     {project.title}
                   </h3>
                   <p
                     className="text-lg text-portfolio-green-text-secondary line-clamp-3 leading-relaxed"
-                    style={{ color: light }}
+                    style={{ color: info }}
                   >
                     {project.description}
                   </p>
                   <Link
                     href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
                     className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent absolute bottom-3 left-3"
-                    style={{ backgroundColor: light, color: secondary }}
+                    style={{ backgroundColor: info, color: secondary }}
                   >
                     Voir le Projet
                   </Link>
@@ -127,12 +127,12 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
       {/* Skills Section */}
       <section
         className="py-20 px-4 bg-portfolio-green-secondary"
-        style={{ backgroundColor: secondary }}
+        style={{ backgroundColor: warning }}
       >
         <div className="max-w-6xl mx-auto">
           <h2
             className="text-4xl md:text-5xl font-bold mb-12 text-portfolio-green-text-secondary text-center"
-            style={{ color: light }}
+            style={{ color: info }}
           >
             Compétences
           </h2>

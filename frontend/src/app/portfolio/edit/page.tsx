@@ -81,19 +81,19 @@ export default function MultiStepForm() {
                     )}
 
                     {currentStep === 2 && (
-                        < ThirdStepForm/>
+                        <ThirdStepForm/>
                     )}
 
                     {currentStep === 3 && (
-                        < FourStepForm/>
+                        <FourStepForm/>
                     )}
                     <div className="flex justify-between mt-6">
-                        <Button onClick={handlePrevious} disabled={currentStep === 0}>
+                        <Button onPress={handlePrevious} disabled={currentStep === 0}>
                             Précédent
                         </Button>
                         {currentStep < totalSteps ? (
                             <Button
-                                onClick={handleNext}
+                            onPress={handleNext}
                                 className="dayMode bg-primary text-white"
                             >
                                 Suivant
