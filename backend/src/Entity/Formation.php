@@ -21,11 +21,11 @@ class Formation
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['getFormation', 'getPromotion'])]
+    #[Groups(['getFormation', 'getPromotion', 'getPortfolio'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['getFormation', 'getPromotion'])]
+    #[Groups(['getFormation', 'getPromotion', 'getPortfolio'])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::INTEGER)]
