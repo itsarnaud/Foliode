@@ -1,7 +1,7 @@
 "use client";
-import { Project, receivedProject } from "@/interfaces/Project";
 import { apiDelete, apiGetWithAuth } from "@/utils/apiRequester";
 import { formatImage } from "@/utils/formatImage";
+import { useProjects } from "@/utils/store";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import {
   Button,
@@ -11,19 +11,17 @@ import {
   CardHeader,
   Image,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 
 function Projects() {
-  const [projects, setProjects] = useState<receivedProject[]>([]);
+  const { projects, setProjects } = useProjects();
   useEffect(() => {
     fetchProjects();
   }, []);
 
   const deleteProject = async (id: string) => {
     await apiDelete(`project/${id}`);
-    setProjects((prevProjects) =>
-      prevProjects.filter((project) => project.id !== id)
-    );
+    setProjects(projects.filter((project) => project.id !== id));
   };
 
   const fetchProjects = async () => {

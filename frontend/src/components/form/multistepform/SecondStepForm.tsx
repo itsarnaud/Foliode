@@ -43,7 +43,7 @@ function SecondStepForm() {
                             onChange={(files) =>
                                 handleCompetenceChange(index, "image", files[0])
                             }
-                            value={tool.image ? [tool.image] : []}
+                            files={tool.image ? [tool.image] : []}
                         />
                         <p className="text-sm text-gray-500 mt-1">
                             Format recommandé : PNG ou JPG, max 2MB
