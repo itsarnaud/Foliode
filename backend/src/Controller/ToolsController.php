@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -20,7 +21,8 @@ class ToolsController extends AbstractController
         private ToolsRepository $toolsRepository,
         private FileUploaderService $uploader,
         private EntityManagerInterface $entityManager,
-        private PortfoliosRepository $portfoliosRepository
+        private PortfoliosRepository $portfoliosRepository,
+        private SerializerInterface $serializer
     ) {}
 
     #[IsGranted('ROLE_USER')]
@@ -83,6 +85,10 @@ class ToolsController extends AbstractController
 
         $this->entityManager->flush();
 
+        $jsonTools = $this->serializer->serialize($tools, 'json', ['groups' => 'getPortfolio']);
+
+
+
         return new JsonResponse($tools, Response::HTTP_CREATED);
     }
 
@@ -91,7 +97,7 @@ class ToolsController extends AbstractController
     public function delete_tool(Tools $tool): JsonResponse
     {
         $user = $this->getUser();
-        $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
 
         if (!$portfolio->getTools()->contains($tool)) {
             return new JsonResponse(['error' => 'tool not found'], Response::HTTP_NOT_FOUND);
@@ -139,7 +145,7 @@ class ToolsController extends AbstractController
     public function get_tools(): JsonResponse
     {
         $user = $this->getUser();
-        $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
 
         return new JsonResponse($portfolio->getTools(), Response::HTTP_OK);
     }

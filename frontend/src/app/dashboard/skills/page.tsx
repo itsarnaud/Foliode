@@ -5,10 +5,21 @@ import { CiSquarePlus } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import DashboardTitle from "@/components/DashboardTitle";
 import { Input } from "@nextui-org/react";
-import { apiPost, apiGet } from "@/utils/apiRequester"; 
+import { apiPost, apiGetWithAuth, apiDelete } from "@/utils/apiRequester";
+import { Image } from "@nextui-org/react";
+import { formatImage } from "@/utils/formatImage";
+import { Tools } from "@/interfaces/Tools";
+import FileInput from "@/components/UI/FileInput";
+import Buttons from "@/components/UI/button";
+import { formatToolsData } from "@/utils/formatData";
 
+interface Skill {
+  id: string;
+  picto: string;
+  name: string;
+}
 
-export default function Skills() {
+export default function SkillsPage() {
   const styles = {
     inputWrapper: [
       "border-primary",
@@ -18,75 +29,38 @@ export default function Skills() {
     clearButton: "text-primary",
   };
 
-  const [skills, setSkills] = useState<FormData[]>([]);
-  const [formData, setFormData] = useState({
-    competence: "",
-    logo: "",
-  });
-  const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [formData, setFormData] = useState<Tools>({ name: "", image: null });
 
-  interface FormData {
-    competence: string;
-    logo: string;
-  }
-
-  const saveSkills = async (skills: FormData[]) => {
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+  
+  const fetchSkills = async () => {
     try {
-      const response = await apiPost("skills", { skills }, "application/json");
-      if (response.status === 201) {
-        console.log("Compétences enregistrées avec succès");
+      const response = await apiGetWithAuth("portfolio");
+      if (response.status === 200) {
+        setSkills(response.data.tools);
       }
     } catch (error) {
-      console.error("Erreur lors de l'enregistrement des compétences :", error);
-    }
-  };
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value, files } = e.target;
-    if (name === "logo" && files && files[0]) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-      setFormData((prevFormData: FormData) => ({ ...prevFormData, [name]: file.name }));
-    } else {
-      setFormData((prevFormData: FormData) => ({ ...prevFormData, [name]: value }));
+      console.error("Erreur lors du chargement des compétences :", error);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (!formData.competence || !formData.logo) {
+  const creatSkills = async () => {
+    if (!formData.image || !formData.name) {
       alert("Tous les champs doivent être remplis");
       return;
     }
-    const updatedSkills = [...skills, formData];
-    setSkills(updatedSkills);
-    setFormData({ competence: "", logo: "" });
-    setImagePreview(null);
-    await saveSkills(updatedSkills);
+    const tools = formatToolsData([formData]);
+    await apiPost("portfolio/tools", tools, "multipart/form-data");
+    await fetchSkills();
   };
 
-  const handleDelete = (index: number): void => {
-    setSkills(skills.filter((_, i) => i !== index));
+  const handleDelete = async (id: string) => {
+    await apiDelete(`portfolio/tool/${id}`);
+    setSkills(skills.filter((skill) => skill.id !== id));
   };
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await apiGet("skills");
-        if (response.status === 200) {
-          setSkills(response.data.skills);
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement des compétences :", error);
-      }
-    };
-  
-    fetchSkills();
-  }, []);
 
   return (
     <>
@@ -94,55 +68,63 @@ export default function Skills() {
       <div className="flex-1 p-6">
         <div className="mt-1 w-full">
           <div className="grid grid-cols-3 mt-10 gap-5">
-            {skills.map((skill, index) => (
+            {skills &&
+              skills.length !== 0 &&
+              skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]"
+                >
+                  <div className="flex-shrink-0">
+                    <Image
+                      width={40}
+                      height={40}
+                      src={formatImage(skill.picto)}
+                      className="rounded-sm"
+                    />
+                  </div>
+                  <div className="flex-grow ml-4">
+                    <h3 className="text-xl ">{skill.name}</h3>
+                  </div>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => handleDelete(skill.id)}
+                  >
+                    <RxCross2 size={40} />
+                  </div>
+                </div>
+              ))}
+            <div className="flex flex-col justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]">
               <div
-                key={index}
-                className=" flex items-center justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]"
+                className={`bg-[#f5f5f5] dark:bg-[#191919] rounded-md p-5 space-y-2 flex flex-col transition-all duration-300 ease-in-out relative w-full `}
               >
-                <div className="flex-shrink-0">
-                  <div className="">{skill.logo}</div>
-                </div>
-                <div className="flex-grow ml-4">
-                  <h3 className="text-xl ">{skill.competence}</h3>
-                </div>
-                <div className="cursor-pointer" onClick={() => handleDelete(index)}>
-                  <RxCross2 size={40}  />
-                </div>
-              </div>
-            ))}
-            <div className=" flex flex-col justify-between rounded-xl p-5 border-2 border-[#2C2D33] bg-[#f5f5f5] dark:bg-[#191919] w-full h-[fit-content]">
-              <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 items-center justify-center">
                 <Input
                   type="text"
                   name="competence"
-                  value={formData.competence}
+                  value={formData.name}
                   label="Compétence"
                   variant="bordered"
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="Exemple: Développement web"
                   classNames={styles}
                 />
-
-                <Input
-                  type="file"
-                  name="logo"
-                  onChange={handleChange}
-                  variant="bordered"
-                  label="Format png,jpg, autre ..."
-                  placeholder=" Ajouter un logo"
-                  classNames={styles}
+                <FileInput
+                  onChange={(files) =>
+                    setFormData({ ...formData, image: files[0] })
+                  }
+                  files={formData.image ? [formData.image] : []}
                 />
-                {imagePreview && <img src={imagePreview as string} alt="Logo Preview" className="mt-4" />}
-                <div className="flex justify-center w-full">
-                  <button type="submit" className="color-white text-sm rounded-md mt-6 hover:color-gray">
-                    <div className="flex justify-center">
-                      <div className="fit-content ">
-                        <CiSquarePlus size={40} color="#FFFFFF" />
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </form>
+                <Buttons
+                  text="Ajouter un Skills"
+                  style="form"
+                  className="bg-primary w-auto"
+                  onClick={creatSkills}
+                />
+              </div>
+
+              <div className="flex justify-center w-full"></div>
             </div>
           </div>
         </div>
