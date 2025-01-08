@@ -50,7 +50,7 @@ function ProjectForm() {
 
   return (
     <div
-      className={`nightMode bg-foreground rounded-md p-5 flex flex-col transition-all duration-300 ease-in-out ${
+      className={`bg-[#f5f5f5] dark:bg-[#191919] rounded-md p-5 flex flex-col transition-all duration-300 ease-in-out ${
         isExpanded
           ? "fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 backdrop-blur-sm"
           : "relative w-full "
@@ -71,7 +71,7 @@ function ProjectForm() {
       <>
         {isExpanded ? (
           <div className="space-y-4  lg:w-1/2 m-auto ">
-            <div className="p-4 border bg-foreground rounded-lg space-y-2 m-8 p4">
+            <div className="p-4 border bg-[#FFFF] dark:bg-[#191919] rounded-lg space-y-2 m-8 p4">
               <div className="space-y-5">
                 <Input
                   label="Titre du projet"
