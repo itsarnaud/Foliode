@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSquarePlus } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import DashboardTitle from "@/components/DashboardTitle";
 import { Input } from "@nextui-org/react";
+import { apiPost, apiGet } from "@/utils/apiRequester"; 
+
 
 export default function Skills() {
   const styles = {
@@ -28,6 +30,17 @@ export default function Skills() {
     logo: string;
   }
 
+  const saveSkills = async (skills: FormData[]) => {
+    try {
+      const response = await apiPost("skills", { skills }, "application/json");
+      if (response.status === 201) {
+        console.log("Compétences enregistrées avec succès");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement des compétences :", error);
+    }
+  };
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, files } = e.target;
     if (name === "logo" && files && files[0]) {
@@ -43,20 +56,37 @@ export default function Skills() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (!formData.competence || !formData.logo) {
       alert("Tous les champs doivent être remplis");
       return;
     }
-    setSkills([...skills, formData]);
+    const updatedSkills = [...skills, formData];
+    setSkills(updatedSkills);
     setFormData({ competence: "", logo: "" });
     setImagePreview(null);
+    await saveSkills(updatedSkills);
   };
 
   const handleDelete = (index: number): void => {
     setSkills(skills.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await apiGet("skills");
+        if (response.status === 200) {
+          setSkills(response.data.skills);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des compétences :", error);
+      }
+    };
+  
+    fetchSkills();
+  }, []);
 
   return (
     <>
