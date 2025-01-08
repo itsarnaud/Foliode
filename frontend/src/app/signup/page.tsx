@@ -48,6 +48,8 @@ export default function RegisterPage() {
     }));
   };
 
+
+
   const validateForm = (): boolean => {
     const newErrors: FormError = {};
     if (!data.email) newErrors.email = "L'adresse email est obligatoire.";
@@ -120,6 +122,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.email}
+            onClear={() => setData({...data, email: ''})}
           />
           <Input
             isRequired
@@ -133,6 +136,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.firstname}
+            onClear={() => setData({...data, firstname: ''})}
           />
           <Input
             isRequired
@@ -146,6 +150,7 @@ export default function RegisterPage() {
             classNames={styles}
             onChange={handleInputChange}
             errorMessage={error.name}
+            onClear={() => setData({...data, name: ''})}
           />
           <Input
             isRequired
@@ -171,6 +176,7 @@ export default function RegisterPage() {
             type={isVisible ? "text" : "password"}
             classNames={styles}
             errorMessage={error.password}
+
           />
           <Input
             isRequired

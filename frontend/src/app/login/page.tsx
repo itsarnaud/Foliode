@@ -88,6 +88,7 @@ export default function LoginPage() {
               label="Email"
               placeholder="john.doe@example.com"
               classNames={styles}
+              onClear={() => setData({...data, email: ''})}
             />
             <Input
               isRequired
