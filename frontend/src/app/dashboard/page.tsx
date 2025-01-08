@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, colors } from "@nextui-org/react";
 import { CiDatabase } from "react-icons/ci";
 import {
   FaGithub,
@@ -15,10 +14,9 @@ import { useProjects, useUser } from "@/utils/store";
 import { useEffect, useState } from "react";
 import { apiGetWithAuth } from "@/utils/apiRequester";
 import { receivedProject } from "@/interfaces/Project";
-import { colors as ColorsInterface } from "@/interfaces/Colors"; // Renommer l'import
+import { colors as ColorsInterface } from "@/interfaces/Colors";
 import { Promotion } from "@/interfaces/Promotion";
-import ColorPicker from "@/components/UI/ColorPicker";
-import { color } from "framer-motion";
+
 
 type LocalCardVariant = "gradient" | "default";
 
