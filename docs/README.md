@@ -17,7 +17,7 @@ Le projet **Foliode** a pour mission de concevoir et développer une solution te
 - Offrir aux étudiants une plateforme de présentation de leurs compétences et projets dans un format visuel et accessible.
 - Faciliter le suivi pédagogique pour les enseignants via des portfolios standardisés et clairs, alignés avec les objectifs d'apprentissage des formations BUT.
 
-Les utilisateurs sont guidés étape par étape à travers un formulaire intuitif, peuvent choisir parmi différents templates de présentation, et génèrent un portfolio final hébergé sous un sous-domaine unique (ex. : `prenom.nom.foliode.com`).
+Les utilisateurs sont guidés étape par étape à travers un formulaire intuitif, peuvent choisir parmi différents templates de présentation, et génèrent un portfolio final hébergé sous un sous-domaine unique (ex. : `username.foliode.com`).
 
 ### Critères Pédagogiques
 
@@ -27,9 +27,13 @@ Les utilisateurs sont guidés étape par étape à travers un formulaire intuiti
 - **Développement d’une application mobile** : Adaptabilité et accessibilité multi-supports.
 - **Déploiement, sécurité et hébergement** : Mise en production et gestion sécurisée des sous-domaines utilisateurs.
 
+### Diagramme Use Case
+
+<img src="./img/Foliode_UC.png">
+
 ## Technologies et Stack
 
-- **Frontend** : Next (TypeScript), SCSS, Docker.
+- **Frontend** : Next (TypeScript), Tailwind, Docker.
 - **Backend** : Symfony, PostgreSQL, Docker.
 - **Dispositifs Interactifs** : Blender, Three.js pour la modélisation et l’affichage 3D.
 - **Design** : Suite Adobe, Figma pour la création visuelle et les maquettes.
@@ -44,16 +48,14 @@ Les utilisateurs sont guidés étape par étape à travers un formulaire intuiti
 - **Raphaël BOUCHERON**
 - **Sacha MERLETTI**
 
-Chef de projet : **Arnaud ROYER** <br>
+Chef de projet & Scrum Master : **Arnaud ROYER** <br>
+Product Owner : **Rémi FAUPIN** <br>
+
 Nom de l'équipe : **Foliode**
 
 ### Répartition des Rôles
 
-- **Frontend** : Arnaud, Timothé, Raphaël, Sacha, Rémi
-- **Backend** : Arnaud, Raphaël, Timothé (support), Rémi (support)
-- **Dispositifs Interactifs** : Sacha, Timothé, Rémi (support)
-- **Design** : Rémi, Timothé, Sacha
-- **Documentation** : Arnaud, Timothé, Raphaël, Sacha, Rémi
+<img src="./img/Foliode_Organigramme.jpg">
 
 Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassian.net/jira/software/projects/DEV/boards/1" target="_blank">**ici.**</a>
 
@@ -61,44 +63,14 @@ Vous pouvez accéder à notre Jira en cliquant <a href="https://foliode.atlassia
 ### Architecture du site
 
 ---
-#### Modèle MVC
+#### Modèle MVC (image cliquable)
 
-L'architecture de **Foliode** suit le modèle **MVC (Modèle-Vue-Contrôleur)** :
+<a href="https://drive.google.com/file/d/1p_ZQt28vrhEUMcZCgLlQezO1BZW_4GXV/view?usp=sharing"><img src="./img/Foliode_MVC.jpg" alt="MVC"></a>
 
-1. **Modèles** :
+---
+#### Modèle Physique des Données
 
-    - Utilisateurs : Nom, email, mot de passe, rôles...
-    - Portfolio : Titre, sous-titre, configuration...
-    - Projets : Titre, description, image, date...
-    - AC : Nom et code
-    - Semestre : Nom
-    - Formation : Nom, type et durée
-    - Ressources : Nom, sujet et code
-
-Voici le diagramme de classe, une repésentation plus visuelle des données et de leurs relations (image cliquable) : <br><br>
-<a href="https://drive.google.com/file/d/17L1hwYHG6q27l0vl99-jrbQf2sd4ThAm/view?usp=drive_link" target="_blank"><img src="./img/Foliode_DiagrammeDeClasse.jpeg"></a>
-
-2. **Vues** :
-
-    - Page de présentation : Description du projet, call to action, contacte, exemples
-    - Page d'authentification : Inscription, Connexion, Réinitialisation du mot de passe
-    - Dashboards : Page spécifique pour les administrateurs, professeurs et étudiants
-    - Formulaire de création de portfolio : Vue intéractives permettant de saisir les informations nécessaires au portfolio
-    - Liste des templates
-    - Prévisualisation et publication
-    - Page de gestions des projets et des compétences
-    - Page de configuration du portfolio : couleurs, typographies...
-    - Page de gestion de l'utilisateurs : modification des informations personnels
-    - Page d'aide et de support
-
-3. **Contrôleurs** : 
-
-    - Auth : Gère l'inscription, la connexion et la déconnexion des utilisateurs
-    - User : Gère les données des utilisateurs (modification, suppression)
-    - Portfolio : Gère la création, l'édition, la suppression et la publication des portfolios
-    - Template : Lister les templates
-    - Projets : Gère les projets ajouté au portfolio (ajout, modification, suppression)
-    - Skill : Gère l'ajout, la suppression et la modification des compétences
+<img src="./img/Foliode_MPD.png">
 
 ---
 #### Structures d'URL
@@ -115,7 +87,7 @@ Foliode utilisera un système de sous-domaine dynamique :
     - Configuration portfolio
     - Gestion du compte utilisateur
 
-3. `prénom.nom.foliode.com` : Hébergement du portfolio de l'utilisateur.
+3. `username.foliode.com` : Hébergement du portfolio de l'utilisateur.
 
 ---
 #### Menus de navigation
@@ -125,9 +97,11 @@ Foliode utilisera un système de sous-domaine dynamique :
 2. `app.foliode.com` : Mon compte, mon portfolio, mes compétences, mes projets, paramètres, se déconnecter, mes classes, retour
 
 ---
-#### Charte graphique (image cliquable)
+#### Charte graphique
 
-<a href="https://drive.google.com/file/d/1yn4zQAniejSqrSqyqvprUuZYN9HmyGxC/view?usp=sharing" target="_blank"><img src="./img/Foliode_CharteGraphique.png"></a>
+<img src="./img/Foliode_CharteGraphique1.png">
+<img src="./img/Foliode_CharteGraphique2.png">
+<img src="./img/Foliode_CharteGraphique3.png">
 
 ---
 #### UI/UX
