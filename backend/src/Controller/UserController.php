@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UsersRepository;
 use App\Entity\Users;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class UserController extends AbstractController
 {
@@ -25,12 +26,12 @@ class UserController extends AbstractController
     {
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/api/user', name: 'update_user', methods: ['PUT'])]
     public function update_user(
         Request $req
     ): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
         if (!$user instanceof \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface) {
@@ -73,13 +74,10 @@ class UserController extends AbstractController
             $user->setName($data['name']);
         }
 
-        try {
-            $this->entityManager->flush();
-            $token = $this->jwtManager->create($user);
-            return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'An error occurred while updating the user'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $this->entityManager->flush();
+        $token = $this->jwtManager->create($user);
+        return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
+
         
     }
 }
