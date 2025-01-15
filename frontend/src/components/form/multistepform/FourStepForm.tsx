@@ -19,7 +19,7 @@ function FourStepForm() {
     {
       id: "prestige",
       name: "prestige",
-      preview: "/dashboard.png",
+      preview: "/luxury.png",
       color: {
         primary: "#0E0E0E",
         secondary: "#DAC6A7",
