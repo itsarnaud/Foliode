@@ -13,9 +13,19 @@ import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { useUser } from "@/utils/store";
+import { apiPut } from "@/utils/apiRequester";
+import { response } from "@/interfaces/Response";
 
 export default function Profile() {
   const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState("");
+  const [data, setData] = useState({
+    name: "",
+    first_name: "",
+    email: "",
+    password: ""
+  })
+
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { user, setUser } = useUser();
 
@@ -34,6 +44,28 @@ export default function Profile() {
     ],
     clearButton: "text-primary",
   };
+
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res: response = await apiPut('user', data);
+
+    if (res.token) {
+      document.cookie = `token_auth=${res.token}; path=/`;
+      window.location.reload();
+    }
+
+    if (res.error) {
+      setError(res.error)
+    }
+  }
 
   return (
     <>
@@ -58,40 +90,40 @@ export default function Profile() {
             <section className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground  flex flex-col items-center p-5 rounded-xl gap-3 xl:gap-5 xl:flex-1 xl:items-start xl:h-[calc(100vh-50px-1.75rem)]">
               <h3 className="font-bold text-large xl:text-2xl">Votre compte</h3>
               <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
-                <form action="" className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
                   <Input
                     isRequired
                     isClearable
-                    value={user.name}
-                    name="nom"
+                    placeholder={user.name || "Votre nom"}
+                    name="name"
                     type="text"
                     variant="bordered"
                     label="Nom"
-                    placeholder="Votre nom"
                     classNames={styles}
+                    onChange={onChangeValue}
                   
                   />
                   <Input
                     isRequired
                     isClearable
-                    value={user.firstname}
-                    name="prenom"
+                    placeholder={user.firstname || "Votre prénom"}
+                    name="first_name"
                     type="text"
                     variant="bordered"
                     label="Prénom"
-                    placeholder="Votre prénom"
                     classNames={styles}
+                    onChange={onChangeValue}
                   />
                   <Input
                     isRequired
                     isClearable
-                    value={user.email}
+                    placeholder={user.email || "Votre email"}
                     name="email"
                     type="email"
                     variant="bordered"
                     label="Email"
-                    placeholder="Votre Email"
                     classNames={styles}
+                    onChange={onChangeValue}
                   />
                   <Input
                     isRequired
@@ -115,7 +147,11 @@ export default function Profile() {
                     }
                     type={isVisible ? "text" : "password"}
                     classNames={styles}
+                    onChange={onChangeValue}
                   />
+
+                  {error && <p className="text-red-500 text-sm">{error}</p>}
+
                   <div className="w-full xl:w-3/12">
                     <Buttons text="Modifier" style="form" type="submit" />
                   </div>

@@ -28,7 +28,7 @@ const Buttons: React.FC<ButtonProps> = ({
         <div className="flex flex-col items-center">
             <Button
                 type={type}
-                onClick={onClick}
+                onPress={onClick}
                 isDisabled={isDisabled}
                 className={
                     style === "form" 
