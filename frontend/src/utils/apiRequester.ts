@@ -69,7 +69,7 @@ export const apiAuth = async (
 export const apiPut = async (url: string, data: object) => {
     const token = getCookie('token_auth')
     try {
-      const response = await axios.put(
+      const response: AxiosResponse = await axios.put(
         `${apiUrl}/api/${url}`,
         data,
         {
@@ -79,9 +79,11 @@ export const apiPut = async (url: string, data: object) => {
           },
         }
       );
-      return response
-    } catch (err) {
-      console.log(err)
-      return null
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return error.response.data;
+      }
+      throw error;
     }
   }
