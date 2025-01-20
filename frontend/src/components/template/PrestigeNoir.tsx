@@ -20,7 +20,10 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
     >
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center">
-        <h1 className="font-bold text-7xl md:text-9xl" style={{ color: secondary }}>
+        <h1
+          className="font-bold text-7xl md:text-9xl"
+          style={{ color: secondary }}
+        >
           {" "}
           {portfolio.title}
         </h1>
@@ -65,7 +68,10 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
       {/* Projects Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl md:text-7xl mb-12 text-center" style={{ color: secondary }}>
+          <h2
+            className="text-5xl md:text-7xl mb-12 text-center"
+            style={{ color: secondary }}
+          >
             Mes Projets
           </h2>
           <div className="space-y-16">
@@ -75,7 +81,11 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                 {/* Changement ici: key={index} au lieu de key={project.id} */}
                 <div
                   className="absolute md:left-1/2 -mt-2 px-3 py-1 rounded-full border transform -translate-x-1/2 z-10"
-                  style={{ backgroundColor: light, borderColor: info,  color: secondary }}
+                  style={{
+                    backgroundColor: light,
+                    borderColor: info,
+                    color: secondary,
+                  }}
                 >
                   {index + 1}
                 </div>
@@ -90,9 +100,12 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                 >
                   <div
                     className="p-6 border"
-                    style={{ backgroundColor: light,  borderColor: info }}
+                    style={{ backgroundColor: light, borderColor: info }}
                   >
-                    <h3 className="text-xl font-bold" style={{ color: secondary }}>
+                    <h3
+                      className="text-xl font-bold"
+                      style={{ color: secondary }}
+                    >
                       {project.title}
                     </h3>
                     <p className="mt-4" style={{ color: secondary }}>
@@ -123,9 +136,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-4 mt-10"
-        style={{ backgroundColor: light }}
-        >
+      <section className="py-20 px-4 mt-10" style={{ backgroundColor: light }}>
         <h2
           className="text-5xl md:text-7xl  mb-10 text-portfolio-gold-text-primary text-center "
           style={{ color: secondary }}
@@ -133,13 +144,13 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
           Compétences
         </h2>
         <div className="flex flex-wrap gap-6 justify-center">
-          {portfolio.tools.map((tool) => (
+          {portfolio.tools.map((tool, index) => (
             <div
-              className="p-4 bg-portfolio-gold-text-primary shadow  flex items-center gap-4"
+              key={index} // Ajout de la prop key
+              className="p-4 bg-portfolio-gold-text-primary shadow flex items-center gap-4"
               style={{ backgroundColor: secondary }}
             >
               <div>
-                {/* Correction ici: ajout du = manquant */}
                 <Image
                   src={formatImage(tool.picto)}
                   width={40}
@@ -154,9 +165,6 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                 >
                   {tool.name}
                 </h3>
-                {/* <p className=" text-portfolio-gold-accent">
-                Graphisme, maquetage, webdesign.
-              </p> */}
               </div>
             </div>
           ))}

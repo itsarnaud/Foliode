@@ -74,8 +74,9 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
       {/* Projects Section */}
       <section id="projects" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-portfolio-green-text-primary text-center"
-           style={{ color: secondary }}
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-12 text-portfolio-green-text-primary text-center"
+            style={{ color: secondary }}
           >
             Mes Projets
           </h2>
@@ -101,10 +102,10 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
                   </p>
                   <Link
                     href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
-                    className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent absolute bottom-3 left-3"
+                    className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent"
                     style={{ backgroundColor: info, color: secondary }}
                   >
-                    Voir le Projet
+                    Voir le projet
                   </Link>
                 </div>
                 <div className="w-full md:w-1/2">
@@ -137,8 +138,9 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
             Compétences
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolio.tools.map((tool) => (
+            {portfolio.tools.map((tool, index) => (
               <div
+                key={index}
                 className="p-6 bg-portfolio-green-primary bg-opacity-50 shadow-lg rounded-xl flex items-center gap-6 transition-transform duration-300 hover:transform hover:scale-105"
                 style={{ backgroundColor: light, opacity: 0.75 }}
               >
