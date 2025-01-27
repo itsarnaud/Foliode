@@ -18,8 +18,9 @@ export interface Portfolio {
   };
 
   users: {
-    name: string;
+    lastname: string;
     firstname: string;
+    username: string;
     email: string;
     avatar_url: string | null;
     promotion: Promotion | null;

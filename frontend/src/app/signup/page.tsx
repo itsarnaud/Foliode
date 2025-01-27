@@ -1,24 +1,17 @@
 "use client";
 
-import Buttons from "@/components/UI/button";
-import { Input } from "@nextui-org/react";
-import { useState } from "react";
+import Buttons      from "@/components/UI/button";
+import Link         from "next/link";
+import GithubAuth   from "@/components/GitHub/GithubAuth";
+import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
+
+import { useState }   from "react";
+import { useRouter }  from "next/navigation";
+import { FormError }  from "@/interfaces/FormError";
+import { Input }      from "@nextui-org/react";
+import { apiAuth }    from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import GithubAuth from "@/components/GitHub/GithubAuth";
-import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
-import { apiAuth } from "@/utils/apiRequester";
-
-interface FormError {
-  email?: string;
-  firstname?: string;
-  name?: string;
-  password?: string;
-  confirmPassword?: string;
-}
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,7 +20,7 @@ export default function RegisterPage() {
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
   const [data, setData] = useState({
     email: "",
-    name: "",
+    lastname: "",
     firstname: "",
     password: "",
     passwordConfirm: "",
@@ -48,13 +41,11 @@ export default function RegisterPage() {
     }));
   };
 
-
-
   const validateForm = (): boolean => {
     const newErrors: FormError = {};
     if (!data.email) newErrors.email = "L'adresse email est obligatoire.";
     if (!data.firstname) newErrors.firstname = "Le prénom est obligatoire.";
-    if (!data.name) newErrors.name = "Le nom est obligatoire.";
+    if (!data.lastname) newErrors.lastname = "Le nom est obligatoire.";
     if (!data.password) newErrors.password = "Le mot de passe est obligatoire.";
     if (!data.passwordConfirm) {
       newErrors.confirmPassword =
@@ -141,16 +132,16 @@ export default function RegisterPage() {
           <Input
             isRequired
             isClearable
-            value={data.name}
+            value={data.lastname}
             type="text"
             variant="bordered"
-            name="name"
+            name="lastname"
             label="Nom"
             placeholder="DOE"
             classNames={styles}
             onChange={handleInputChange}
-            errorMessage={error.name}
-            onClear={() => setData({...data, name: ''})}
+            errorMessage={error.lastname}
+            onClear={() => setData({...data, lastname: ''})}
           />
           <Input
             isRequired

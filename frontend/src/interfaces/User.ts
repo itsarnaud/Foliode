@@ -1,6 +1,7 @@
 export interface User {
-    name: string
+    lastname: string
     firstname: string
+    username: string
     email: string
     roles: string[]
     avatar_url: string | null

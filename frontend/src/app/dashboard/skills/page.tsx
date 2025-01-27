@@ -1,34 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CiSquarePlus } from "react-icons/ci";
-import { RxCross2 } from "react-icons/rx";
 import DashboardTitle from "@/components/DashboardTitle";
-import { Input } from "@nextui-org/react";
-import { apiPost, apiGetWithAuth, apiDelete } from "@/utils/apiRequester";
-import { Image } from "@nextui-org/react";
-import { formatImage } from "@/utils/formatImage";
-import { Tools } from "@/interfaces/Tools";
-import FileInput from "@/components/UI/FileInput";
-import Buttons from "@/components/UI/button";
-import { formatToolsData } from "@/utils/formatData";
+import FileInput      from "@/components/UI/FileInput";
+import Buttons        from "@/components/UI/button";
 
-interface Skill {
-  id: string;
-  picto: string;
-  name: string;
-}
+import { useEffect, useState }                from "react";
+import { Input, Image }                       from "@nextui-org/react";
+import { apiPost, apiGetWithAuth, apiDelete } from "@/utils/apiRequester";
+import { formatImage }                        from "@/utils/formatImage";
+import { Tools }                              from "@/interfaces/Tools";
+import { formatToolsData }                    from "@/utils/formatData";
+import { RxCross2 }                           from "react-icons/rx";
+import { Skill }                              from "@/interfaces/Skill";
 
 export default function SkillsPage() {
-  const styles = {
-    inputWrapper: [
-      "border-primary",
-      "data-[hover=true]:border-primary-100",
-      "group-data-[focus=true]:border-primary",
-    ],
-    clearButton: "text-primary",
-  };
-
   const [skills, setSkills] = useState<Skill[]>([]);
   const [formData, setFormData] = useState<Tools>({ name: "", image: null });
 
@@ -60,6 +45,15 @@ export default function SkillsPage() {
   const handleDelete = async (id: string) => {
     await apiDelete(`portfolio/tool/${id}`);
     setSkills(skills.filter((skill) => skill.id !== id));
+  };
+
+  const styles = {
+    inputWrapper: [
+      "border-primary",
+      "data-[hover=true]:border-primary-100",
+      "group-data-[focus=true]:border-primary",
+    ],
+    clearButton: "text-primary",
   };
 
   return (

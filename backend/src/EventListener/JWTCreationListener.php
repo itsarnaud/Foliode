@@ -13,8 +13,9 @@ class JWTCreationListener
         $user = $event->getUser();
         $payload = $event->getData();
         
-        $payload['name'] = $user->getName();
+        $payload['lastname'] = $user->getLastName();
         $payload['firstname'] = $user->getFirstName();
+        $payload['username'] = $user->getUsername() ?? null;
         $payload['avatar_url'] = $user->getAvatarUrl();
         $payload['roles'] = $user->getRoles();
         $payload['email'] = $user->getEmail();

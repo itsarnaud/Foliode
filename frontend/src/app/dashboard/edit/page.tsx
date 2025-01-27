@@ -1,9 +1,11 @@
 "use client";
+
 import DashboardTitle from "@/components/DashboardTitle";
-import FourStepForm from "@/components/form/multistepform/FourStepForm";
-import { useEffect } from "react";
+import FourStepForm   from "@/components/form/multistepform/FourStepForm";
+
+import { useEffect }    from "react";
 import { useMultiStep } from "@/utils/store";
-import { apiPut } from "@/utils/apiRequester";
+import { apiPut }       from "@/utils/apiRequester";
 
 export default function Projects() {
   const { multiStep, setMultiStep } = useMultiStep();
@@ -19,7 +21,6 @@ export default function Projects() {
     }
   };
 
-  // Écouter les changements de template pour faire la requête API
   useEffect(() => {
     if (multiStep.portfolio.template) {
       handleTemplateChange();
