@@ -30,35 +30,6 @@ class ProjectController extends AbstractController
         private ValidatorBaseService   $validatorBaseService
     ) {}
 
-    /**
-     * @OA\Post(
-     *     path="/api/project",
-     *     summary="Add a new project",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             type="object",
-     *             example={"name": "Project Name", "description": "Project Description"}
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Project created successfully",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             example={"id": 1, "name": "Project Name", "description": "Project Description"}
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
     #[IsGranted('ROLE_USER')]
     #[Route('/api/project', methods: ['POST'])]
     public function add_project(
@@ -156,41 +127,6 @@ class ProjectController extends AbstractController
         return new JsonResponse($projects, Response::HTTP_CREATED);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/project/{id}",
-     *     summary="Update an existing project",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             type="object",
-     *             example={"name": "Updated Project Name", "description": "Updated Project Description"}
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Project updated successfully",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             example={"id": 1, "name": "Updated Project Name", "description": "Updated Project Description"}
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
     #[IsGranted('ROLE_USER')]
     #[Route('/api/project/{id}', methods: ['PUT'])]
     public function update_project(

@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Input, Textarea, DateRangePicker } from "@nextui-org/react";
+import FileInput  from "@/components/UI/FileInput";
+import Buttons    from "@/components/UI/button";
+import LinkAdder  from "../UI/LinkAdder";
+
+import { useState }             from "react";
+import { Input, Textarea }      from "@nextui-org/react";
+import { Project }              from "@/interfaces/Project";
+import { apiPost }              from "@/utils/apiRequester";
+import { useProjects }          from "@/utils/store";
 import { FaExpand, FaCompress } from "react-icons/fa";
-import FileInput from "@/components/UI/FileInput";
-import Buttons from "@/components/UI/button";
-import { Project } from "@/interfaces/Project";
-import { apiPost } from "@/utils/apiRequester";
-import LinkAdder from "../UI/LinkAdder";
-import { useProjects } from "@/utils/store";
 
 function ProjectForm() {
   const { projects, setProjects } = useProjects();
@@ -40,13 +41,13 @@ function ProjectForm() {
     }
   };
 
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
   const inputStyles = {
     input: "px-2 py-1 text-gray-400 bg-[#f5f5f5] dark:bg-[#191919]",
     inputWrapper:
       "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus:border-primary rounded-md transition-all duration-300 ease-in-out",
   };
-
-  const toggleExpand = () => setIsExpanded(!isExpanded);
 
   return (
     <div

@@ -92,7 +92,7 @@ function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
 
         {portfolio.projects.map((project, index) => (
           <Link
-            href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
+            href={`/${portfolio.users.username}/project/${project.title}`}
             key={index}
           >
             <Card

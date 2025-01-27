@@ -1,43 +1,46 @@
 "use client";
 
-import React, {useState} from "react";
 
-import {Button, Card, Progress} from "@nextui-org/react";
 
-import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
-import SecondStepForm from "@/components/form/multistepform/SecondStepForm";
-import {useMultiStep} from "@/utils/store";
-import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
-import FourStepForm from "@/components/form/multistepform/FourStepForm";
-import {apiPost} from "@/utils/apiRequester";
-import {formatProjectsData, formatToolsData} from "@/utils/formatData";
-import {useRouter} from "next/navigation";
+import FirstStepForm    from "@/components/form/multistepform/FirstStepForm";
+import SecondStepForm   from "@/components/form/multistepform/SecondStepForm";
+import ThirdStepForm    from "@/components/form/multistepform/ThirdStepForm";
+import FourStepForm     from "@/components/form/multistepform/FourStepForm";
+
+import React, { useState }        from "react";
+import { Button, Card, Progress } from "@nextui-org/react";
+import { useMultiStep, useUsername }           from "@/utils/store";
+import { apiPost }                from "@/utils/apiRequester";
+import { useRouter }              from "next/navigation";
+import { formatProjectsData, formatToolsData } from "@/utils/formatData";
 
 
 export default function MultiStepForm() {
     const [currentStep, setCurrentStep] = useState(0)
     const totalSteps = 3
     const progress = (currentStep / totalSteps) * 100
-    const {multiStep} = useMultiStep()
+    const { multiStep } = useMultiStep()
+    const { username } = useUsername() as { username: string };
     const router = useRouter()
 
     const handleNext = () => {
-        setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1)
     }
 
     const handlePrevious = () => {
-        setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1)
     }
 
     const postData = async () => {
        const response = await apiPost("portfolio", multiStep.portfolio, 'application/json')
 
         if (response !== null && response.status === 201) {
-            const tools = formatToolsData(multiStep.tools)
-            const projects = formatProjectsData(multiStep.projects)
+          const tools = formatToolsData(multiStep.tools)
+          const projects = formatProjectsData(multiStep.projects)
 
-            await apiPost("portfolio/tools", tools, 'multipart/form-data')
-            await apiPost("projects", projects, 'multipart/form-data')
+          await apiPost("portfolio/tools", tools, 'multipart/form-data')
+          await apiPost("projects", projects, 'multipart/form-data')
+          await apiPost("user/username", { username }, 'application/json')
         }
 
         router.push("/dashboard")

@@ -35,7 +35,7 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setName($userData['name'] ?? 'Unknown')
+            ->setLastName($userData['lastname'] ?? 'Unknown')
             ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['url'])
             ->setIsEmailVerified(true)
@@ -70,7 +70,7 @@ class ExternalUserService
         }
 
         $user = (new Users())
-            ->setName($userData['name'] ?? 'Unknown')
+            ->setLastName($userData['lastname'] ?? 'Unknown')
             ->setFirstName($userData['firstname'] ?? 'Unknown')
             ->setEmail($userData['email'] ?? $userData['html_url'])
             ->setIsEmailVerified(true)

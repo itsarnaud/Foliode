@@ -69,7 +69,7 @@ function Projects() {
             <CardFooter>
               <Button
                 className="bg-red-700"
-                onClick={() => deleteProject(project.id)}
+                onPress={() => deleteProject(project.id)}
               >
                 <RiDeleteBin5Fill />
               </Button>

@@ -41,9 +41,6 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
               Bonjour,je suis{" "}
               <span className="uppercase">{portfolio.users.firstname}</span>
             </h2>
-            {/* <h3 className="text-2xl mt-8 text-portfolio-gold-text-primary  text-center">
-              Etudiant en BUT métiers du multimédia et de l'internet
-            </h3> */}
             <p
               className="mt-8 text-base text-portfolio-gold-text-primary max-w-[832px] text-center mx-auto"
               style={{ color: success }}
@@ -99,7 +96,7 @@ const PrestigeNoir = ({ portfolio }: { portfolio: Portfolio }) => {
                       {project.description}
                     </p>
                     <Link
-                      href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
+                      href={`/${portfolio.users.username}/project/${project.title}`}
                       className="mt-4 inline-block px-6 py-2 hover:bg-opacity-90"
                       style={{ backgroundColor: primary, color: secondary }}
                     >

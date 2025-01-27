@@ -1,27 +1,32 @@
 "use client";
 
 import DashboardTitle from "@/components/DashboardTitle";
-import { Avatar } from "@/components/Avatar";
-import Buttons from "@/components/UI/button";
-import { signInGitHub } from "@/actions";
-import { signInDribbble } from "@/actions";
-import { IoEyeSharp } from "react-icons/io5";
-import { Link, Input } from "@nextui-org/react";
-import { LuExternalLink } from "react-icons/lu";
+import Buttons        from "@/components/UI/button";
+
+import { Avatar }          from "@/components/Avatar";
+import { signInGitHub }    from "@/actions";
+import { signInDribbble }  from "@/actions";
+import { Link, Input }     from "@nextui-org/react";
 import { getDecodedToken } from "@/utils/jwtUtils";
-import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
-import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+
 import { useState, useEffect } from "react";
-import { useUser } from "@/utils/store";
-import { apiPut } from "@/utils/apiRequester";
-import { response } from "@/interfaces/Response";
+import { useUser }             from "@/utils/store";
+import { apiPut }              from "@/utils/apiRequester";
+import { response }            from "@/interfaces/Response";
+
+import { IoEyeSharp }                       from "react-icons/io5";
+import { LuExternalLink }                   from "react-icons/lu";
+import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
+import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
+
 
 export default function Profile() {
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState({
-    name: "",
+    last_name: "",
     first_name: "",
+    username: "",
     email: "",
     password: ""
   })
@@ -35,15 +40,6 @@ export default function Profile() {
       setUser(token);
     }
   }, [user]);
-
-  const styles = {
-    inputWrapper: [
-      "border-primary",
-      "data-[hover=true]:border-primary-100",
-      "group-data-[focus=true]:border-primary",
-    ],
-    clearButton: "text-primary",
-  };
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,6 +63,15 @@ export default function Profile() {
     }
   }
 
+  const styles = {
+    inputWrapper: [
+      "border-primary",
+      "data-[hover=true]:border-primary-100",
+      "group-data-[focus=true]:border-primary",
+    ],
+    clearButton: "text-primary",
+  };
+
   return (
     <>
       {user !== null && (
@@ -78,15 +83,16 @@ export default function Profile() {
                 <Avatar size={70} />
               </div>
               <div className="flex items-center gap-1">
-                <p className="text-sm">{user.name}</p>
+                <p className="text-sm">{user.lastname}</p>
                 <p className="text-sm">{user.firstname}</p>
               </div>
               <p className="text-sm">Classe (s'il en a une)</p>
 
-              <Link showAnchorIcon href={`/${user.firstname}/${user.name}`} className="!text-primary mt-3">
+              <Link showAnchorIcon href={`/${user.username}`} className="!text-primary mt-3">
                 Lien du portfolio
               </Link>
             </section>
+
             <section className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground  flex flex-col items-center p-5 rounded-xl gap-3 xl:gap-5 xl:flex-1 xl:items-start xl:h-[calc(100vh-50px-1.75rem)]">
               <h3 className="font-bold text-large xl:text-2xl">Votre compte</h3>
               <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
@@ -94,14 +100,13 @@ export default function Profile() {
                   <Input
                     isRequired
                     isClearable
-                    placeholder={user.name || "Votre nom"}
-                    name="name"
+                    placeholder={user.lastname || "Votre nom"}
+                    name="last_name"
                     type="text"
                     variant="bordered"
                     label="Nom"
                     classNames={styles}
                     onChange={onChangeValue}
-                  
                   />
                   <Input
                     isRequired
@@ -111,6 +116,17 @@ export default function Profile() {
                     type="text"
                     variant="bordered"
                     label="Prénom"
+                    classNames={styles}
+                    onChange={onChangeValue}
+                  />
+                  <Input
+                    isRequired
+                    isClearable
+                    placeholder={user.username || "Votre nom d'utilisateur"}
+                    name="username"
+                    type="text"
+                    variant="bordered"
+                    label="Nom d'utilisateur"
                     classNames={styles}
                     onChange={onChangeValue}
                   />

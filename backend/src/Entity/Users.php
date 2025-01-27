@@ -27,7 +27,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         message: 'Name should only contain letters and spaces.'
     )]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
-    private ?string $name = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "First name is required.")]
@@ -37,6 +37,14 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     )]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $firstname = null;
+
+    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[Assert\Regex(
+        pattern: '/^[a-z0-9_-]+$/',
+        message: 'Username should only contain lowercase letters, numbers, underscores, and hyphens.'
+    )]
+    private ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "Email address is required.")]
@@ -104,14 +112,14 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLastName(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(string $name): static
+    public function setLastName(string $lastname): static
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
         return $this;
     }
 
@@ -123,6 +131,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setFirstName(string $firstname): static
     {
         $this->firstname = $firstname;
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
         return $this;
     }
 

@@ -1,11 +1,11 @@
 "use client";
 
-import {Button, Input} from "@nextui-org/react";
-import FileInput from "@/components/UI/FileInput";
-import {useMultiStep} from "@/utils/store";
+import FileInput         from "@/components/UI/FileInput";
+import { Button, Input } from "@nextui-org/react";
+import { useMultiStep }  from "@/utils/store";
 
 function SecondStepForm() {
-    const {multiStep, setMultiStep} = useMultiStep()
+    const { multiStep, setMultiStep } = useMultiStep()
 
     const handleCompetenceChange = (index: number, field: string, value: any) => {
         const newTools = [...multiStep.tools];
@@ -52,7 +52,7 @@ function SecondStepForm() {
                 </div>
             ))}
             <Button
-                onClick={addCompetence}
+                onPress={addCompetence}
                 className="dayMode bg-primary text-white"
                 variant="flat"
             >

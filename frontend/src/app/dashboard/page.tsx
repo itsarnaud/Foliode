@@ -1,32 +1,31 @@
 "use client";
 
-import { CiDatabase } from "react-icons/ci";
+import DashboardTitle from "@/components/DashboardTitle";
+
+
+import CustomCard, { LargeCard, GrandeCard }  from "@/components/UI/card";
+import { getDecodedToken }                    from "@/utils/jwtUtils";
+import { useProjects, useUser }               from "@/utils/store";
+import { useEffect, useState }                from "react";
+import { apiGetWithAuth }                     from "@/utils/apiRequester";
+import { receivedProject }                    from "@/interfaces/Project";
+import { colors as ColorsInterface }          from "@/interfaces/Colors";
+import { Promotion }                          from "@/interfaces/Promotion";
+
 import {
   FaGithub,
   FaDribbble,
   FaGraduationCap,
   FaProjectDiagram,
 } from "react-icons/fa";
-import CustomCard, { LargeCard, GrandeCard } from "../../components/UI/card";
-import DashboardTitle from "@/components/DashboardTitle";
-import { getDecodedToken } from "@/utils/jwtUtils";
-import { useProjects, useUser } from "@/utils/store";
-import { useEffect, useState } from "react";
-import { apiGetWithAuth } from "@/utils/apiRequester";
-import { receivedProject } from "@/interfaces/Project";
-import { colors as ColorsInterface } from "@/interfaces/Colors";
-import { Promotion } from "@/interfaces/Promotion";
-
-
-type LocalCardVariant = "gradient" | "default";
+import { CiDatabase } from "react-icons/ci";
 
 export default function Dashboard() {
-  const { user, setUser } = useUser();
+  const { user, setUser }         = useUser();
   const { projects, setProjects } = useProjects();
-  const [portfolioColors, setPortfolioColors] =
-    useState<ColorsInterface | null>(null);
-  const [portfolioPromotion, setPortfolioPromotion] =
-    useState<Promotion | null>(null);
+
+  const [portfolioColors, setPortfolioColors]       = useState<ColorsInterface | null>(null);
+  const [portfolioPromotion, setPortfolioPromotion] = useState<Promotion | null>(null);
 
   useEffect(() => {
     const token = getDecodedToken();
