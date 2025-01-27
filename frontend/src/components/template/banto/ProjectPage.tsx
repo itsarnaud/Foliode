@@ -1,17 +1,6 @@
-import { Portfolio } from "@/interfaces/Portfolio";
-import { Card, Image } from "@nextui-org/react";
-import { formatImage } from "@/utils/formatImage";
-import { Project } from "@/interfaces/Project";
-
-interface ProjectPageProps {
-  portfolio: Portfolio;
-  project: {
-    title: string;
-    description: string;
-    links: string[];
-    projectsImages: { img_src: string; img_alt: string }[];
-  } | undefined;
-}
+import { Card, Image }      from "@nextui-org/react";
+import { formatImage }      from "@/utils/formatImage";
+import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
   const { primary, secondary, warning, success, info, light } =

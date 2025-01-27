@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/components/Sidebar"
+import Sidebar        from "@/components/Sidebar"
 import { useSidebar } from "@/contexts/SidebarContext"
 
 export default function DashboardLayout({

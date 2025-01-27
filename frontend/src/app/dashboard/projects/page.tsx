@@ -1,6 +1,6 @@
-import ProjectForm from "@/components/form/ProjectForm";
+import ProjectForm    from "@/components/form/ProjectForm";
 import DashboardTitle from "@/components/DashboardTitle";
-import Projects from "@/components/UI/Projects";
+import Projects       from "@/components/UI/Projects";
 
 export default function ProjectsPage() {
   return (

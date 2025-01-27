@@ -1,17 +1,19 @@
 import React from "react";
-import { apiGet } from "@/utils/serverApiRequester";
-import { Portfolio } from "@/interfaces/Portfolio";
-import BantoProjectPage from "@/components/template/banto/ProjectPage";
-import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
+
+import BantoProjectPage        from "@/components/template/banto/ProjectPage";
+import EmeraldProjectPage      from "@/components/template/emerald/ProjectPage";
 import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
 
-async function page({
+import { apiGet }     from "@/utils/serverApiRequester";
+import { Portfolio }  from "@/interfaces/Portfolio";
+
+async function Page({
   params,
 }: {
-  params: { name: string; lastname: string; title: string };
+  params: { username: string; title: string };
 }) {
   const response = await apiGet(
-    `public/portfolio/${params.name}/${params.lastname}`
+    `public/portfolio/${params.username}`
   );
   const portfolio: Portfolio = response.data;
   const project = portfolio.projects.find(
@@ -34,4 +36,4 @@ async function page({
   }
 }
 
-export default page;
+export default Page;

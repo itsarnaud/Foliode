@@ -1,15 +1,16 @@
 "use client";
 
-import Buttons from "@/components/UI/button";
-import { Input } from "@nextui-org/react";
-import { useState } from "react";
+import Buttons      from "@/components/UI/button";
+import GithubAuth   from "@/components/GitHub/GithubAuth";
+import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
+import Link         from "next/link";
+
+import { Input }      from "@nextui-org/react";
+import { useState }   from "react";
+import { useRouter }  from "next/navigation";
+import { apiAuth }    from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import GithubAuth from "@/components/GitHub/GithubAuth";
-import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
-import { apiAuth } from "@/utils/apiRequester";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -115,7 +116,6 @@ export default function LoginPage() {
               type={isVisible ? "text" : "password"}
               classNames={styles}
             />
-            {/* TODO: Bien faire les messages d'erreur : https://nextui.org/docs/components/input */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <span className="text-sm sm:text-base">
               Mot de passe oublié ?{" "}

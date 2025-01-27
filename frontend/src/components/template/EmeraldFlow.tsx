@@ -101,8 +101,8 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
                     {project.description}
                   </p>
                   <Link
-                    href={`/${portfolio.users.firstname}/${portfolio.users.name}/project/${project.title}`}
-                    className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent"
+                    href={`/${portfolio.users.username}/project/${project.title}`}
+                    className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent absolute bottom-3 left-3"
                     style={{ backgroundColor: info, color: secondary }}
                   >
                     Voir le projet

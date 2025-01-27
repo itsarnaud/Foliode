@@ -1,16 +1,11 @@
 "use client";
 
 import ColorPicker from "@/components/UI/ColorPicker";
-import { useMultiStep } from "@/utils/store";
-import { template } from "@/interfaces/templates";
-import { Select, SelectItem, Card, CardHeader, Image } from "@nextui-org/react";
-import { colors } from "@/interfaces/Colors";
 
-export interface StepThreeData {
-  template: string;
-  couleurs: string;
-  typo: string;
-}
+import { useMultiStep }             from "@/utils/store";
+import { template }                 from "@/interfaces/templates";
+import { Card, CardHeader, Image }  from "@nextui-org/react";
+import { colors }                   from "@/interfaces/Colors";
 
 function FourStepForm() {
   const { multiStep, setMultiStep } = useMultiStep();

@@ -19,10 +19,10 @@ class PublicPortfolioController extends AbstractController
     {
     }
 
-    #[Route('/api/public/portfolio/{firstname}/{name}', methods: ['GET'])]
-    public function getPortfolio(string $firstname, string $name): Response
+    #[Route('/api/public/portfolio/{username}', methods: ['GET'])]
+    public function getPortfolio(string $username): Response
     {
-        $user = $this->usersRepository->findOneBy(['firstname' => $firstname, 'name' => $name]);
+        $user = $this->usersRepository->findOneBy(['username' => $username]);
 
         if (!$user) {
             return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
