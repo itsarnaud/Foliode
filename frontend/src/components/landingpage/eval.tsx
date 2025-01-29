@@ -2,7 +2,7 @@ import { Card, CardHeader, CardBody } from "@heroui/react";
 import Image from "next/image";
 export default function Eval() {
   return (
-    <>
+    <div>
       <div className="px-8 mt-36">
         <Image
           className=" dayMode z-40 text-center mx-auto  rounded-3xl  border-[26px] border-[#2B4557] "
@@ -54,6 +54,6 @@ export default function Eval() {
           </CardBody>
         </Card>
       </div>
-    </>
+    </div>
   );
 }
