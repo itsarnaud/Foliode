@@ -5,7 +5,7 @@ import GithubAuth   from "@/components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import Link         from "next/link";
 
-import { Input }      from "@nextui-org/react";
+import { Input }      from "@heroui/react";
 import { useState }   from "react";
 import { useRouter }  from "next/navigation";
 import { apiAuth }    from "@/utils/apiRequester";
@@ -16,10 +16,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+  const [data, setData] = useState({ email: "", password: "" });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -31,22 +28,19 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const validateForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     const response = await apiAuth("user/signin", data);
 
-    if (response !== null && response.status === 401) {
-      setError("Email ou mot de passe incorrect");
+    if (response?.data.error) {
+      setError(response.data.error);
+      setData({ email: "", password: "" })
     }
 
     if (response !== null && response.data.token) {
       document.cookie = `token_auth=${response.data.token}; path=/`;
       router.push("/dashboard");
-    }
-
-    if (response === null) {
-      setError("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };
 
@@ -75,7 +69,7 @@ export default function LoginPage() {
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={validateForm}
             className="w-full flex flex-col gap-4 items-center md:items-start"
           >
             <Input
@@ -116,7 +110,7 @@ export default function LoginPage() {
               type={isVisible ? "text" : "password"}
               classNames={styles}
             />
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-[#F31260] text-sm">{error}</p>}
             <span className="text-sm sm:text-base">
               Mot de passe oublié ?{" "}
               <Link
