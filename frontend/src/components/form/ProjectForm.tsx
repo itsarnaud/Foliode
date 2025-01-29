@@ -5,7 +5,7 @@ import Buttons    from "@/components/UI/button";
 import LinkAdder  from "../UI/LinkAdder";
 
 import { useState }             from "react";
-import { Input, Textarea }      from "@nextui-org/react";
+import { Input, Textarea }      from "@heroui/react";
 import { Project }              from "@/interfaces/Project";
 import { apiPost }              from "@/utils/apiRequester";
 import { useProjects }          from "@/utils/store";

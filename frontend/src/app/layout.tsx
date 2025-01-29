@@ -1,5 +1,5 @@
 import { SessionProvider } from "next-auth/react";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { SidebarProvider } from "@/contexts/SidebarContext"
 import { ThemeProvider } from "next-themes";
 
@@ -16,11 +16,11 @@ export default function RootLayout({
        <body suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SessionProvider>
-            <NextUIProvider>
+            <HeroUIProvider>
               <SidebarProvider>
                 {children}
               </SidebarProvider>
-            </NextUIProvider>
+            </HeroUIProvider>
           </SessionProvider>
         </ThemeProvider>
       </body>

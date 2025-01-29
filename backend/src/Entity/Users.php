@@ -21,19 +21,19 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Name is required.")]
+    #[Assert\NotBlank(message: "Le nom est requis.")]
     #[Assert\Regex(
         pattern: '/^[\p{L}\s]+$/u',
-        message: 'Name should only contain letters and spaces.'
+        message: 'Le nom doit contenir uniquement des lettres et des espaces.'
     )]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "First name is required.")]
+    #[Assert\NotBlank(message: "Le prénom est requis.")]
     #[Assert\Regex(
         pattern: '/^[\p{L}\s]+$/u',
-        message: 'First name should only contain letters and spaces.'
+        message: 'Le prénom doit contenir uniquement des lettres et des espaces.'
     )]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $firstname = null;
@@ -42,21 +42,21 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255, nullable: true, unique: true)]
     #[Assert\Regex(
         pattern: '/^[a-z0-9_-]+$/',
-        message: 'Username should only contain lowercase letters, numbers, underscores, and hyphens.'
+        message: 'Le username doit contenir uniquement des caractères minuscules, des chiffres et des tirets.'
     )]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\NotBlank(message: "Email address is required.")]
-    #[Assert\Email(message: "Invalid email format.")]
+    #[Assert\NotBlank(message: "L'adresse email est requis.")]
+    #[Assert\Email(message: "Le format de l'adresse email est invalide.")]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotBlank(message: "Password is required.")]
+    #[Assert\NotBlank(message: "Le mot de passe est requis.")]
     #[Assert\Length(
         min: 8,
-        minMessage: "Password must be at least {{ limit }} characters long."
+        minMessage: "Le mot de passe doit avoir au moins {{ limit }} caractères."
     )]
     private ?string $password = null;
 

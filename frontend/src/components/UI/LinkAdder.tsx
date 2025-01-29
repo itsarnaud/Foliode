@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Buttons from "@/components/UI/button";
 
 import { LuX, LuListPlus } from "react-icons/lu";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 
 interface Link {
   name: string;

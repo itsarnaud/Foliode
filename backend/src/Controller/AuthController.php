@@ -52,11 +52,11 @@ class AuthController extends AbstractController
         $errors = $this->validatorBaseService->CatchInvalidData($user);
 
         if($errors) {
-            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => $errors], Response::HTTP_BAD_REQUEST);
         }
 
         if($this->usersRepository->findOneBy(['email' => $user->getEmail()])) {
-            return new JsonResponse(['error' => 'Email already exists'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'L\'adresse email est déjà utilisé.'], Response::HTTP_BAD_REQUEST);
         }
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
@@ -74,14 +74,13 @@ class AuthController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         if (!isset($data['email'])) {
-            return new JsonResponse(['error' => 'Email is required'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Le mail est requis pour se connecter.'], JsonResponse::HTTP_BAD_REQUEST);
         }
         $email = $data['email'];
         $user = $this->usersRepository->findOneBy(['email' => $email]);
 
         if (!$user || !$this->passwordHasher->isPasswordValid($user, $data['password'])) {
-
-            return new JsonResponse(['error' => 'incorrect user or password'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Le mail ou le mot de passe est incorrect.'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $token = $this->jwtManager->create($user);

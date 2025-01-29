@@ -1,8 +1,8 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import Link from "next/link";
 
 interface ButtonProps {
-    text: string;
+    text: React.ReactNode;
     style: "form" | "card" | "default"; 
     icon?: React.ReactNode;
     className?: string;
@@ -25,7 +25,7 @@ const Buttons: React.FC<ButtonProps> = ({
     subDescription
 }) => {
     const ButtonContent = (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col w-full items-center">
             <Button
                 type={type}
                 onPress={onClick}

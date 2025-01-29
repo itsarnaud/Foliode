@@ -1,6 +1,6 @@
 "use client";
 
-import { Input, Textarea } from "@nextui-org/react";
+import { Input, Textarea } from "@heroui/react";
 import { useMultiStep, useUsername }    from "@/utils/store";
 import { useState }        from "react";
 import { Portfolio }       from "@/interfaces/Portfolio";

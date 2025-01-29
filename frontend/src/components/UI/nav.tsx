@@ -11,7 +11,7 @@ import {
   NavbarMenuItem,
   Link,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Image from 'next/image';
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { getDecodedToken } from "@/utils/jwtUtils";

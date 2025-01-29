@@ -6,7 +6,7 @@ import Buttons        from "@/components/UI/button";
 import { Avatar }          from "@/components/Avatar";
 import { signInGitHub }    from "@/actions";
 import { signInDribbble }  from "@/actions";
-import { Link, Input }     from "@nextui-org/react";
+import { Link, Input }     from "@heroui/react";
 import { getDecodedToken } from "@/utils/jwtUtils";
 
 import { useState, useEffect } from "react";

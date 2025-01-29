@@ -5,7 +5,7 @@ import FileInput      from "@/components/UI/FileInput";
 import Buttons        from "@/components/UI/button";
 
 import { useEffect, useState }                from "react";
-import { Input, Image }                       from "@nextui-org/react";
+import { Input, Image }                       from "@heroui/react";
 import { apiPost, apiGetWithAuth, apiDelete } from "@/utils/apiRequester";
 import { formatImage }                        from "@/utils/formatImage";
 import { Tools }                              from "@/interfaces/Tools";
