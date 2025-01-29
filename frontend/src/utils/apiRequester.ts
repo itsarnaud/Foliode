@@ -60,9 +60,8 @@ export const apiAuth = async (
       },
     });
     return response;
-  } catch (err) {
-    console.log(err);
-    return null;
+  } catch (error) {
+    return axios.isAxiosError(error) && error.response ? error.response : null;
   }
 };
 

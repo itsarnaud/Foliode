@@ -7,15 +7,14 @@ import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 
 import { useState }   from "react";
 import { useRouter }  from "next/navigation";
-import { FormError }  from "@/interfaces/FormError";
-import { Input }      from "@nextui-org/react";
+import { Input }      from "@heroui/react";
 import { apiAuth }    from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [error, setError] = useState<FormError>({});
+  const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
   const [data, setData] = useState({
@@ -35,33 +34,16 @@ export default function RegisterPage() {
       ...prev,
       [name]: value,
     }));
-    setError((prev) => ({
-      ...prev,
-      [name]: undefined,
-    }));
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: FormError = {};
-    if (!data.email) newErrors.email = "L'adresse email est obligatoire.";
-    if (!data.firstname) newErrors.firstname = "Le prénom est obligatoire.";
-    if (!data.lastname) newErrors.lastname = "Le nom est obligatoire.";
-    if (!data.password) newErrors.password = "Le mot de passe est obligatoire.";
-    if (!data.passwordConfirm) {
-      newErrors.confirmPassword =
-        "La confirmation du mot de passe est obligatoire.";
-    } else if (data.password !== data.passwordConfirm) {
-      newErrors.confirmPassword = "Les mots de passe ne correspondent pas.";
-    }
-    setError(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError({});
+    setError("");
 
-    if (!validateForm()) return;
+    if (data.password !== data.passwordConfirm) {
+      setError("Les mots de passes ne correspondent pas.")
+      return
+    }
 
     const response = await apiAuth("user/signup", data);
 
@@ -69,8 +51,10 @@ export default function RegisterPage() {
       document.cookie = `token_auth=${response.data.token}; path=/`;
       router.push("/portfolio/edit");
     }
-    if (response?.status === 400 && response?.data) {
-      setError(response.data);
+
+    if (response?.data.error) {
+      setError(response.data.error);
+      return
     }
   };
 
@@ -112,7 +96,6 @@ export default function RegisterPage() {
             placeholder="john.doe@example.com"
             classNames={styles}
             onChange={handleInputChange}
-            errorMessage={error.email}
             onClear={() => setData({...data, email: ''})}
           />
           <Input
@@ -126,7 +109,6 @@ export default function RegisterPage() {
             placeholder="John"
             classNames={styles}
             onChange={handleInputChange}
-            errorMessage={error.firstname}
             onClear={() => setData({...data, firstname: ''})}
           />
           <Input
@@ -140,7 +122,6 @@ export default function RegisterPage() {
             placeholder="DOE"
             classNames={styles}
             onChange={handleInputChange}
-            errorMessage={error.lastname}
             onClear={() => setData({...data, lastname: ''})}
           />
           <Input
@@ -166,8 +147,6 @@ export default function RegisterPage() {
             }
             type={isVisible ? "text" : "password"}
             classNames={styles}
-            errorMessage={error.password}
-
           />
           <Input
             isRequired
@@ -192,8 +171,14 @@ export default function RegisterPage() {
             }
             type={isVisibleConfirm ? "text" : "password"}
             classNames={styles}
-            errorMessage={error.confirmPassword}
           />
+
+          {typeof error === 'string' && <p className="text-[#F31260] text-sm">{error}</p>}
+
+          {typeof error === 'object' && Object.keys(error).map((key) => (
+            error[key] && <p key={key} className="text-[#F31260] text-sm">{error[key]}</p>
+          ))}
+
           <Buttons text="S'inscrire" style="form" type="submit" />
           <span className="text-sm sm:text-base">
             Déjà un compte ?{" "}
