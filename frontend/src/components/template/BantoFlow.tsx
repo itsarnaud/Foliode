@@ -1,5 +1,5 @@
 import { Portfolio } from "@/interfaces/Portfolio";
-import { Card, Image } from "@nextui-org/react";
+import { Card, Image } from "@heroui/react";
 import { formatImage } from "@/utils/formatImage";
 import { generateAvatar } from "@/utils/generateAvatar";
 import Link from "next/link";
