@@ -59,23 +59,18 @@ export default function App() {
 
       <NavbarContent className="hidden sm:flex gap-9" justify="center">
         <NavbarItem>
-          <Link className="dayMode text-20" aria-current="page" href="#">
+          <Link className="dayMode text-20" aria-current="page" href="#accueil">
             Accueil
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="dayMode text-20" color="foreground" href="#">
+          <Link className="dayMode text-20" color="foreground" href="#avantages">
             Avantages
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="dayMode text-20" color="foreground" href="#">
+          <Link className="dayMode text-20" color="foreground" href="#fonctionnalites">
             Fonctionnalités
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link className="dayMode text-20" color="foreground" href="#">
-            Contact
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -88,7 +83,7 @@ export default function App() {
             </NavbarItem>
             <NavbarItem>
               <Button
-                onClick={handleSignOut}
+                onPress={handleSignOut}
                 className="gap-9 text-20 bg-transparent p-0 box-border border-2 border-white/[0.04] rounded-[32px] shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)]"
               >
                 Logout
