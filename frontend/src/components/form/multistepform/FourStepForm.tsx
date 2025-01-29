@@ -3,14 +3,14 @@
 import ColorPicker from "@/components/UI/ColorPicker";
 
 import { useMultiStep } from "@/utils/store";
-import { Template } from "@/interfaces/Templates";
+import { template } from "@/interfaces/templates";
 import { Card, CardHeader, Image } from "@heroui/react";
-import { Colors } from "@/interfaces/Colors";
+import { colors } from "@/interfaces/Colors";
 
 function FourStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
 
-  const templates: Template[] = [
+  const templates: template[] = [
     {
       id: "prestige",
       name: "prestige",
@@ -52,7 +52,7 @@ function FourStepForm() {
     },
   ];
 
-  const handleChange = (value: Template) => {
+  const handleChange = (value: template) => {
     const newData = {
       ...portfolio,
       template: value.id,
@@ -61,7 +61,7 @@ function FourStepForm() {
     setPortfolio(newData);
   };
 
-  const handleColorChange = (value: Colors) => {
+  const handleColorChange = (value: colors) => {
     const newData = { ...portfolio.config, colors: value };
     setPortfolio({
       ...portfolio,
