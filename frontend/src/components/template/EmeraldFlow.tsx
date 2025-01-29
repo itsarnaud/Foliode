@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { Portfolio } from "@/interfaces/Portfolio";
 import { generateAvatar } from "@/utils/generateAvatar";
 import { formatImage } from "@/utils/formatImage";

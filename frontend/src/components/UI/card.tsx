@@ -1,4 +1,4 @@
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody } from "@heroui/react";
 import Buttons from "../../components/UI/button";
 import { FaCircleCheck, FaCircleXmark, FaGithub, FaDribbble } from "react-icons/fa6";
 import { LuExternalLink } from "react-icons/lu";

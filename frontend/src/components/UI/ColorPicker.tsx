@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Input, Button, Card } from "@nextui-org/react";
+import { Input, Button, Card } from "@heroui/react";
 import { ChromePicker } from "react-color";
 import { colors } from "@/interfaces/Colors";
 

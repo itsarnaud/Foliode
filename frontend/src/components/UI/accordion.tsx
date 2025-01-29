@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion as NextUIAccordion, AccordionItem } from "@nextui-org/react";
+import { Accordion as NextUIAccordion, AccordionItem } from "@heroui/react";
 
 interface AccordionItemData {
   key: string;

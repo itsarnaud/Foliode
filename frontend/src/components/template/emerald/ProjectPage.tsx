@@ -1,5 +1,5 @@
 import { Portfolio } from "@/interfaces/Portfolio";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { formatImage } from "@/utils/formatImage";
 import Link from "next/link";
 interface ProjectPageProps {

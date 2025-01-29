@@ -2,7 +2,7 @@
 import {createAvatar} from "@dicebear/core";
 import {bigSmile} from "@dicebear/collection";
 import {getDecodedToken} from "@/utils/jwtUtils";
-import {Image} from "@nextui-org/react";
+import {Image} from "@heroui/react";
 import {useUser} from "@/utils/store";
 import {useEffect, useState} from "react";
 import Link from "next/link";

@@ -1,7 +1,7 @@
 import React from "react";
 import ImgDashboard from "../../../public/Dashboard.png";
 import Image from "next/image";
-import { Link, Button } from "@nextui-org/react";
+import { Link, Button } from "@heroui/react";
 const BgLandingPage = () => {
   return (
     <>

@@ -1,4 +1,4 @@
-import { Card, Image }      from "@nextui-org/react";
+import { Card, Image }      from "@heroui/react";
 import { formatImage }      from "@/utils/formatImage";
 import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 
