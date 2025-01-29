@@ -7,7 +7,6 @@ export interface Project {
   }[];
   images: File[];
   projectsImages: { img_src: string; img_alt: string }[] | undefined;
-  links: string[];
 }
 
 export interface receivedProject {

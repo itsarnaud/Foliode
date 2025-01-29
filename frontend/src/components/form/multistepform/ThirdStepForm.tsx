@@ -1,25 +1,22 @@
 "use client";
 
-import React     from "react";
+import React from "react";
 import FileInput from "@/components/UI/FileInput";
 import LinkAdder from "@/components/UI/LinkAdder";
 
 import { Button, Input, Textarea } from "@nextui-org/react";
-import { useMultiStep }            from "@/utils/store";
+import { useMultiStep } from "@/utils/store";
 
 function ThirdStepForm() {
-  const { multiStep, setMultiStep } = useMultiStep();
+  const { projects, setProject } = useMultiStep();
 
   const handleProjectChange = (index: number, field: string, value: any) => {
-    const newProjects = [...multiStep.projects];
+    const newProjects = [...projects];
     newProjects[index] = {
       ...newProjects[index],
       [field]: value,
     };
-    setMultiStep({
-      ...multiStep,
-      projects: newProjects,
-    });
+    setProject(newProjects);
   };
 
   const addProject = () => {
@@ -30,17 +27,13 @@ function ThirdStepForm() {
       images: [],
       projectsImages: [],
     };
-    const updatedProjects = [...multiStep.projects, newProject];
-    setMultiStep({
-      ...multiStep,
-      projects: updatedProjects,
-    });
+    setProject([...projects, newProject]);
   };
 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Projets</h3>
-      {multiStep.projects.map((project, index) => (
+      {projects.map((project, index) => (
         <div key={index} className="p-4 border rounded-lg space-y-2">
           <Input
             label="Titre du projet"
@@ -57,7 +50,9 @@ function ThirdStepForm() {
             }
           />
           <LinkAdder
-            onChange={(links) => handleProjectChange(index, "projectsLinks", links)}
+            onChange={(links) =>
+              handleProjectChange(index, "projectsLinks", links)
+            }
           />
           <div>
             <label className="block text-sm font-medium mb-1">

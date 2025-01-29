@@ -15,3 +15,13 @@ export interface MultiStep {
   tools: Tools[];
   projects: Project[];
 }
+
+export interface MsPortfolio {
+  title: string;
+  subtitle: string;
+  bio: string;
+  template: string;
+  config: {
+    colors: colors | null;
+  };
+}

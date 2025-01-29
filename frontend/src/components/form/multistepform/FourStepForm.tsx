@@ -2,13 +2,13 @@
 
 import ColorPicker from "@/components/UI/ColorPicker";
 
-import { useMultiStep }             from "@/utils/store";
-import { template }                 from "@/interfaces/templates";
-import { Card, CardHeader, Image }  from "@nextui-org/react";
-import { colors }                   from "@/interfaces/Colors";
+import { useMultiStep } from "@/utils/store";
+import { template } from "@/interfaces/templates";
+import { Card, CardHeader, Image } from "@nextui-org/react";
+import { colors } from "@/interfaces/Colors";
 
 function FourStepForm() {
-  const { multiStep, setMultiStep } = useMultiStep();
+  const { portfolio, setPortfolio } = useMultiStep();
 
   const templates: template[] = [
     {
@@ -53,18 +53,19 @@ function FourStepForm() {
   ];
 
   const handleChange = (value: template) => {
-    const newData = { ...multiStep.portfolio, template: value.id, config: { colors: value.color } };
-    setMultiStep({ ...multiStep, portfolio: newData });
+    const newData = {
+      ...portfolio,
+      template: value.id,
+      config: { colors: value.color },
+    };
+    setPortfolio(newData);
   };
 
   const handleColorChange = (value: colors) => {
-    const newData = { ...multiStep.portfolio.config, colors: value };
-    setMultiStep({
-      ...multiStep,
-      portfolio: {
-        ...multiStep.portfolio,
-        config: newData,
-      },
+    const newData = { ...portfolio.config, colors: value };
+    setPortfolio({
+      ...portfolio,
+      config: newData,
     });
   };
 
@@ -78,7 +79,7 @@ function FourStepForm() {
             isPressable
             onPress={() => handleChange(template)}
             className={`h-[300px] ${
-              multiStep.portfolio.template === template.id
+              portfolio.template === template.id
                 ? "border-4 border-primary"
                 : ""
             }`}
@@ -99,17 +100,14 @@ function FourStepForm() {
       </div>
 
       <div className="mt-4 space-y-4">
-        {multiStep.portfolio.template !== "" && (
+        {portfolio.template !== "" && (
           <ColorPicker
             onChange={(value) => handleColorChange(value)}
             colors={
-              multiStep.portfolio.config.colors
-                ? multiStep.portfolio.config.colors
-                : undefined
+              portfolio.config.colors ? portfolio.config.colors : undefined
             }
           />
         )}
-
       </div>
     </div>
   );
