@@ -2,7 +2,7 @@ import { Card, CardHeader, CardBody } from "@heroui/react";
 
 export default function Fonctionnalites() {
   return (
-    <>
+    <div id="fonctionnalites">
       <h2 className="text-4xl font-bold mb-20 text-center mt-36">
       Pourquoi choisir Foliode
       </h2>
@@ -47,6 +47,6 @@ export default function Fonctionnalites() {
           </CardBody>
         </Card>
       </div>
-    </>
+    </div>
   );
 }
