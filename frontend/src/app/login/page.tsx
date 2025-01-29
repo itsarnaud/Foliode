@@ -12,9 +12,12 @@ import { apiAuth }    from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 
+import { CircularProgress } from "@heroui/progress";
+
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
 
@@ -31,15 +34,19 @@ export default function LoginPage() {
   const validateForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     const response = await apiAuth("user/signin", data);
 
     if (response?.data.error) {
       setError(response.data.error);
       setData({ email: "", password: "" })
+      setIsLoading(false);
+      return
     }
 
     if (response !== null && response.data.token) {
       document.cookie = `token_auth=${response.data.token}; path=/`;
+      setIsLoading(false);
       router.push("/dashboard");
     }
   };
@@ -120,7 +127,8 @@ export default function LoginPage() {
                 Cliquez ici !
               </Link>{" "}
             </span>
-            <Buttons text="Se connecter" style="default" type="submit" />
+            <Buttons style="form" type="submit" isDisabled={isLoading} text={isLoading ? <CircularProgress aria-label="Loading..." size="sm" /> : "Se connecter"} />
+
             <span className="text-sm sm:text-base">
               Pas de compte ?{" "}
               <Link
