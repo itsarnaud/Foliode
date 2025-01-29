@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 import Link from "next/link";
 
 interface ButtonProps {
-    text: string;
+    text: React.ReactNode;
     style: "form" | "card" | "default"; 
     icon?: React.ReactNode;
     className?: string;

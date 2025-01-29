@@ -12,10 +12,13 @@ import { apiAuth }    from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 
+import { CircularProgress } from "@heroui/progress";
+
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
   const [data, setData] = useState({
     email: "",
@@ -39,9 +42,11 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     if (data.password !== data.passwordConfirm) {
       setError("Les mots de passes ne correspondent pas.")
+      setIsLoading(false);
       return
     }
 
@@ -49,11 +54,13 @@ export default function RegisterPage() {
 
     if (response?.data?.token) {
       document.cookie = `token_auth=${response.data.token}; path=/`;
+      setIsLoading(false);
       router.push("/portfolio/edit");
     }
 
     if (response?.data.error) {
       setError(response.data.error);
+      setIsLoading(false);
       return
     }
   };
@@ -179,7 +186,8 @@ export default function RegisterPage() {
             error[key] && <p key={key} className="text-[#F31260] text-sm">{error[key]}</p>
           ))}
 
-          <Buttons text="S'inscrire" style="form" type="submit" />
+          <Buttons style="form" type="submit" isDisabled={isLoading} text={isLoading ? <CircularProgress aria-label="Loading..." size="sm" /> : "S'inscrire"} />
+          
           <span className="text-sm sm:text-base">
             Déjà un compte ?{" "}
             <Link
