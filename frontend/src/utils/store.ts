@@ -56,6 +56,6 @@ export const useProjects = create<projectsState>((set) => ({
 }));
 
 export const useUsername = create((set) => ({
-  username: null,
+  username: '',
   setUsername: (username: string) => set({ username }),
 }));

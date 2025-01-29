@@ -13,7 +13,7 @@ function SecondStepForm() {
       ...newTools[index],
       [field]: value,
     };
-    setTools(tools);
+    setTools(newTools);
   };
 
   const addCompetence = () => {
@@ -32,6 +32,7 @@ function SecondStepForm() {
             onChange={(e) =>
               handleCompetenceChange(index, "name", e.target.value)
             }
+            isRequired
           />
 
           <div>
