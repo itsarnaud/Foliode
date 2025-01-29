@@ -46,7 +46,6 @@ export default function LoginPage() {
 
     if (response !== null && response.data.token) {
       document.cookie = `token_auth=${response.data.token}; path=/`;
-      setIsLoading(false);
       router.push("/dashboard");
     }
   };

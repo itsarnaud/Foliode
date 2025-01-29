@@ -54,7 +54,6 @@ export default function RegisterPage() {
 
     if (response?.data?.token) {
       document.cookie = `token_auth=${response.data.token}; path=/`;
-      setIsLoading(false);
       router.push("/portfolio/edit");
     }
 
