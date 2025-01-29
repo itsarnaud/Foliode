@@ -2,10 +2,10 @@
 
 import ColorPicker from "@/components/UI/ColorPicker";
 
-import { useMultiStep }             from "@/utils/store";
-import { Template }                 from "@/interfaces/Templates";
-import { Card, CardHeader, Image }  from "@heroui/react";
-import { Colors }                   from "@/interfaces/Colors";
+import { useMultiStep } from "@/utils/store";
+import { template } from "@/interfaces/templates";
+import { Card, CardHeader, Image } from "@nextui-org/react";
+import { colors } from "@/interfaces/Colors";
 
 function FourStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
