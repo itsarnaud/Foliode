@@ -13,7 +13,6 @@ import {
   Link,
   Button,
 } from "@heroui/react";
-
 import Image from 'next/image';
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { getDecodedToken } from "@/utils/jwtUtils";
