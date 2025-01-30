@@ -12,12 +12,11 @@ async function Page({
 }: {
   params: { username: string; title: string };
 }) {
-  const response = await apiGet(
-    `public/portfolio/${params.username}`
-  );
+  const { username, title } = await params;
+  const response = await apiGet(`public/portfolio/${username}`);
   const portfolio: Portfolio = response.data;
   const project = portfolio.projects.find(
-    (project) => project.title === params.title
+    (project) => project.title === title
   );
 
   if (!project) {
