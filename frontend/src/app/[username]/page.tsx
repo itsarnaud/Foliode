@@ -11,9 +11,8 @@ async function PortfolioPage({
   params: { username: string };
 }) {
   try {
-    const response = await apiGet(
-      `public/portfolio/${params.username}`
-    );
+    const { username } = await params;
+    const response = await apiGet(`public/portfolio/${username}`);
 
     const portfolio: Portfolio = response.data;
     const template = portfolio.template;

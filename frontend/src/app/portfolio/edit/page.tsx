@@ -40,7 +40,11 @@ export default function MultiStepForm() {
 
           await apiPost("portfolio/tools", tools, 'multipart/form-data')
           await apiPost("projects", projects, 'multipart/form-data')
-          await apiPost("user/username", { username }, 'application/json')
+          const res = await apiPost("user/username", { username }, 'application/json')
+
+          if (res.data.token) {
+            document.cookie = `token_auth=${res.data.token}; path=/`;
+          }
         }
 
         router.push("/dashboard")

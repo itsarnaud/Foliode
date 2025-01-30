@@ -2,7 +2,6 @@
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
 import { getCookie } from "@/utils/cookiesHelpers";
-import { url } from "inspector";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -44,7 +43,6 @@ export const apiGetWithAuth = async (url: string) => {
 };
 
 export const apiGet = async (url: string) => {
-  const token = getCookie("token_auth");
   const response = await axios.get(`${apiUrl}/api/${url}`);
   return response;
 };

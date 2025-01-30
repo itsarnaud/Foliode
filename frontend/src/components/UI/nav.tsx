@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -18,6 +18,7 @@ import { getDecodedToken } from "@/utils/jwtUtils";
 import { Avatar } from "@/components/Avatar";
 import { useRouter } from "next/navigation";
 import { MdLogout } from "react-icons/md";
+import { User } from "@/interfaces/User";
 
 export const FoliodeLogo = () => {
   return (
@@ -27,8 +28,13 @@ export const FoliodeLogo = () => {
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const token = getDecodedToken();
+  const [token, setToken] = useState<User | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const decodedToken = getDecodedToken();
+    setToken(decodedToken);
+  }, []);
 
   const handleSignOut = () => {
     document.cookie = "token_auth=; max-age=0; path=/;";
