@@ -38,14 +38,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $firstname = null;
 
-    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
-    #[ORM\Column(length: 255, nullable: true, unique: true)]
-    #[Assert\Regex(
-        pattern: '/^[a-z0-9_-]+$/',
-        message: 'Username should only contain lowercase letters, numbers, underscores, and hyphens.'
-    )]
-    private ?string $username = null;
-
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: "Email address is required.")]
     #[Assert\Email(message: "Invalid email format.")]
@@ -97,6 +89,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private  ?bool $is_email_verified = null;
 
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    #[Groups(['getUsers'])]
     private ?Portfolios $portfolio = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -131,17 +124,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function setFirstName(string $firstname): static
     {
         $this->firstname = $firstname;
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
         return $this;
     }
 
