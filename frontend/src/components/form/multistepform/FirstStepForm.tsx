@@ -1,31 +1,23 @@
 "use client";
 
 import { Input, Textarea } from "@nextui-org/react";
-import { useMultiStep, useUsername } from "@/utils/store";
+import { useMultiStep } from "@/utils/store";
 import { Portfolio } from "@/interfaces/Portfolio";
 import { URLInput } from "@/components/UI/URLInput";
+import { MsPortfolio } from "@/interfaces/MultiStep";
 
 function FirstStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
-  const { username, setUsername } = useUsername() as {
-    username: string;
-    setUsername: (value: string) => void;
-  };
 
-  const handleChange = (field: keyof Portfolio, value: string) => {
+  const handleChange = (field: keyof MsPortfolio, value: string) => {
     setPortfolio({ ...portfolio, [field]: value });
-  };
-
-  const handleUsernameChange = (value: string) => {
-    const sanitizedValue = value.toLowerCase().replace(/[^a-z0-9-_]/g, "");
-    setUsername(sanitizedValue);
   };
 
   return (
     <div className="space-y-4 w-full">
       <URLInput
-        onChange={(value) => handleUsernameChange(value)}
-        value={username}
+        onChange={(value) => handleChange("url", value)}
+        value={portfolio.url}
       />
 
       <Input

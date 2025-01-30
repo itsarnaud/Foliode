@@ -8,13 +8,13 @@ import { useMultiStep } from "@/utils/store";
 import { apiPut }       from "@/utils/apiRequester";
 
 export default function Projects() {
-  const { multiStep, setMultiStep } = useMultiStep();
+  const { portfolio, setPortfolio } = useMultiStep();
 
   const handleTemplateChange = async () => {
     try {
       await apiPut("portfolio", {
-        template: multiStep.portfolio.template,
-        config: multiStep.portfolio.config
+        template: portfolio.template,
+        config: portfolio.config
       });
     } catch (error) {
       console.error("Erreur lors de la mise à jour du template:", error);
@@ -22,10 +22,10 @@ export default function Projects() {
   };
 
   useEffect(() => {
-    if (multiStep.portfolio.template) {
+    if (portfolio.template) {
       handleTemplateChange();
     }
-  }, [multiStep.portfolio.template, multiStep.portfolio.config]);
+  }, [portfolio.template, portfolio.config]);
 
   return (
     <>

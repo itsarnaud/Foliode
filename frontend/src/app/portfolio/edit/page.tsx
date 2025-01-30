@@ -7,7 +7,7 @@ import FourStepForm from "@/components/form/multistepform/FourStepForm";
 
 import React, { useState, useRef } from "react";
 import { Button, Card, Progress } from "@nextui-org/react";
-import { useMultiStep, useUsername } from "@/utils/store";
+import { useMultiStep } from "@/utils/store";
 import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";
 import { formatProjectsData, formatToolsData } from "@/utils/formatData";
@@ -17,7 +17,6 @@ export default function MultiStepForm() {
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
   const { portfolio, tools, projects } = useMultiStep();
-  const { username } = useUsername() as { username: string };
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -33,13 +32,16 @@ export default function MultiStepForm() {
   const postData = async () => {
     const response = await apiPost("portfolio", portfolio, "application/json");
 
-    if (response !== null && response.status === 201) {
-      const formatTools = formatToolsData(tools);
-      const formatProjects = formatProjectsData(projects);
+    if (response.status !== 201) return;
 
+    if (tools.length !== 0) {
+      const formatTools = formatToolsData(tools);
       await apiPost("portfolio/tools", formatTools, "multipart/form-data");
+    }
+
+    if (projects.length !== 0) {
+      const formatProjects = formatProjectsData(projects);
       await apiPost("projects", formatProjects, "multipart/form-data");
-      await apiPost("user/username", { username }, "application/json");
     }
 
     router.push("/dashboard");
@@ -47,7 +49,7 @@ export default function MultiStepForm() {
 
   return (
     <div className="max-w-2xl py-8 mx-auto">
-      <form ref={formRef} onSubmit={e => handleNext(e)}>
+      <form ref={formRef} onSubmit={(e) => handleNext(e)}>
         <Card className="p-6">
           <h2 className="text-xl font-bold mb-4">
             Étape {currentStep + 1}: {getStepTitle(currentStep)}
@@ -82,10 +84,14 @@ export default function MultiStepForm() {
             {currentStep === 2 && <ThirdStepForm />}
 
             {currentStep === 3 && <FourStepForm />}
+
             <div className="flex justify-between mt-6">
-              <Button onPress={handlePrevious} disabled={currentStep === 0}>
-                Précédent
-              </Button>
+              {currentStep > 0 ? (
+                <Button onPress={handlePrevious} disabled={currentStep === 0}>
+                  Précédent
+                </Button>
+              ) : (<div></div>)
+              }
               {currentStep < totalSteps ? (
                 <Button
                   onPress={() => formRef.current?.requestSubmit()}

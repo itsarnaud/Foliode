@@ -18,6 +18,7 @@ export interface MultiStep {
 
 export interface MsPortfolio {
   title: string;
+  url: string, 
   subtitle: string;
   bio: string;
   template: string;

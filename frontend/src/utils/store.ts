@@ -31,7 +31,7 @@ interface projectsState {
 }
 
 export const useMultiStep = create<multiStepState>((set) => ({
-  portfolio: {title: '', subtitle: '', bio: '', config: {colors: null}, template: ''},
+  portfolio: {title: '', url: '', subtitle: '', bio: '', config: {colors: null}, template: ''},
   tools: [],
   projects: [],
   setPortfolio: (portfolio) => {
@@ -55,7 +55,3 @@ export const useProjects = create<projectsState>((set) => ({
   },
 }));
 
-export const useUsername = create((set) => ({
-  username: '',
-  setUsername: (username: string) => set({ username }),
-}));
