@@ -6,7 +6,7 @@ import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
 import FourStepForm from "@/components/form/multistepform/FourStepForm";
 
 import React, { useState, useRef } from "react";
-import { Button, Card, Progress } from "@nextui-org/react";
+import { Button, Card, Progress } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
 import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";

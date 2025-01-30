@@ -1,7 +1,7 @@
 "use client";
 
 import FileInput from "@/components/UI/FileInput";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
 
 function SecondStepForm() {
