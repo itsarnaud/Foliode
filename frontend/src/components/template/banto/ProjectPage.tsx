@@ -37,7 +37,7 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             >
               {project.description}
             </p>
-            {project.projectsImages.length > 0 && (
+            {project.projectsImages && project.projectsImages.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {project.projectsImages.map((image, index) => (
                   <Image

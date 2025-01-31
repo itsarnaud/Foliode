@@ -12,7 +12,7 @@ import { getDecodedToken } from "@/utils/jwtUtils";
 import { useState, useEffect } from "react";
 import { useUser }             from "@/utils/store";
 import { apiPut }              from "@/utils/apiRequester";
-import { response }            from "@/interfaces/Response";
+import { Response }            from "@/interfaces/Response";
 
 import { IoEyeSharp }                       from "react-icons/io5";
 import { LuExternalLink }                   from "react-icons/lu";
@@ -51,7 +51,7 @@ export default function Profile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res: response = await apiPut('user', data);
+    const res: Response = await apiPut('user', data);
 
     if (res.token) {
       document.cookie = `token_auth=${res.token}; path=/`;

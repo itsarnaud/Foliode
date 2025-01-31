@@ -1,9 +1,10 @@
-import React from "react";
-import { Image } from "@heroui/react";
-import { Portfolio } from "@/interfaces/Portfolio";
+import React  from "react";
+import Link   from "next/link";
+
+import { Image }          from "@heroui/react";
+import { Portfolio }      from "@/interfaces/Portfolio";
 import { generateAvatar } from "@/utils/generateAvatar";
-import { formatImage } from "@/utils/formatImage";
-import Link from "next/link";
+import { formatImage }    from "@/utils/formatImage";
 
 const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
   const { primary, secondary, warning, success, info, light } =
@@ -108,17 +109,19 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
                     Voir le projet
                   </Link>
                 </div>
-                <div className="w-full md:w-1/2">
-                  <div className="aspect-video rounded-xl overflow-hidden shadow-md">
-                    <Image
-                      src={formatImage(project.projectsImages[0].img_src)}
-                      alt={project.title}
-                      width={1000}
-                      height={500}
-                      className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
+                    {project.projectsImages && 
+                      <div className="w-full md:w-1/2">
+                        <div className="aspect-video rounded-xl overflow-hidden shadow-md">
+                          <Image
+                            src={formatImage(project.projectsImages[0].img_src)}
+                            alt={project.title}
+                            width={1000}
+                            height={500}
+                            className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                    }
               </div>
             ))}
           </div>

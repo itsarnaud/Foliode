@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import {
   Navbar,
   NavbarBrand,
@@ -12,12 +13,12 @@ import {
   Link,
   Button,
 } from "@heroui/react";
+
 import Image from 'next/image';
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { getDecodedToken } from "@/utils/jwtUtils";
 import { Avatar } from "@/components/Avatar";
 import { useRouter } from "next/navigation";
-import { MdLogout } from "react-icons/md";
 import { User } from "@/interfaces/User";
 
 export const FoliodeLogo = () => {

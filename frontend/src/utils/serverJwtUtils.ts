@@ -8,7 +8,6 @@ export function getDecodedToken(request: NextRequest): User | null {
   if (!token) {
     return null;
   }
-
-  const decodedToken = jwtDecode<User>(token);
-  return decodedToken;
+  
+  return jwtDecode<User>(token);
 }

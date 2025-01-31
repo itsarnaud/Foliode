@@ -27,6 +27,7 @@ function ThirdStepForm() {
       projectsLinks: [],
       images: [],
       projectsImages: [],
+      links: []
     };
     setProject([...projects, newProject]);
   };

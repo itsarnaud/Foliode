@@ -1,6 +1,6 @@
 import { Project } from "@/interfaces/Project";
 import { Tools } from "@/interfaces/Tools";
-import { colors } from "./Colors";
+import { Colors } from "./Colors";
 
 export interface MultiStep {
   portfolio: {
@@ -9,7 +9,7 @@ export interface MultiStep {
     bio: string;
     template: string;
     config: {
-      colors: colors | null;
+      colors: Colors | null;
     };
   };
   tools: Tools[];
