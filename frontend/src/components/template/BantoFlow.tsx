@@ -1,7 +1,8 @@
-import { Portfolio } from "@/interfaces/Portfolio";
-import { Card, Image } from "@heroui/react";
-import { formatImage } from "@/utils/formatImage";
+import { Portfolio }      from "@/interfaces/Portfolio";
+import { Card, Image }    from "@heroui/react";
+import { formatImage }    from "@/utils/formatImage";
 import { generateAvatar } from "@/utils/generateAvatar";
+
 import Link from "next/link";
 
 function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
@@ -102,7 +103,7 @@ function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
               style={{ backgroundColor: light, color: primary }}
             >
               <div className="flex flex-col h-full justify-between">
-                {project.projectsImages.length !== 0 ? (
+                {project.projectsImages && project.projectsImages.length !== 0 ? (
                   <Image
                     src={formatImage(project.projectsImages[0].img_src)}
                     alt=""

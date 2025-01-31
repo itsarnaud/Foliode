@@ -1,4 +1,4 @@
-export interface colors {
+export interface Colors {
     primary : string,
     secondary : string
     warning: string

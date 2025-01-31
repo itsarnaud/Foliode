@@ -1,8 +1,8 @@
-import { colors } from "@/interfaces/Colors";
+import { Colors } from "@/interfaces/Colors";
 
-export interface template {
+export interface Template {
     id: string,
     name: string,
     preview: string,
-    color: colors
+    color: Colors
 }

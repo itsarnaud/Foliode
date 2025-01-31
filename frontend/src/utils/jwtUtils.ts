@@ -1,8 +1,6 @@
-import {jwtDecode} from 'jwt-decode';
-import {getCookie} from "@/utils/cookiesHelpers";
-import {User} from "@/interfaces/User";
-
-
+import { jwtDecode } from 'jwt-decode';
+import { getCookie } from "@/utils/cookiesHelpers";
+import { User }      from "@/interfaces/User";
 
 export const getDecodedToken = (): null | User => {
     const token = getCookie('token_auth')

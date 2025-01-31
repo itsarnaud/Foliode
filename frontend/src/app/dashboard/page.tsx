@@ -9,7 +9,7 @@ import { useProjects, useUser }               from "@/utils/store";
 import { useEffect, useState }                from "react";
 import { apiGetWithAuth }                     from "@/utils/apiRequester";
 import { receivedProject }                    from "@/interfaces/Project";
-import { colors as ColorsInterface }          from "@/interfaces/Colors";
+import { Colors as ColorsInterface }          from "@/interfaces/Colors";
 import { Promotion }                          from "@/interfaces/Promotion";
 
 import {
