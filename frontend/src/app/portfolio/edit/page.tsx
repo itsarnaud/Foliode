@@ -30,20 +30,23 @@ export default function MultiStepForm() {
   };
 
   const postData = async () => {
-    const response = await apiPost("portfolio", portfolio, "application/json");
+    try {
+      const response = await apiPost("portfolio", portfolio, "application/json");
 
-    if (response.status !== 201) return;
-
-    if (tools.length !== 0) {
-      const formatTools = formatToolsData(tools);
-      await apiPost("portfolio/tools", formatTools, "multipart/form-data");
+      if (response.status !== 201) return;
+  
+      if (tools.length !== 0) {
+        const formatTools = formatToolsData(tools);
+        await apiPost("portfolio/tools", formatTools, "multipart/form-data");
+      }
+  
+      if (projects.length !== 0) {
+        const formatProjects = formatProjectsData(projects);
+        await apiPost("projects", formatProjects, "multipart/form-data");
+      }
+    } catch(e) {
+      console.log(e)
     }
-
-    if (projects.length !== 0) {
-      const formatProjects = formatProjectsData(projects);
-      await apiPost("projects", formatProjects, "multipart/form-data");
-    }
-
     router.push("/dashboard");
   };
 

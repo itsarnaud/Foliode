@@ -26,12 +26,12 @@ export const URLInput: React.FC<URLInputProps> = ({ onChange, value }) => {
         isRequired
       />
       <div
-        className={`absolute  text-white pointer-events-none bg-default-200 p-4 left-0 rounded-l-xl top-0 z-40 `}
+        className={`absolute text-default-50 dark:text-white pointer-events-none bg-default-200 p-4 left-0 rounded-l-xl top-0 z-40 `}
       >
         https://
       </div>
       <div
-        className={`absolute  text-white pointer-events-none bg-default-200 p-4 right-0 rounded-r-xl top-0 z-40`}
+        className={`absolute text-default-50 dark:text-white pointer-events-none bg-default-200 p-4 right-0 rounded-r-xl top-0 z-40`}
       >
         .foliode.com
       </div>

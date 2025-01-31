@@ -3,6 +3,7 @@
 import React from "react";
 import FileInput from "@/components/UI/FileInput";
 import LinkAdder from "@/components/UI/LinkAdder";
+import { LuX } from "react-icons/lu";
 
 import { Button, Input, Textarea } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
@@ -30,17 +31,32 @@ function ThirdStepForm() {
     setProject([...projects, newProject]);
   };
 
+  const handleDeleteProject = (index: number) => {
+    const newProject = projects.filter((_, i) => i !== index);
+    setProject(newProject);
+  };
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Projets</h3>
       {projects.map((project, index) => (
-        <div key={index} className="p-4 border rounded-lg space-y-2">
+        <div key={index} className="relative p-5 pt-9 border rounded-lg space-y-2">
+          <div
+            onClick={() => handleDeleteProject(index)}
+            className="absolute top-3 right-3 cursor-pointer "
+          >
+            <LuX
+              className="text-red-500 hover:text-red-800  text-2xl font-bold"
+              strokeWidth={3}
+            />
+          </div>
           <Input
             label="Titre du projet"
             value={project.title}
             onChange={(e) =>
               handleProjectChange(index, "title", e.target.value)
             }
+            isRequired
           />
           <Textarea
             label="Description"
@@ -48,6 +64,7 @@ function ThirdStepForm() {
             onChange={(e) =>
               handleProjectChange(index, "description", e.target.value)
             }
+            isRequired
           />
           <LinkAdder
             onChange={(links) =>

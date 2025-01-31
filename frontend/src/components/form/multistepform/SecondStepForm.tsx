@@ -2,6 +2,7 @@
 
 import FileInput from "@/components/UI/FileInput";
 import { Button, Input } from "@heroui/react";
+import { LuX } from "react-icons/lu";
 import { useMultiStep } from "@/utils/store";
 
 function SecondStepForm() {
@@ -21,11 +22,28 @@ function SecondStepForm() {
     setTools([...tools, newCompetence]);
   };
 
+  const handleDeleteCompetence = (index: number) => {
+    const newTools = tools.filter((_, i) => i !== index);
+    setTools(newTools);
+  };
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Compétences</h3>
       {tools.map((tool, index) => (
-        <div key={index} className="p-4 border rounded-lg space-y-2">
+        <div
+          key={index}
+          className="p-5 pt-9 border rounded-lg space-y-2 relative"
+        >
+          <div
+            onClick={() => handleDeleteCompetence(index)}
+            className="absolute top-4 right-4 cursor-pointer "
+          >
+            <LuX
+              className="text-red-500 hover:text-red-800  text-2xl font-bold"
+              strokeWidth={3}
+            />
+          </div>
           <Input
             label="Nom de la compétence"
             value={tool.name}
