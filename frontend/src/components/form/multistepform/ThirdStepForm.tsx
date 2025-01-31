@@ -29,6 +29,7 @@ function ThirdStepForm() {
       projectsLinks: [],
       images: [],
       projectsImages: [],
+      links: []
     };
     const updatedProjects = [...multiStep.projects, newProject];
     setMultiStep({

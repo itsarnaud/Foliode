@@ -1,21 +1,7 @@
-import { Portfolio } from "@/interfaces/Portfolio";
-import { Image } from "@heroui/react";
-import { formatImage } from "@/utils/formatImage";
+import { Image }            from "@heroui/react";
+import { formatImage }      from "@/utils/formatImage";
+import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 import Link from "next/link";
-interface ProjectPageProps {
-  portfolio: Portfolio;
-  project:
-    | {
-        title: string;
-        description: string;
-        projectsLinks: {
-          name: string;
-          url: string;
-        }[];
-        projectsImages: { img_src: string; img_alt: string }[];
-      }
-    | undefined;
-}
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
   const { primary, secondary, warning, success, info, light } =
@@ -69,7 +55,7 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
         </div>
   
         {/* Galerie d'images élégante */}
-        {project.projectsImages.length > 0 && (
+        {project.projectsImages && project.projectsImages.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {project.projectsImages.map((image, index) => (
               <div
@@ -121,7 +107,7 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
         {/* Bouton Retour élégant */}
         <div className="mt-16 text-center">
             <Link
-            href={`/${portfolio.users.firstname}/${portfolio.users.name}`}
+            href={`/${portfolio.users.username}`}
             className="inline-block px-10 py-4 rounded-full transition-all duration-500 hover:scale-105 relative overflow-hidden group"
             style={{
               backgroundColor: primary,

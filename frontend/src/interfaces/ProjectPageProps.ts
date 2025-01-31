@@ -6,6 +6,7 @@ export interface ProjectPageProps {
     title: string;
     description: string;
     links: string[];
-    projectsImages?: { img_src: string; img_alt: string }[] | undefined;
+    projectsImages?: { img_src: string; img_alt: string }[];
+    projectsLinks: { name: string; url: string; }[];
   };
 }

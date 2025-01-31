@@ -3,11 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import { ChromePicker } from "react-color";
-import { colors } from "@/interfaces/Colors";
+import { Colors } from "@/interfaces/Colors";
 
 interface ColorPickerProps {
-  colors?: colors;
-  onChange: (colors: colors) => void;
+  colors?: Colors;
+  onChange: (colors: Colors) => void;
 }
 
 const predefinedStyles = {
@@ -48,7 +48,7 @@ const predefinedStyles = {
 // };
 
 export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
-  const [palette, setPalette] = useState<colors | null>(colors || null);
+  const [palette, setPalette] = useState<Colors | null>(colors || null);
   const [currentColor, setCurrentColor] = useState<string>("#000000");
   const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -144,7 +144,7 @@ export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
                   ? "primary"
                   : "default"
               }
-              onClick={() =>
+              onPress={() =>
                 applyPredefinedStyle(style as keyof typeof predefinedStyles)
               }
               className="transition-all"
@@ -157,7 +157,7 @@ export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
       {showCustomColors && (
         <div className="flex gap-4 flex-wrap mt-4">
           {palette &&
-            (Object.keys(palette) as Array<keyof colors>).map((key) => (
+            (Object.keys(palette) as Array<keyof Colors>).map((key) => (
               <div
                 key={key} // Ajouter la clé ici sur l'élément parent
                 className="dayMode bg-foreground p-2 border-2 border-[#252525] rounded-xl"

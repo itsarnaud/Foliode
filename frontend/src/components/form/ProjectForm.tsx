@@ -19,6 +19,7 @@ function ProjectForm() {
     projectsLinks: [],
     images: [],
     projectsImages: [],
+    links: []
   });
   const [images, setImages] = useState<File[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);

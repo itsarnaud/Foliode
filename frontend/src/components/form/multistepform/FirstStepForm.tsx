@@ -1,8 +1,8 @@
 "use client";
 
+import { useMultiStep, useUsername } from "@/utils/store";
+
 import { Input, Textarea } from "@heroui/react";
-import { useMultiStep, useUsername }    from "@/utils/store";
-import { useState }        from "react";
 import { Portfolio }       from "@/interfaces/Portfolio";
 
 function FirstStepForm() {

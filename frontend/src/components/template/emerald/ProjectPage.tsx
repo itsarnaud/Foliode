@@ -1,21 +1,7 @@
-import { Portfolio } from "@/interfaces/Portfolio";
-import { Image } from "@heroui/react";
 import { formatImage } from "@/utils/formatImage";
+import { Image }       from "@heroui/react";
+import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 import Link from "next/link";
-interface ProjectPageProps {
-  portfolio: Portfolio;
-  project:
-    | {
-        title: string;
-        description: string;
-        projectsLinks: {
-          name: string;
-          url: string;
-        }[];
-        projectsImages: { img_src: string; img_alt: string }[];
-      }
-    | undefined;
-}
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
   const { primary, secondary, warning, success, info, light } =
@@ -57,7 +43,7 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
               {project.description}
             </p>
             <div className="mt-8">
-              {project.projectsImages.length > 0 && (
+              {project.projectsImages && project.projectsImages.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   {project.projectsImages.map((image, index) => (
                     <Image
@@ -119,7 +105,7 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
           {/* Bouton Retour */}
           <div className="mt-12 text-center">
             <Link
-              href={`/${portfolio.users.firstname}/${portfolio.users.name}`}
+              href={`/${portfolio.users.username}`}
               className="inline-block px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-semibold"
               style={{
                 backgroundColor: success,
