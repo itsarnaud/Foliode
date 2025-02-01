@@ -1,17 +1,9 @@
 "use client";
 
-
-
 import { Input, Textarea } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
-import { Portfolio } from "@/interfaces/Portfolio";
 import { URLInput } from "@/components/UI/URLInput";
 import { MsPortfolio } from "@/interfaces/MultiStep";
-
-
-interface FirstStepFormProps {
-    isValid: boolean
-}
 
 function FirstStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
