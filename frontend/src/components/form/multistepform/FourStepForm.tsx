@@ -2,10 +2,11 @@
 
 import ColorPicker from "@/components/UI/ColorPicker";
 
-import { useMultiStep } from "@/utils/store";
-import { Template } from "@/interfaces/Templates";
-import { Card, CardHeader, Image } from "@heroui/react";
-import { Colors } from "@/interfaces/Colors";
+import { useMultiStep }             from "@/utils/store";
+import { Template }                 from "@/interfaces/Templates";
+import { Card, CardHeader, Image }  from "@heroui/react";
+import { Colors }                   from "@/interfaces/Colors";
+
 
 function FourStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
@@ -52,7 +53,7 @@ function FourStepForm() {
     },
   ];
 
-  const handleChange = (value: Template) => {
+  const handleChange = (value: template) => {
     const newData = {
       ...portfolio,
       template: value.id,
@@ -61,14 +62,14 @@ function FourStepForm() {
     setPortfolio(newData);
   };
 
-  const handleColorChange = (value: Colors) => {
+  const handleColorChange = (value: colors) => {
     const newData = { ...portfolio.config, colors: value };
     setPortfolio({
       ...portfolio,
       config: newData,
     });
   };
-
+  
   return (
     <div className="w-full">
       <h3 className="text-lg font-semibold mb-4">Choisissez votre template</h3>

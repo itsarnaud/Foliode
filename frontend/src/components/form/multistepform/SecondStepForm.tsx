@@ -1,9 +1,10 @@
 "use client";
 
-import FileInput from "@/components/UI/FileInput";
-import { Button, Input } from "@heroui/react";
 import { LuX } from "react-icons/lu";
-import { useMultiStep } from "@/utils/store";
+import FileInput         from "@/components/UI/FileInput";
+import { Button, Input } from "@heroui/react";
+import { useMultiStep }  from "@/utils/store";
+
 
 function SecondStepForm() {
   const { tools, setTools } = useMultiStep();
