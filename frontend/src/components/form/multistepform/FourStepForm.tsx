@@ -53,7 +53,7 @@ function FourStepForm() {
     },
   ];
 
-  const handleChange = (value: template) => {
+  const handleChange = (value: Template) => {
     const newData = {
       ...portfolio,
       template: value.id,
@@ -62,7 +62,7 @@ function FourStepForm() {
     setPortfolio(newData);
   };
 
-  const handleColorChange = (value: colors) => {
+  const handleColorChange = (value: Colors) => {
     const newData = { ...portfolio.config, colors: value };
     setPortfolio({
       ...portfolio,
