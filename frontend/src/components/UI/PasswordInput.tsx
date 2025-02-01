@@ -4,15 +4,17 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Input } from "@heroui/react";
 
 interface PasswordInputProps {
-  onChange: (password: string) => void;
+  onChange: (password: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
   label: string;
+  name: string;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
   onChange,
   value,
   label,
+  name
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -34,7 +36,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       variant="bordered"
       placeholder={label}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e)}
+      name={name}
       endContent={
         <button
           className="focus:outline-none"

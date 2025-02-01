@@ -1,27 +1,25 @@
 "use client";
 
-import Buttons      from "@/components/UI/button";
-import GithubAuth   from "@/components/GitHub/GithubAuth";
+import Buttons from "@/components/UI/button";
+import GithubAuth from "@/components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
-import Link         from "next/link";
+import Link from "next/link";
 
-import { Input }      from "@heroui/react";
-import { useState }   from "react";
-import { useRouter }  from "next/navigation";
-import { apiAuth }    from "@/utils/apiRequester";
+import { Input } from "@heroui/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { apiAuth } from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 
 import { CircularProgress } from "@heroui/progress";
+import PasswordInput from "@/components/UI/PasswordInput";
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,9 +37,9 @@ export default function LoginPage() {
 
     if (response?.data.error) {
       setError(response.data.error);
-      setData({ email: "", password: "" })
+      setData({ email: "", password: "" });
       setIsLoading(false);
-      return
+      return;
     }
 
     if (response !== null && response.data.token) {
@@ -89,32 +87,13 @@ export default function LoginPage() {
               label="Email"
               placeholder="john.doe@example.com"
               classNames={styles}
-              onClear={() => setData({...data, email: ''})}
+              onClear={() => setData({ ...data, email: "" })}
             />
-            <Input
-              isRequired
+            <PasswordInput
               label="Mot de passe"
-              variant="bordered"
-              placeholder="Votre mot de passe"
-              name="password"
               value={data.password}
+              name="password"
               onChange={handleInputChange}
-              endContent={
-                <button
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibility}
-                  aria-label="toggle password visibility"
-                >
-                  {isVisible ? (
-                    <FaEyeSlash className="text-2xl text-primary pointer-events-none" />
-                  ) : (
-                    <IoEyeSharp className="text-2xl text-primary pointer-events-none" />
-                  )}
-                </button>
-              }
-              type={isVisible ? "text" : "password"}
-              classNames={styles}
             />
             {error && <p className="text-[#F31260] text-sm">{error}</p>}
             <span className="text-sm sm:text-base">
@@ -126,7 +105,18 @@ export default function LoginPage() {
                 Cliquez ici !
               </Link>{" "}
             </span>
-            <Buttons style="form" type="submit" isDisabled={isLoading} text={isLoading ? <CircularProgress aria-label="Loading..." size="sm" /> : "Se connecter"} />
+            <Buttons
+              style="form"
+              type="submit"
+              isDisabled={isLoading}
+              text={
+                isLoading ? (
+                  <CircularProgress aria-label="Loading..." size="sm" />
+                ) : (
+                  "Se connecter"
+                )
+              }
+            />
 
             <span className="text-sm sm:text-base">
               Pas de compte ?{" "}
