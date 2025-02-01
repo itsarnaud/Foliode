@@ -106,6 +106,7 @@ export default function MultiStepForm() {
                 <Button
                   onPress={postData}
                   className="dayMode bg-primary text-white"
+                  isDisabled={portfolio.config.colors ? false : true}
                 >
                   Publier
                 </Button>

@@ -40,7 +40,10 @@ function ThirdStepForm() {
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Projets</h3>
       {projects.map((project, index) => (
-        <div key={index} className="relative p-5 pt-9 border rounded-lg space-y-2">
+        <div
+          key={index}
+          className="relative p-5 pt-9 border rounded-lg space-y-2"
+        >
           <div
             onClick={() => handleDeleteProject(index)}
             className="absolute top-3 right-3 cursor-pointer "
@@ -84,6 +87,7 @@ function ThirdStepForm() {
                 )
               }
               files={project.images}
+              id={`file-${index}`}
             />
             <p className="text-sm text-gray-500 mt-1">
               Format recommandé : PNG ou JPG, max 2MB

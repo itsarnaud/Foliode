@@ -7,9 +7,10 @@ import { useRef } from "react";
 interface FileInputProps {
   onChange: (files: File[]) => void;
   files: File[];
+  id?: string 
 }
 
-const FileInput = ({ onChange, files }: FileInputProps) => {
+const FileInput = ({ onChange, files, id }: FileInputProps) => {
   const [dragging, setDragging] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -54,9 +55,12 @@ const FileInput = ({ onChange, files }: FileInputProps) => {
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      
       const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
       const newFiles = [...files, ...selectedFiles];
+      console.log(newFiles)
       onChange(newFiles);
+      e.target.value = "";
     },
     [onChange, files]
   );
@@ -94,7 +98,8 @@ const FileInput = ({ onChange, files }: FileInputProps) => {
           accept="image/*"
           onChange={handleFileChange}
           className="absolute opacity-0 w-0 h-0"
-          id="fileInput"
+          id={id ? id : 'fileinput'}
+        
           multiple
           required
           onInvalid={() => setIsInvalid(true)}
@@ -102,7 +107,7 @@ const FileInput = ({ onChange, files }: FileInputProps) => {
           ref={fileInputRef}
         />
         <label
-          htmlFor="fileInput"
+          htmlFor={id ? id : 'fileinput'}
           className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
         >
           {files.length === 0 && (
