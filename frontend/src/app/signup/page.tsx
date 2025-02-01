@@ -1,25 +1,24 @@
 "use client";
 
-import Buttons      from "@/components/UI/button";
-import Link         from "next/link";
-import GithubAuth   from "@/components/GitHub/GithubAuth";
+import Buttons from "@/components/UI/button";
+import Link from "next/link";
+import GithubAuth from "@/components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 
-import { useState }   from "react";
-import { useRouter }  from "next/navigation";
-import { Input }      from "@heroui/react";
-import { apiAuth }    from "@/utils/apiRequester";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Input } from "@heroui/react";
+import { apiAuth } from "@/utils/apiRequester";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 
 import { CircularProgress } from "@heroui/progress";
+import PasswordStrengthChecker from "@/components/UI/PasswordStrengthChecker";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
   const [data, setData] = useState({
     email: "",
     lastname: "",
@@ -27,9 +26,6 @@ export default function RegisterPage() {
     password: "",
     passwordConfirm: "",
   });
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const toggleVisibilityConfirm = () => setIsVisibleConfirm(!isVisibleConfirm);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,9 +41,9 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     if (data.password !== data.passwordConfirm) {
-      setError("Les mots de passes ne correspondent pas.")
+      setError("Les mots de passes ne correspondent pas.");
       setIsLoading(false);
-      return
+      return;
     }
 
     const response = await apiAuth("user/signup", data);
@@ -60,7 +56,7 @@ export default function RegisterPage() {
     if (response?.data.error) {
       setError(response.data.error);
       setIsLoading(false);
-      return
+      return;
     }
   };
 
@@ -102,7 +98,7 @@ export default function RegisterPage() {
             placeholder="john.doe@example.com"
             classNames={styles}
             onChange={handleInputChange}
-            onClear={() => setData({...data, email: ''})}
+            onClear={() => setData({ ...data, email: "" })}
           />
           <Input
             isRequired
@@ -115,7 +111,7 @@ export default function RegisterPage() {
             placeholder="John"
             classNames={styles}
             onChange={handleInputChange}
-            onClear={() => setData({...data, firstname: ''})}
+            onClear={() => setData({ ...data, firstname: "" })}
           />
           <Input
             isRequired
@@ -128,65 +124,45 @@ export default function RegisterPage() {
             placeholder="DOE"
             classNames={styles}
             onChange={handleInputChange}
-            onClear={() => setData({...data, lastname: ''})}
+            onClear={() => setData({ ...data, lastname: "" })}
           />
-          <Input
-            isRequired
-            label="Mot de passe"
-            variant="bordered"
-            placeholder="Votre mot de passe"
-            name="password"
-            value={data.password}
-            onChange={handleInputChange}
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={toggleVisibility}
-              >
-                {isVisible ? (
-                  <FaEyeSlash className="text-2xl text-primary pointer-events-none" />
-                ) : (
-                  <IoEyeSharp className="text-2xl text-primary pointer-events-none" />
-                )}
-              </button>
+          <PasswordStrengthChecker
+            onChange={(value) =>
+              setData({
+                ...data,
+                password: value.password,
+                passwordConfirm: value.confirmPassword,
+              })
             }
-            type={isVisible ? "text" : "password"}
-            classNames={styles}
           />
-          <Input
-            isRequired
-            label="Confirmer le mot de passe"
-            variant="bordered"
-            placeholder="Confirmer le mot de passe"
-            name="passwordConfirm"
-            value={data.passwordConfirm}
-            onChange={handleInputChange}
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={toggleVisibilityConfirm}
-              >
-                {isVisibleConfirm ? (
-                  <FaEyeSlash className="text-2xl text-primary pointer-events-none" />
-                ) : (
-                  <IoEyeSharp className="text-2xl text-primary pointer-events-none" />
-                )}
-              </button>
+
+          {typeof error === "string" && (
+            <p className="text-[#F31260] text-sm">{error}</p>
+          )}
+
+          {typeof error === "object" &&
+            Object.keys(error).map(
+              (key) =>
+                error[key] && (
+                  <p key={key} className="text-[#F31260] text-sm">
+                    {error[key]}
+                  </p>
+                )
+            )}
+
+          <Buttons
+            style="form"
+            type="submit"
+            isDisabled={isLoading}
+            text={
+              isLoading ? (
+                <CircularProgress aria-label="Loading..." size="sm" />
+              ) : (
+                "S'inscrire"
+              )
             }
-            type={isVisibleConfirm ? "text" : "password"}
-            classNames={styles}
           />
 
-          {typeof error === 'string' && <p className="text-[#F31260] text-sm">{error}</p>}
-
-          {typeof error === 'object' && Object.keys(error).map((key) => (
-            error[key] && <p key={key} className="text-[#F31260] text-sm">{error[key]}</p>
-          ))}
-
-          <Buttons style="form" type="submit" isDisabled={isLoading} text={isLoading ? <CircularProgress aria-label="Loading..." size="sm" /> : "S'inscrire"} />
-          
           <span className="text-sm sm:text-base">
             Déjà un compte ?{" "}
             <Link
