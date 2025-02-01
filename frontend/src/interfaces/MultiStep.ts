@@ -23,6 +23,6 @@ export interface MsPortfolio {
   bio: string;
   template: string;
   config: {
-    colors: colors | null;
+    colors: Colors | null;
   };
 }

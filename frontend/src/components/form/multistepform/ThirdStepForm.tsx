@@ -5,7 +5,7 @@ import FileInput from "@/components/UI/FileInput";
 import LinkAdder from "@/components/UI/LinkAdder";
 import { LuX } from "react-icons/lu";
 
-import { Button, Input, Textarea } from "@nextui-org/react";
+import { Button, Input, Textarea } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
 
 function ThirdStepForm() {
@@ -27,7 +27,7 @@ function ThirdStepForm() {
       projectsLinks: [],
       images: [],
       projectsImages: [],
-      links: []
+      links: [],
     };
     setProject([...projects, newProject]);
   };
