@@ -7,8 +7,9 @@ import { Template }                 from "@/interfaces/Templates";
 import { Card, CardHeader, Image }  from "@heroui/react";
 import { Colors }                   from "@/interfaces/Colors";
 
+
 function FourStepForm() {
-  const { multiStep, setMultiStep } = useMultiStep();
+  const { portfolio, setPortfolio } = useMultiStep();
 
   const templates: Template[] = [
     {
@@ -53,21 +54,22 @@ function FourStepForm() {
   ];
 
   const handleChange = (value: Template) => {
-    const newData = { ...multiStep.portfolio, template: value.id, config: { colors: value.color } };
-    setMultiStep({ ...multiStep, portfolio: newData });
+    const newData = {
+      ...portfolio,
+      template: value.id,
+      config: { colors: value.color },
+    };
+    setPortfolio(newData);
   };
 
   const handleColorChange = (value: Colors) => {
-    const newData = { ...multiStep.portfolio.config, colors: value };
-    setMultiStep({
-      ...multiStep,
-      portfolio: {
-        ...multiStep.portfolio,
-        config: newData,
-      },
+    const newData = { ...portfolio.config, colors: value };
+    setPortfolio({
+      ...portfolio,
+      config: newData,
     });
   };
-
+  
   return (
     <div className="w-full">
       <h3 className="text-lg font-semibold mb-4">Choisissez votre template</h3>
@@ -78,7 +80,7 @@ function FourStepForm() {
             isPressable
             onPress={() => handleChange(template)}
             className={`h-[300px] ${
-              multiStep.portfolio.template === template.id
+              portfolio.template === template.id
                 ? "border-4 border-primary"
                 : ""
             }`}
@@ -99,17 +101,14 @@ function FourStepForm() {
       </div>
 
       <div className="mt-4 space-y-4">
-        {multiStep.portfolio.template !== "" && (
+        {portfolio.template !== "" && (
           <ColorPicker
             onChange={(value) => handleColorChange(value)}
             colors={
-              multiStep.portfolio.config.colors
-                ? multiStep.portfolio.config.colors
-                : undefined
+              portfolio.config.colors ? portfolio.config.colors : undefined
             }
           />
         )}
-
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 "use client";
 import { create } from "zustand";
 import { User } from "../interfaces/User";
-import { MultiStep } from "../interfaces/MultiStep";
-import { receivedProject } from "@/interfaces/Project";
+import { MsPortfolio} from "../interfaces/MultiStep";
+import { Project, receivedProject } from "@/interfaces/Project";
+import { Portfolio } from "@/interfaces/Portfolio";
+import { Tools } from "@/interfaces/Tools";
 
 interface UserState {
   user: User | null;
@@ -15,8 +17,12 @@ export const useUser = create<UserState>((set) => ({
 }));
 
 interface multiStepState {
-  multiStep: MultiStep;
-  setMultiStep: (multiStep: MultiStep) => void;
+  portfolio: MsPortfolio;
+  projects: Project[];
+  tools: Tools[];
+  setProject: (project: Project[]) => void;
+  setTools: (tools: Tools[]) => void;
+  setPortfolio: (portfolio: MsPortfolio) => void;
 }
 
 interface projectsState {
@@ -25,20 +31,21 @@ interface projectsState {
 }
 
 export const useMultiStep = create<multiStepState>((set) => ({
-  multiStep: {
-    portfolio: {
-      title: "",
-      subtitle: "",
-      bio: "",
-      template: "",
-      config: {
-        colors: null,
-      },
-    },
-    tools: [],
-    projects: [],
+  portfolio: {title: '', url: '', subtitle: '', bio: '', config: {colors: null}, template: ''},
+  tools: [],
+  projects: [],
+  setPortfolio: (portfolio) => {
+    set({ portfolio: portfolio });
   },
-  setMultiStep: (multiStep: MultiStep) => set({ multiStep }),
+
+  setProject: (project) => {
+    set({ projects: project });
+  },
+
+  setTools: (tools) => {
+    set({ tools: tools });
+  },
+
 }));
 
 export const useProjects = create<projectsState>((set) => ({
@@ -48,7 +55,3 @@ export const useProjects = create<projectsState>((set) => ({
   },
 }));
 
-export const useUsername = create((set) => ({
-  username: null,
-  setUsername: (username: string) => set({ username })
-}))

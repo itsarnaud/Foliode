@@ -13,7 +13,7 @@ interface Link {
 
 interface LinkAdderProps {
   onChange: (links: Link[]) => void;
-  value?: Link[]
+  value?: Link[];
 }
 
 export default function LinkAdder({ onChange, value }: LinkAdderProps) {
@@ -37,20 +37,13 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
     onChange(updatedLinks);
   };
 
-  const inputStyles = {
-    input: "px-2 py-1 text-gray-400 bg-foreground focus:gray-blue-800",
-    inputWrapper:
-      "bg-transparent border-2 border-gray-500 hover:border-gray-300 focus-within:border-primary rounded-md transition-all duration-300 ease-in-out",
-  };
-
   return (
-    <div className="w-full max-w-md space-y-4">
+    <div className="w-full  space-y-4">
       <div className="flex space-x-2">
         <Input
           type="text"
           placeholder="Nom du lien"
-          classNames={inputStyles}
-          variant="bordered"
+          className="flex-1"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -58,15 +51,14 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
           type="url"
           placeholder="URL du lien"
           value={url}
-          classNames={inputStyles}
-          variant="bordered"
+          className="flex-1"
           onChange={(e) => setUrl(e.target.value)}
         />
         <div onClick={addLink} className="flex items-center justify-center">
-          <LuListPlus className="w-4 h-4" />
+          <LuListPlus className="w-4 h-4 text-2xl font-bold text-blue-600" strokeWidth={3}
+           />
         </div>
       </div>
- 
 
       <ul className="space-y-2">
         {links.map((link, index) => (

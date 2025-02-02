@@ -64,14 +64,6 @@ class UserController extends AbstractController
             $user->setEmail($data['email']);
         }
 
-        if ($user instanceof Users && isset($data['username']) && $data['username'] !== $user->getUsername()) {
-            $existingUser = $this->usersRepository->findOneBy(['username' => $data['username']]);
-            if ($existingUser) {
-                return new JsonResponse(['error' => 'Ce nom d\'utilisateur est déjà utilisé.'], Response::HTTP_CONFLICT);
-            }
-            $user->setUsername($data['username']);
-        }
-
         if (isset($data['first_name']) && $user instanceof Users) {
             $user->setFirstName($data['first_name']);
         }
@@ -85,32 +77,5 @@ class UserController extends AbstractController
         return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
     }
 
-    #[IsGranted('ROLE_USER')]
-    #[Route('/api/user/username', name: 'add_username', methods: ['POST'])]
-    public function add_username(
-        Request $req
-    ): JsonResponse
-    {
-        $user = $this->getUser();
-        $data = json_decode($req->getContent(), true);
-
-        if (!$user instanceof Users) {
-            return new JsonResponse(['error' => 'Utilisateur non trouvé.'], Response::HTTP_UNAUTHORIZED);
-        }
-
-        if (!isset($data['username'])) {
-            return new JsonResponse(['error' => 'Le nom d\'utilisateur est requis.'], Response::HTTP_BAD_REQUEST);
-        }
-
-        $existingUser = $this->usersRepository->findOneBy(['username' => $data['username']]);
-        if ($existingUser) {
-            return new JsonResponse(['error' => 'Ce nom d\'utilisateur est déjà utilisé.'], Response::HTTP_CONFLICT);
-        }
-
-        $user->setUsername($data['username']);
-        $this->entityManager->flush();
-
-        $token = $this->jwtManager->create($user);
-        return new JsonResponse(['message' => 'Nom d\'utilisateur ajouté avec succès', 'token' => $token], Response::HTTP_OK);
-    }
+    
 }

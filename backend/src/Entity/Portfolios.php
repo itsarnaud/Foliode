@@ -25,6 +25,14 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $title = null;
 
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[Assert\Regex(
+        pattern: '/^[a-z0-9_-]+$/',
+        message: 'Username should only contain lowercase letters, numbers, underscores, and hyphens.'
+    )]
+    #[Groups(['getPortfolio', 'getUsers'])]
+    private ?string $url = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255, maxMessage: "subtitle cannot exceed 255 characters")]
     #[Groups('getPortfolio')]
@@ -84,6 +92,17 @@ class Portfolios
         $this->title = $title;
 
         return $this;
+    }
+
+    public function setUrl(string $url): static
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     public function getSubtitle(): ?string
