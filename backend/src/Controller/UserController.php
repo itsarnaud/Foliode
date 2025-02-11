@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UsersRepository;
 use App\Entity\Users;
+use App\Service\FileUploaderService;
 
 class UserController extends AbstractController
 {
@@ -22,6 +23,7 @@ class UserController extends AbstractController
         private EntityManagerInterface      $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
         private JWTTokenManagerInterface    $jwtManager,
+        private FileUploaderService         $fileUploader
     )
     {
     }
@@ -77,5 +79,31 @@ class UserController extends AbstractController
         return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
     }
 
-    
+    #[IsGranted('ROLE_USER')]
+    #[Route('/api/user/avatar', name: 'get_user', methods: ['PUT'])]
+    public function update_profil_picture(
+        Request $req
+    )
+    {
+        $user = $this->getUser();
+        $file = $req->files->get('images');
+        $uploadDir = $this->getParameter('upload_directory') . '/avatar';
+
+        if (!$user) {
+            return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if(!$file) {
+            return new JsonResponse(['error' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $filePath = $this->fileUploader->uploadFile($file, $uploadDir);
+
+        $user->setAvatar($filePath);
+        $this->entityManager->flush();
+        $token = $this->jwtManager->create($user);
+
+        return new JsonResponse($token, Response::HTTP_OK);
+    }
+
 }
