@@ -4,6 +4,7 @@ import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
 import SecondStepForm from "@/components/form/multistepform/SecondStepForm";
 import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
 import FourStepForm from "@/components/form/multistepform/FourStepForm";
+import MulstiStepLoader from "@/components/UI/MulstiStepLoader";
 
 import React, { useState, useRef } from "react";
 import { Button, Card, Progress } from "@heroui/react";
@@ -12,8 +13,10 @@ import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";
 import { formatProjectsData, formatToolsData } from "@/utils/formatData";
 
+
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [loaderText, setLoaderText] = useState("Création de votre portfolio en cours ...");
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
   const { portfolio, tools, projects } = useMultiStep();
@@ -30,17 +33,20 @@ export default function MultiStepForm() {
   };
 
   const postData = async () => {
+    setCurrentStep(currentStep + 1);
     try {
       const response = await apiPost("portfolio", portfolio, "application/json");
 
       if (response.status !== 201) return;
   
       if (tools.length !== 0) {
+        setLoaderText("Ajout des compétences ...");
         const formatTools = formatToolsData(tools);
         await apiPost("portfolio/tools", formatTools, "multipart/form-data");
       }
   
       if (projects.length !== 0) {
+        setLoaderText("Ajout de vos projets ...");
         const formatProjects = formatProjectsData(projects);
         await apiPost("projects", formatProjects, "multipart/form-data");
       }
@@ -48,7 +54,7 @@ export default function MultiStepForm() {
       console.log(e)
     }
     router.push("/dashboard");
-  };
+  }
 
   return (
     <div className="max-w-2xl py-8 mx-auto">
@@ -88,8 +94,10 @@ export default function MultiStepForm() {
 
             {currentStep === 3 && <FourStepForm />}
 
+            {currentStep === 4 && <MulstiStepLoader text={loaderText} />}
+
             <div className="flex justify-between mt-6">
-              {currentStep > 0 ? (
+              {currentStep > 0 && currentStep < 4 ? (
                 <Button onPress={handlePrevious} disabled={currentStep === 0}>
                   Précédent
                 </Button>
@@ -102,7 +110,7 @@ export default function MultiStepForm() {
                 >
                   Suivant
                 </Button>
-              ) : (
+              ) : currentStep < 4 ? (
                 <Button
                   onPress={postData}
                   className="dayMode bg-primary text-white"
@@ -110,7 +118,7 @@ export default function MultiStepForm() {
                 >
                   Publier
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
         </Card>
