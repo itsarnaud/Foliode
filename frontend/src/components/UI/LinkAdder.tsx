@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import Buttons from "@/components/UI/button";
 
-import { LuX, LuListPlus } from "react-icons/lu";
-import { Input } from "@heroui/react";
+import { FaPlusCircle } from "react-icons/fa";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+
+import { Input, Link } from "@heroui/react";
 
 interface Link {
   name: string;
@@ -38,7 +40,7 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
   };
 
   return (
-    <div className="w-full  space-y-4">
+    <div className="w-full">
       <div className="flex space-x-2">
         <Input
           type="text"
@@ -54,32 +56,19 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
           className="flex-1"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <div onClick={addLink} className="flex items-center justify-center">
-          <LuListPlus className="w-4 h-4 text-2xl font-bold text-blue-600" strokeWidth={3}
-           />
+        <div onClick={addLink} className="flex items-center justify-cente cursor-pointer">
+          <FaPlusCircle className="text-primary duration-200 hover:text-primary-200 hover:scale-110" />
         </div>
       </div>
 
-      <ul className="space-y-2">
+      <ul className="flex flex-col gap-2 mt-2">
         {links.map((link, index) => (
-          <li
-            key={index}
-            className="flex items-center justify-between bg-gray-400 rounded p-2"
-          >
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-800 hover:underline my-2"
-            >
-              {link.name}
-            </a>
-            <Buttons
-              text="Supprimer"
-              style="form"
-              className="bg-red-700 w-auto"
-              onClick={() => removeLink(index)}
-            />
+          <li key={index} className="flex items-center justify-between rounded-xl px-2 py-3 ring-1 ring-primary">
+            <Link showAnchorIcon href={link.url} className="!text-primary !text-sm">{link.name}</Link>
+
+            <div onClick={() => removeLink(index)} className="cursor-pointer">
+              <RiDeleteBin5Fill className="text-red-500 duration-200 hover:text-red-700 hover:scale-110" />
+            </div>
           </li>
         ))}
       </ul>
