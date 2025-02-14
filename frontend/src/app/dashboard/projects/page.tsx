@@ -6,9 +6,8 @@ export default function ProjectsPage() {
   return (
     <>
       <DashboardTitle title="Vos projets " />
-      <div className="grid-cols-2 gap-2 p-4 block lg:grid">
+      <div className="flex gap-4 flex-wrap">
         <ProjectForm />
-
         <Projects />
       </div>
     </>
