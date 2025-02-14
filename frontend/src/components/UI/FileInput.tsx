@@ -58,7 +58,6 @@ const FileInput = ({ onChange, files, id }: FileInputProps) => {
       
       const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
       const newFiles = [...files, ...selectedFiles];
-      console.log(newFiles)
       onChange(newFiles);
       e.target.value = "";
     },
@@ -88,7 +87,7 @@ const FileInput = ({ onChange, files, id }: FileInputProps) => {
                 }
                 ${
                   isInvalid && files.length == 0
-                    ? "border-[#f31260] bg-[#fee7ef] hover:bg-[#ffcedf] hover:border-[#f31260]"
+                    ? "border-[#f31260] hover:border-[#f31260]"
                     : ""
                 }
             `}
