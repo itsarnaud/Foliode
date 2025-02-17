@@ -49,7 +49,7 @@ export default function SkillsPage() {
 
   const creatSkills = async () => {
     if (!formData.image || !formData.name) {
-      alert("Tous les champs doivent être remplis");
+      alert("Tous les champs doivent être remplis"); 
       return;
     }
     const tools = formatToolsData([formData]);

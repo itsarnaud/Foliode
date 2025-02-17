@@ -40,7 +40,7 @@ export default function Sidebar() {
                 />
                 <img 
                   src="/foliode-icon.svg" 
-                  alt="Logo" 
+                  alt="Logo"
                   width={40} 
                   className={`block ${isOpen ? 'lg:hidden' : 'lg:block'}`}
                 />
