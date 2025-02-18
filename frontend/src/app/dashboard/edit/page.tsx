@@ -15,7 +15,7 @@ export default function Projects() {
       await apiPut("portfolio", {
         template: portfolio.template,
         config: portfolio.config
-      });
+      }, "application/json");
     } catch (error) {
       console.error("Erreur lors de la mise à jour du template:", error);
     }

@@ -63,7 +63,7 @@ export const apiAuth = async (
   }
 };
 
-export const apiPut = async (url: string, data: object) => {
+export const apiPut = async (url: string, data: object,  contentType: "multipart/form-data" | "application/json" ) => {
     const token = getCookie('token_auth')
     try {
       const response: AxiosResponse = await axios.put(
@@ -71,13 +71,14 @@ export const apiPut = async (url: string, data: object) => {
         data,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": contentType,
             Authorization: `Bearer ${token}`,
           },
         }
       );
       return response.data
     } catch (error) {
+      console.log(error)
       if (axios.isAxiosError(error) && error.response) {
         return error.response.data;
       }

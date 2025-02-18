@@ -3,7 +3,7 @@
 import DashboardTitle from "@/components/DashboardTitle";
 import Buttons        from "@/components/UI/button";
 
-import { Avatar }          from "@/components/Avatar";
+
 import { signInGitHub }    from "@/actions";
 import { signInDribbble }  from "@/actions";
 import { Link, Input }     from "@heroui/react";
@@ -18,6 +18,7 @@ import { IoEyeSharp }                       from "react-icons/io5";
 import { LuExternalLink }                   from "react-icons/lu";
 import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
 import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
+import {AvatarInput} from "@/components/UI/AvatarInput";
 
 
 export default function Profile() {
@@ -51,7 +52,7 @@ export default function Profile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res: Response = await apiPut('user', data);
+    const res: Response = await apiPut('user', data, "application/json");
 
     if (res.token) {
       document.cookie = `token_auth=${res.token}; path=/`;
@@ -80,7 +81,7 @@ export default function Profile() {
           <div className="flex flex-col w-full xl:flex-row gap-3">
             <section className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground flex flex-col items-center p-5 rounded-xl xl:h-[calc(100vh-50px-1.75rem)]">
               <div className="mb-3">
-                <Avatar size={70} />
+                < AvatarInput size={70} />
               </div>
               <div className="flex items-center gap-1">
                 <p className="text-sm">{user.lastname}</p>
