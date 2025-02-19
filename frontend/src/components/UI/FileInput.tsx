@@ -7,10 +7,11 @@ import { useRef } from "react";
 interface FileInputProps {
   onChange: (files: File[]) => void;
   files: File[];
-  id?: string 
+  id?: string;
+  isRequired?: boolean;
 }
 
-const FileInput = ({ onChange, files, id }: FileInputProps) => {
+const FileInput = ({ onChange, files, id, isRequired }: FileInputProps) => {
   const [dragging, setDragging] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -100,8 +101,8 @@ const FileInput = ({ onChange, files, id }: FileInputProps) => {
           id={id ? id : 'fileinput'}
         
           multiple
-          required
-          onInvalid={() => setIsInvalid(true)}
+          required={isRequired}
+          onInvalid={() => { if (isRequired) setIsInvalid(true); }}
           name="file"
           ref={fileInputRef}
         />

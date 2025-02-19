@@ -108,6 +108,7 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
           files={images}
           onChange={(files) => setImages(files)}
           id={`file-${project.id}`}
+          isRequired={false}
         />
 
         <Buttons
