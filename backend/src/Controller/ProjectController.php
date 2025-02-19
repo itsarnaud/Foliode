@@ -128,13 +128,15 @@ class ProjectController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/api/project/{id}', methods: ['PUT'])]
+    #[Route('/api/project/{id}', methods: ['POST'])]
     public function update_project(
         string  $id,
         Request $request,
     ): JsonResponse {
         $user = $this->getUser();
-        $data = $request->getContent();
+        $data = $request->get('json');
+        $files = $request->files->get('images');
+        $uploadDir = $this->getParameter('upload_directory') . '/project';
 
         if (!$user) {
             return new JsonResponse(['error' => 'unauthorized profil'], Response::HTTP_UNAUTHORIZED);
@@ -147,13 +149,25 @@ class ProjectController extends AbstractController
         $project = $this->projectsRepository->findOneBy(['id' => $id]);
 
         if ($project->getPortfolio() !== $this->portfoliosRepository->findOneBy(['users' => $user])) {
-            return new JsonResponse(['error' => " no project found "], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => "no project found "], Response::HTTP_NOT_FOUND);
         }
 
         $this->serializer->deserialize($data, Projects::class, 'json', ['object_to_populate' => $project]);
         $errors = $this->validatorBaseService->CatchInvalidData($user);
         if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+        foreach ($files as $file) {
+            if (!$file instanceof UploadedFile) {
+                throw new \InvalidArgumentException("Invalid file format.");
+            }
+
+            $filePath = $this->fileUploader->uploadFile($file, $uploadDir);
+            $projectImage = new ProjectsImages();
+            $projectImage->setImgSrc($filePath);
+            $projectImage->setImgAlt($project->getTitle());
+            $project->addProjectsImage($projectImage);
         }
 
         $this->entityManager->flush();

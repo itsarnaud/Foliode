@@ -20,7 +20,6 @@ import ProjectUpdate       from "../form/ProjectUpdate";
 
 function Projects() {
   const { projects, setProjects } = useProjects();
-
   const [editionMode, setEditionMode] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
@@ -56,7 +55,7 @@ function Projects() {
         projects.map((project, key) => (
           <div key={key}>
             {editionMode[project.id] ? (
-              <ProjectUpdate project={project} />
+              <ProjectUpdate project={project} onFinish={() => {toggleEdition(project.id); fetchProjects();}} />
             ) : (
             <>
             <Card className="py-4 relative w-full sm:w-[300px] h-max" key={key}>
@@ -87,6 +86,7 @@ function Projects() {
                   <Image
                     src={formatImage(project.projectsImages[0].img_src)}
                     className="object-cover rounded-xl w-full sm:w-[270px]"
+                    alt="project image"
                   />
                 </CardBody>
               )}
