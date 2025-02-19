@@ -158,16 +158,18 @@ class ProjectController extends AbstractController
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
-        foreach ($files as $file) {
-            if (!$file instanceof UploadedFile) {
-                throw new \InvalidArgumentException("Invalid file format.");
+        if ($files) {
+            foreach ($files as $file) {
+                if (!$file instanceof UploadedFile) {
+                    throw new \InvalidArgumentException("Invalid file format.");
+                }
+    
+                $filePath = $this->fileUploader->uploadFile($file, $uploadDir);
+                $projectImage = new ProjectsImages();
+                $projectImage->setImgSrc($filePath);
+                $projectImage->setImgAlt($project->getTitle());
+                $project->addProjectsImage($projectImage);
             }
-
-            $filePath = $this->fileUploader->uploadFile($file, $uploadDir);
-            $projectImage = new ProjectsImages();
-            $projectImage->setImgSrc($filePath);
-            $projectImage->setImgAlt($project->getTitle());
-            $project->addProjectsImage($projectImage);
         }
 
         $this->entityManager->flush();

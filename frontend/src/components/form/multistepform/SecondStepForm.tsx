@@ -63,8 +63,8 @@ function SecondStepForm() {
                 handleCompetenceChange(index, "image", files[0])
               }
               files={tool.image ? [tool.image] : []}
-          
               id={`file-${index}`}
+              isRequired
             />
             <p className="text-sm text-gray-500 mt-1">
               Format recommandé : PNG ou JPG, max 2MB

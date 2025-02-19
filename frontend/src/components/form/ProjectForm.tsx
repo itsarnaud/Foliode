@@ -95,6 +95,7 @@ function ProjectForm() {
         <FileInput
           files={images}
           onChange={(files) => setImages(files)}
+          isRequired
         />
 
         <Buttons
