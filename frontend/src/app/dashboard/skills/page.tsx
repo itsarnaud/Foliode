@@ -75,6 +75,7 @@ export default function SkillsPage() {
                       height={40}
                       src={formatImage(skill.picto)}
                       className="rounded-sm"
+                      alt="skill"
                     />
                   </div>
                   <div className="flex-grow ml-4">
@@ -109,6 +110,7 @@ export default function SkillsPage() {
                     setFormData({ ...formData, image: files[0] })
                   }
                   files={formData.image ? [formData.image] : []}
+                  isRequired
                 />
                 <Buttons
                   text="Ajouter un Skills"

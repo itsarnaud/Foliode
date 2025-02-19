@@ -88,8 +88,9 @@ function ThirdStepForm() {
                   files.map((file) => file)
                 )
               }
-              files={project.images}
+              files={project.images || []}
               id={`file-${index}`}
+              isRequired
             />
             <p className="text-sm text-gray-500 mt-1">
               Format recommandé : PNG ou JPG, max 2MB

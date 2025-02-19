@@ -51,7 +51,7 @@ export default function Profile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res: Response = await apiPut('user', data);
+    const res: Response = await apiPut('user', data, "application/json");
 
     if (res.token) {
       document.cookie = `token_auth=${res.token}; path=/`;

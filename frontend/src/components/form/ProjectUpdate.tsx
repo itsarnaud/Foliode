@@ -7,50 +7,45 @@ import LinkAdder  from "../UI/LinkAdder";
 import { 
   Input, 
   Textarea, 
-  Card } from "@heroui/react";
+  Card
+} from "@heroui/react";
 
 import { useState }             from "react";
 import { Project }              from "@/interfaces/Project";
 import { apiPost }              from "@/utils/apiRequester";
-import { useProjects }          from "@/utils/store";
+import { RiDeleteBin5Fill }     from "react-icons/ri";
 
-function ProjectForm() {
-  const { projects, setProjects } = useProjects();
-  const [project, setProject] = useState<Project>({
-    title: "",
-    description: "",
-    projectsLinks: [],
-    images: [],
-    projectsImages: []
-  });
+interface ProjectUpdateProps {
+  project: Project;
+  onFinish?: () => void;
+}
+
+export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
+  const [project, setProject] = useState<Project>(initialProject);
+
   const [images, setImages] = useState<File[]>([]);
 
   const createProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("json", JSON.stringify(project));
 
-    images.forEach((image, index) => {
-      data.append(`images[${index}]`, image);
+    const formData = new FormData();
+    formData.append("json", JSON.stringify({ ...project }));
+
+    images.forEach((file) => {
+      formData.append("images[]", file);
     });
-
+    
     try {
-      const response = await apiPost("project", data, "multipart/form-data");
-      if (response.status === 201) {
-        setProjects([...projects, response.data]);
-        setProject({
-          title: "",
-          description: "",
-          projectsLinks: [],
-          images: [],
-          projectsImages: [],
-        })
-        setImages([])
-      }
+      await apiPost(`project/${project.id}`, formData, "multipart/form-data");
+      if (onFinish) onFinish();
     } catch (error) {
-      console.log("Erreur lors de la création du projet :", error);
+      console.log("Erreur lors de la modification du projet :", error);
     }
   };
+
+  const deleteFile = (index: number) => {
+    setProject({ ...project, projectsImages: project.projectsImages?.filter((_, i) => i !== index) });
+  }
 
   const inputStyles = {
     inputWrapper: [
@@ -80,6 +75,7 @@ function ProjectForm() {
           onChange={(links) =>
             setProject({ ...project, projectsLinks: links })
           }
+          value={project.projectsLinks}
         />
 
         <Textarea
@@ -92,21 +88,42 @@ function ProjectForm() {
           classNames={inputStyles}
         />
 
+        {project.projectsImages && project.projectsImages.map((image, index) => (
+          <div className="w-full relative" key={index}>
+            {/* eslint-disable @next/next/no-img-element */}
+            <img
+              key={index}
+              src={`/${image.img_src}`}
+              alt={image.img_alt}
+              className="w-full rounded-xl"
+            />
+
+            <div onClick={() => deleteFile(index)} className="absolute top-2 right-2 text-red-500 cursor-pointer duration-200 hover:text-red-700 hover:scale-110">
+              <RiDeleteBin5Fill />
+            </div>
+          </div>
+        ))}
+
         <FileInput
           files={images}
           onChange={(files) => setImages(files)}
-          isRequired
+          id={`file-${project.id}`}
+          isRequired={false}
         />
 
         <Buttons
-          text="Créer un projet"
+          text="Modifier le projet"
           className="bg-primary w-full text-sm"
           style="form"
           type="submit"
+        />
+        <Buttons
+          text="Annuler la modification"
+          className="bg-red-600 border-red-800 w-full text-sm"
+          style="form"
+          onClick={() => onFinish && onFinish()}
         />
       </form>
     </Card>
   );
 }
-
-export default ProjectForm;
