@@ -7,7 +7,7 @@ import LinkAdder  from "../UI/LinkAdder";
 import { 
   Input, 
   Textarea, 
-  Card 
+  Card
 } from "@heroui/react";
 
 import { useState }             from "react";
@@ -17,30 +17,29 @@ import { RiDeleteBin5Fill }     from "react-icons/ri";
 
 interface ProjectUpdateProps {
   project: Project;
+  onFinish?: () => void;
 }
 
-export default function ProjectUpdate({ project: initialProject }: ProjectUpdateProps) {
+export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
   const [project, setProject] = useState<Project>(initialProject);
 
   const [images, setImages] = useState<File[]>([]);
 
   const createProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("json", JSON.stringify(project));
 
-    images.forEach((image, index) => {
-      data.append(`images[${index}]`, image);
+    const formData = new FormData();
+    formData.append("json", JSON.stringify({ ...project }));
+
+    images.forEach((file) => {
+      formData.append("images[]", file);
     });
-
+    
     try {
-      // const response = await apiPost("project", data, "multipart/form-data");
-      // if (response.status === 201) {
-      //   setProject([...project, response.data]);
-      // }
-      console.log(project);
+      await apiPost(`project/${project.id}`, formData, "multipart/form-data");
+      if (onFinish) onFinish();
     } catch (error) {
-      console.log("Erreur lors de la création du projet :", error);
+      console.log("Erreur lors de la modification du projet :", error);
     }
   };
 
@@ -76,6 +75,7 @@ export default function ProjectUpdate({ project: initialProject }: ProjectUpdate
           onChange={(links) =>
             setProject({ ...project, projectsLinks: links })
           }
+          value={project.projectsLinks}
         />
 
         <Textarea
@@ -90,11 +90,12 @@ export default function ProjectUpdate({ project: initialProject }: ProjectUpdate
 
         {project.projectsImages && project.projectsImages.map((image, index) => (
           <div className="w-full relative" key={index}>
+            {/* eslint-disable @next/next/no-img-element */}
             <img
               key={index}
               src={`/${image.img_src}`}
               alt={image.img_alt}
-              className="w-full h-auto"
+              className="w-full rounded-xl"
             />
 
             <div onClick={() => deleteFile(index)} className="absolute top-2 right-2 text-red-500 cursor-pointer duration-200 hover:text-red-700 hover:scale-110">
@@ -103,17 +104,23 @@ export default function ProjectUpdate({ project: initialProject }: ProjectUpdate
           </div>
         ))}
 
-        {/* <FileInput
+        <FileInput
           files={images}
           onChange={(files) => setImages(files)}
           id={`file-${project.id}`}
-        /> */}
+        />
 
         <Buttons
           text="Modifier le projet"
           className="bg-primary w-full text-sm"
           style="form"
           type="submit"
+        />
+        <Buttons
+          text="Annuler la modification"
+          className="bg-red-600 border-red-800 w-full text-sm"
+          style="form"
+          onClick={() => onFinish && onFinish()}
         />
       </form>
     </Card>
