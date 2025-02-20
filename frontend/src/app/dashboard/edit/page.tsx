@@ -6,6 +6,7 @@ import FourStepForm   from "@/components/form/multistepform/FourStepForm";
 import { useEffect }    from "react";
 import { useMultiStep } from "@/utils/store";
 import { apiPut }       from "@/utils/apiRequester";
+import {Link} from "@heroui/react";
 
 export default function Projects() {
   const { portfolio, setPortfolio } = useMultiStep();
@@ -29,7 +30,12 @@ export default function Projects() {
 
   return (
     <>
-      <DashboardTitle title="Modifier le template" />
+
+      <DashboardTitle title="Portfolio " />
+      <div className="p-4">
+        <Link href={portfolio.url} >{portfolio.title}</Link>
+      </div>
+
       <div className="p-4">
         <FourStepForm />
       </div>

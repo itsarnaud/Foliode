@@ -88,9 +88,6 @@ export default function Profile() {
               </div>
               <p className="text-sm">Classe (s'il en a une)</p>
 
-              <Link showAnchorIcon href={`/${user.username}`} className="!text-primary mt-3">
-                Lien du portfolio
-              </Link>
             </section>
 
             <section className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground  flex flex-col items-center p-5 rounded-xl gap-3 xl:gap-5 xl:flex-1 xl:items-start xl:h-[calc(100vh-50px-1.75rem)]">
@@ -100,7 +97,8 @@ export default function Profile() {
                   <Input
                     isRequired
                     isClearable
-                    placeholder={user.lastname || "Votre nom"}
+                    placeholder={"Votre nom"}
+                    value={user.lastname }
                     name="last_name"
                     type="text"
                     variant="bordered"
@@ -111,7 +109,8 @@ export default function Profile() {
                   <Input
                     isRequired
                     isClearable
-                    placeholder={user.firstname || "Votre prénom"}
+                    placeholder={ "Votre prénom"}
+                    value={user.firstname}
                     name="first_name"
                     type="text"
                     variant="bordered"
@@ -122,18 +121,8 @@ export default function Profile() {
                   <Input
                     isRequired
                     isClearable
-                    placeholder={user.username || "Votre nom d'utilisateur"}
-                    name="username"
-                    type="text"
-                    variant="bordered"
-                    label="Nom d'utilisateur"
-                    classNames={styles}
-                    onChange={onChangeValue}
-                  />
-                  <Input
-                    isRequired
-                    isClearable
-                    placeholder={user.email || "Votre email"}
+                    placeholder={"Votre email"}
+                    value={user.email}
                     name="email"
                     type="email"
                     variant="bordered"
@@ -145,6 +134,7 @@ export default function Profile() {
                     isRequired
                     label="Mot de passe"
                     variant="bordered"
+                    value={""}
                     placeholder="Votre mot de passe"
                     name="password"
                     endContent={
