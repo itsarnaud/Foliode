@@ -6,11 +6,10 @@ import DashboardTitle from "@/components/DashboardTitle";
 import CustomCard, { LargeCard, GrandeCard }  from "@/components/UI/card";
 import { getDecodedToken }                    from "@/utils/jwtUtils";
 import { useProjects, useUser }               from "@/utils/store";
-import { useEffect, useState }                from "react";
+import { useEffect }                from "react";
 import { apiGetWithAuth }                     from "@/utils/apiRequester";
-import { receivedProject }                    from "@/interfaces/Project";
 import { Colors as ColorsInterface }          from "@/interfaces/Colors";
-import { Promotion }                          from "@/interfaces/Promotion";
+import { useReceivedPortfolio }               from "@/utils/store";
 
 import {
   FaGithub,
@@ -23,9 +22,10 @@ import { CiDatabase } from "react-icons/ci";
 export default function Dashboard() {
   const { user, setUser }         = useUser();
   const { projects, setProjects } = useProjects();
+  const { portfolio, setPortfolio } = useReceivedPortfolio();
+  const colors = portfolio?.config?.colors;
+  const promotion = portfolio?.users.promotion;
 
-  const [portfolioColors, setPortfolioColors]       = useState<ColorsInterface | null>(null);
-  const [portfolioPromotion, setPortfolioPromotion] = useState<Promotion | null>(null);
 
   useEffect(() => {
     const token = getDecodedToken();
@@ -38,12 +38,9 @@ export default function Dashboard() {
   const fetchPortfolio = async () => {
     const response = await apiGetWithAuth("portfolio");
     if (response.status === 200) {
-      const data: receivedProject[] = response.data.projects;
-      const colors: ColorsInterface = response.data.config.colors;
-      const promotion: Promotion | null = response.data.users.promotion;
-      setPortfolioPromotion(promotion);
-      setProjects(data);
-      setPortfolioColors(colors);
+      setPortfolio(response.data);
+      setProjects(response.data.projects);
+
     }
   };
 
@@ -81,8 +78,8 @@ export default function Dashboard() {
             variant="default"
             title="Votre formation"
             description={
-              portfolioPromotion
-                ? ` ${portfolioPromotion.formation.type} - ${portfolioPromotion.formation.name}`
+              promotion
+                ? ` ${promotion?.formation.name}`
                 : "aucune Formation"
             }
             iconComponent={<FaGraduationCap size={40} />}
@@ -104,9 +101,9 @@ export default function Dashboard() {
             className="w-full h-auto min-h-[275px] relative"
           >
             <div className="p4 mt-6 ">
-              {portfolioColors ? (
+              {colors ? (
                 <div className="space-y-4">
-                  {Object.keys(portfolioColors).map((colorKey) => (
+                  {Object.keys(colors).map((colorKey) => (
                     <div
                       key={colorKey}
                       className="text-xl font-bold flex space-x-3"
@@ -116,7 +113,7 @@ export default function Dashboard() {
                         className="p-4 ml-2 rounded-sm w-4"
                         style={{
                           backgroundColor:
-                            portfolioColors[colorKey as keyof ColorsInterface],
+                              colors[colorKey as keyof ColorsInterface],
                         }}
                       ></div>
                     </div>

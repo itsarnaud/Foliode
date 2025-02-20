@@ -30,6 +30,19 @@ interface projectsState {
   setProjects: (projects: receivedProject[]) => void;
 }
 
+interface receviedPortfolioState {
+    portfolio: Portfolio | null;
+    setPortfolio: (portfolio: Portfolio) => void;
+}
+
+export const useReceivedPortfolio = create<receviedPortfolioState>((set) => ({
+  portfolio: null,
+  setPortfolio: (portfolio) => {
+    set({ portfolio: portfolio });
+  },
+}));
+
+
 export const useMultiStep = create<multiStepState>((set) => ({
   portfolio: {title: '', url: '', subtitle: '', bio: '', config: {colors: null}, template: ''},
   tools: [],

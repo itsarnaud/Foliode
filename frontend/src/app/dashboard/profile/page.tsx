@@ -14,14 +14,13 @@ import { useUser }             from "@/utils/store";
 import { apiPut }              from "@/utils/apiRequester";
 import { Response }            from "@/interfaces/Response";
 
-import { IoEyeSharp }                       from "react-icons/io5";
-import { LuExternalLink }                   from "react-icons/lu";
-import { FaEyeSlash, FaDribbble, FaGithub } from "react-icons/fa";
-import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
 
+import { LuExternalLink }                   from "react-icons/lu";
+import { FaDribbble, FaGithub } from "react-icons/fa";
+import { FaCircleCheck, FaCircleXmark }     from "react-icons/fa6";
+import PasswordInput                        from "@/components/UI/PasswordInput";
 
 export default function Profile() {
-  const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState({
     last_name: "",
@@ -31,7 +30,6 @@ export default function Profile() {
     password: ""
   })
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
   const { user, setUser } = useUser();
 
   useEffect(() => {
@@ -130,31 +128,8 @@ export default function Profile() {
                     classNames={styles}
                     onChange={onChangeValue}
                   />
-                  <Input
-                    isRequired
-                    label="Mot de passe"
-                    variant="bordered"
-                    value={""}
-                    placeholder="Votre mot de passe"
-                    name="password"
-                    endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                        aria-label="toggle password visibility"
-                      >
-                        {isVisible ? (
-                          <FaEyeSlash className="text-2xl text-primary pointer-events-none" />
-                        ) : (
-                          <IoEyeSharp className="text-2xl text-primary pointer-events-none" />
-                        )}
-                      </button>
-                    }
-                    type={isVisible ? "text" : "password"}
-                    classNames={styles}
-                    onChange={onChangeValue}
-                  />
+                  < PasswordInput
+                       value={data.password} onChange={onChangeValue} label="Mot de passe" name="password" />
 
                   {error && <p className="text-red-500 text-sm">{error}</p>}
 
