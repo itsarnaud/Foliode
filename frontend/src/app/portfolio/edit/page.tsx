@@ -12,6 +12,18 @@ import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";
 import { formatProjectsData, formatToolsData } from "@/utils/formatData";
 
+import { Canvas } from '@react-three/fiber'
+import { createRoot } from 'react-dom/client'
+import { OrbitControls, useGLTF } from '@react-three/drei';
+import ModelViewer from "@/components/model/modelviewer";
+
+
+function Model({ url }: { url: string }) {
+  const { scene } = useGLTF(url);
+  return <primitive object={scene} />;
+}
+
+
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 3;
@@ -47,7 +59,7 @@ export default function MultiStepForm() {
     } catch(e) {
       console.log(e)
     }
-    router.push("/dashboard");
+    router.push("/dashboard"); 
   };
 
   return (
@@ -115,6 +127,10 @@ export default function MultiStepForm() {
           </div>
         </Card>
       </form>
+      <div id="canvas-container">
+      <ModelViewer />
+
+    </div>
     </div>
   );
 }
@@ -134,3 +150,8 @@ function getStepTitle(step: number): string {
       return "";
   }
 }
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  createRoot(rootElement).render(<MultiStepForm />);
+}
+

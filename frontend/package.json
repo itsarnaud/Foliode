@@ -12,6 +12,8 @@
     "@dicebear/collection": "^9.2.2",
     "@dicebear/core": "^9.2.2",
     "@heroui/react": "2.6.14",
+    "@react-three/drei": "^9.121.5",
+    "@react-three/fiber": "^8.17.14",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/js-cookie": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",
@@ -28,6 +30,7 @@
     "react-icons": "^5.3.0",
     "react-router-dom": "^7.0.2",
     "sass": "^1.80.7",
+    "three": "^0.173.0",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
