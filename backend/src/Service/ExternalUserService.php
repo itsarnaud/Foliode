@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Users;
-use App\Repository\UsersRepository;
+use App\Persistence\Entity\Users;
+use App\persistence\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
