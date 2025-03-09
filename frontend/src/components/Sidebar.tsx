@@ -10,7 +10,6 @@ import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
 import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
 import SignOutButton from '@/components/UI/signoutbutton';
-import { link } from 'fs';
 
 
 export default function Sidebar() {
@@ -23,8 +22,7 @@ export default function Sidebar() {
     { name: "Profile",          icon: <FaRegUser />, link: "dashboard/profile" },
     { name: "Mes compétences",  icon: <LuBrain />, link: "dashboard/skills" },
     { name: "Mes projets",      icon: <FaRegFolder />, link: "dashboard/projects" },
-    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" },
-    { name: "Error 404", link: "dashboard/404-error" }
+    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" }
   ];
 
   return (
