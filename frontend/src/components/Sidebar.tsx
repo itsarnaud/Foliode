@@ -22,7 +22,7 @@ export default function Sidebar() {
     { name: "Profile",          icon: <FaRegUser />, link: "dashboard/profile" },
     { name: "Mes compétences",  icon: <LuBrain />, link: "dashboard/skills" },
     { name: "Mes projets",      icon: <FaRegFolder />, link: "dashboard/projects" },
-    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" },
+    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" }
   ];
 
   return (
