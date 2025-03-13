@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDecodedToken }           from "./utils/serverJwtUtils";
+export { auth as authMiddleware }    from "@/auth"
 
 export function middleware(request: NextRequest) {
   const authCookie = getDecodedToken(request);
+  console.log(authCookie);
 
    if (!authCookie) {
      return NextResponse.redirect(new URL("/login", request.url));

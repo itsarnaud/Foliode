@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\UsersRepository;
 
 
 class ExternalAuthController extends AbstractController
@@ -16,6 +17,7 @@ class ExternalAuthController extends AbstractController
 
     public function __construct(
         private ApiRequesterService $apiRequester,
+        private UsersRepository     $usersRepository,
     )
     {
     }
@@ -26,9 +28,10 @@ class ExternalAuthController extends AbstractController
         ExternalUserService $externalUserService
     ): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        $githubToken = $data['github_token'] ?? null;
-        $user = $this->getUser();
+        $data        = json_decode($request->getContent(), true);
+        $githubToken = $data['token'] ?? null;
+        $email       = $data['email'] ?? null;
+        $user        = $this->getUser();
 
         if (!$githubToken) {
             return new JsonResponse(['error' => 'GitHub token is missing'], Response::HTTP_BAD_REQUEST);
@@ -41,7 +44,7 @@ class ExternalAuthController extends AbstractController
         }
 
         if (!$user) {
-            $jsonUser = $externalUserService->findOrCreateUserFromGithub($userData);
+            $jsonUser = $externalUserService->findOrCreateUserFromGithub($userData, $email);
             return new JsonResponse($jsonUser, Response::HTTP_OK);
         }
 
@@ -56,7 +59,7 @@ class ExternalAuthController extends AbstractController
     ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $dribbbleToken = $data['dribbble_token'] ?? null;
+        $dribbbleToken = $data['token'] ?? null;
         $user = $this->getUser();
 
         if (!$dribbbleToken) {

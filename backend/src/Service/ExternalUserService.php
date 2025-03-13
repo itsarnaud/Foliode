@@ -26,18 +26,23 @@ class ExternalUserService
         return ["token" => $token, "user" => $jsonUser];
     }
 
-    public function findOrCreateUserFromGithub(array $userData): array
+    public function findOrCreateUserFromGithub(array $userData, string $email): array
     {
         $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
+        $existingUser = $this->usersRepository->findOneBy(['email' => $email]);
 
         if ($user) {
             return $this->getJsonUser($user);
         }
 
+        if ($existingUser) {
+            throw new \Exception('Le compte existe déjà. Veuillez vous connecter pour lier vos comptes.');
+        }
+
         $user = (new Users())
             ->setLastName($userData['lastname'] ?? 'Unknown')
             ->setFirstName($userData['firstname'] ?? 'Unknown')
-            ->setEmail($userData['email'] ?? $userData['url'])
+            ->setEmail($userData['email'] ?? $email)
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
             ->setGithubId($userData['id'])
@@ -64,9 +69,14 @@ class ExternalUserService
     public function findOrCreateUserFromDribbble(array $userData): array
     {
         $user = $this->usersRepository->findOneBy(['dribbble_id' => $userData['id']]);
+        $existingUser = $this->usersRepository->findOneBy(['email' => $userData['email']]);
 
         if ($user) {
             return $this->getJsonUser($user);
+        }
+
+        if ($existingUser) {
+            throw new \Exception('Email already in use. Please log in to link accounts.');
         }
 
         $user = (new Users())

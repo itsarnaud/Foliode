@@ -6,11 +6,10 @@ import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import Link from "next/link";
 
 import { Input } from "@heroui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiAuth } from "@/utils/apiRequester";
-import { IoEyeSharp } from "react-icons/io5";
-import { FaEyeSlash } from "react-icons/fa";
+import { getCookie } from "@/utils/cookiesHelpers";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordInput from "@/components/UI/PasswordInput";
@@ -20,6 +19,15 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
+
+  useEffect(() => {
+    const errorCookie = getCookie('error');
+
+    if (errorCookie) {
+      setError(decodeURIComponent(errorCookie));
+      document.cookie = "error=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
