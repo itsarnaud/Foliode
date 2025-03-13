@@ -11,7 +11,7 @@ import { apiGetWithAuth }                     from "@/utils/apiRequester";
 import { receivedProject }                    from "@/interfaces/Project";
 import { Colors as ColorsInterface }          from "@/interfaces/Colors";
 import { Promotion }                          from "@/interfaces/Promotion";
-import { useRouter }                          from "next/navigation";
+// import { useRouter }                          from "next/navigation";
 
 import {
   FaGithub,
@@ -28,7 +28,7 @@ export default function Dashboard() {
   const [portfolioColors, setPortfolioColors]       = useState<ColorsInterface | null>(null);
   const [portfolioPromotion, setPortfolioPromotion] = useState<Promotion | null>(null);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     const token = getDecodedToken();
@@ -41,10 +41,10 @@ export default function Dashboard() {
   const fetchPortfolio = async () => {
     const response = await apiGetWithAuth("portfolio");
     if (response.status === 200) {
-      if (!response.data) {
-        router.push("/portfolio/edit");
-        return
-      }
+      // if (!response.data) {
+      //   router.push("/portfolio/edit");
+      //   return
+      // }
       const data: receivedProject[] = response.data.projects;
       const colors: ColorsInterface = response.data.config.colors;
       const promotion: Promotion | null = response.data.users.promotion;
