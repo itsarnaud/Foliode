@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Buttons            from "@/components/UI/button";
-import { signInDribbble } from "@/actions";
-import { FaDribbble }     from "react-icons/fa";
+import Buttons            from '@/components/UI/button';
+import { signInDribbble } from '@/actions';
+import { FaDribbble }     from 'react-icons/fa';
 
 export default function SignIn() {
   return (

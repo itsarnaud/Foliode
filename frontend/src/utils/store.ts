@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { User } from "../interfaces/User";
 import { MsPortfolio} from "../interfaces/MultiStep";
 import { Project, receivedProject } from "@/interfaces/Project";
-import { Portfolio } from "@/interfaces/Portfolio";
 import { Tools } from "@/interfaces/Tools";
 
 interface UserState {
@@ -31,7 +30,7 @@ interface projectsState {
 }
 
 export const useMultiStep = create<multiStepState>((set) => ({
-  portfolio: {title: '', url: '', subtitle: '', bio: '', config: {colors: null}, template: ''},
+  portfolio: { title: '', url: '', subtitle: '', bio: '', config: { colors: null }, template: '' },
   tools: [],
   projects: [],
   setPortfolio: (portfolio) => {
