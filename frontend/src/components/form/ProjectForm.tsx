@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import FileInput  from "@/components/UI/FileInput";
-import Buttons    from "@/components/UI/button";
-import LinkAdder  from "../UI/LinkAdder";
+import FileInput  from '@/components/UI/FileInput';
+import Buttons    from '@/components/UI/button';
+import LinkAdder  from '../UI/LinkAdder';
 
 import { 
   Input, 
   Textarea, 
-  Card } from "@heroui/react";
+  Card } from '@heroui/react';
 
-import { useState }             from "react";
-import { Project }              from "@/interfaces/Project";
-import { apiPost }              from "@/utils/apiRequester";
-import { useProjects }          from "@/utils/store";
+import { useState }             from 'react';
+import { Project }              from '@/interfaces/Project';
+import { apiPost }              from '@/utils/apiRequester';
+import { useProjects }          from '@/utils/store';
 
 function ProjectForm() {
   const { projects, setProjects } = useProjects();
@@ -45,7 +45,7 @@ function ProjectForm() {
           images: [],
           projectsImages: [],
         })
-        setImages([])
+        // setImages([])
       }
     } catch (error) {
       console.log("Erreur lors de la création du projet :", error);

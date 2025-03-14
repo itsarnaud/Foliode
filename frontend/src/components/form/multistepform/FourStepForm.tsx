@@ -1,59 +1,21 @@
-"use client";
+'use client';
 
-import ColorPicker from "@/components/UI/ColorPicker";
+import { useState } from 'react';
+import { Card, CardBody, CardFooter, Image, Button } from '@heroui/react';
 
-import { useMultiStep }             from "@/utils/store";
-import { Template }                 from "@/interfaces/Templates";
-import { Card, CardHeader, Image }  from "@heroui/react";
-import { Colors }                   from "@/interfaces/Colors";
+import { useMultiStep } from '@/utils/store';
+import { Template } from '@/interfaces/Template';
+import { templates } from '@/data/templates/templates';
+import { Colors } from '@/interfaces/Colors';
+import { templatesStyles } from '@/data/templates/styles';
 
+import ColorPicker from '@/components/UI/ColorPicker';
 
 function FourStepForm() {
   const { portfolio, setPortfolio } = useMultiStep();
+  const [selectedStyle, setSelectedStyle] = useState<Colors | null>(null);
 
-  const templates: Template[] = [
-    {
-      id: "prestige",
-      name: "prestige",
-      preview: "/luxury.png",
-      color: {
-        primary: "#0E0E0E",
-        secondary: "#DAC6A7",
-        warning: "#0E0E0E",
-        success: "#DAC6A7",
-        info: "#343230",
-        light: "#181716",
-      },
-    },
-    {
-      id: "banto",
-      name: "Banto",
-      preview: "/banto.png",
-      color: {
-        primary: "#669BBC",
-        secondary: "#FDF0D5",
-        warning: "#ffc107",
-        success: "#28a745",
-        info: "#17a2b8",
-        light: "#003049",
-      },
-    },
-    {
-      id: "emerald",
-      name: "Emerald",
-      preview: "/emerald.png",
-      color: {
-        primary: "#334B35",
-        secondary: "#FFFFFF",
-        warning: "#F6EEE1",
-        success: "#FAAF15",
-        info: "#231C0A",
-        light: "#334B35",
-      },
-    },
-  ];
-
-  const handleChange = (value: Template) => {
+  const handleTemplateChange = (value: Template) => {
     const newData = {
       ...portfolio,
       template: value.id,
@@ -62,12 +24,53 @@ function FourStepForm() {
     setPortfolio(newData);
   };
 
-  const handleColorChange = (value: Colors) => {
-    const newData = { ...portfolio.config, colors: value };
-    setPortfolio({
+  const handleStyleChange = (style: Colors) => {
+    setSelectedStyle(style);
+    
+    const newData = {
       ...portfolio,
-      config: newData,
-    });
+      config: { 
+        ...portfolio.config,
+        colors: {
+          primary: style.primary,
+          secondary: style.secondary,
+          warning: style.warning,
+          success: style.success,
+          info: style.info,
+          light: style.light
+        }
+      },
+    };
+    setPortfolio(newData);
+  };
+  
+  const handleColorChange = (key: string, colorValue: string) => {
+    if (!selectedStyle) return;
+    
+    const updatedStyle = {
+      ...selectedStyle,
+      [key]: colorValue
+    };
+    setSelectedStyle(updatedStyle);
+    
+    const newData = {
+      ...portfolio,
+      config: { 
+        ...portfolio.config,
+        colors: {
+          ...(portfolio.config.colors || {
+            primary: "",
+            secondary: "",
+            warning: "",
+            success: "",
+            info: "",
+            light: ""
+          }),
+          [key]: colorValue
+        }
+      },
+    };
+    setPortfolio(newData);
   };
   
   return (
@@ -75,41 +78,63 @@ function FourStepForm() {
       <h3 className="text-lg font-semibold mb-4">Choisissez votre template</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {templates.map((template) => (
-          <Card
-            key={template.id}
-            isPressable
-            onPress={() => handleChange(template)}
-            className={`h-[300px] ${
-              portfolio.template === template.id
-                ? "border-4 border-primary"
-                : ""
-            }`}
+          <Card key={template.id} isPressable shadow="sm" onPress={() => handleTemplateChange(template)}
+            className={portfolio.template === template.id ? "ring-2 ring-primary" : ""}
           >
-            <CardHeader className="absolute z-10 top-0 flex-col !items-start bg-black/40 rounded-t-xl w-full">
-              <h4 className="text-white font-medium text-large">
-                {template.name}
-              </h4>
-            </CardHeader>
-            <Image
-              removeWrapper
-              alt={`Template ${template.name}`}
-              className="z-0 w-full h-full object-cover"
-              src={template.preview}
-            />
+            <CardBody className="overflow-visible p-0">
+              <Image
+                alt={template.name}
+                className="w-full object-cover h-[140px]"
+                radius="lg"
+                shadow="sm"
+                src={template.preview}
+                width="100%"
+              />
+            </CardBody>
+            <CardFooter className="text-small justify-between">
+              <b>{template.name}</b>
+            </CardFooter>
           </Card>
         ))}
       </div>
 
-      <div className="mt-4 space-y-4">
-        {portfolio.template !== "" && (
-          <ColorPicker
-            onChange={(value) => handleColorChange(value)}
-            colors={
-              portfolio.config.colors ? portfolio.config.colors : undefined
-            }
-          />
+      {portfolio.template &&
+      <>
+        <h3 className="text-lg font-semibold my-4">Choisissez votre palette de couleurs</h3>
+        <div className="w-full flex items-center justify-between gap-5">
+          {templatesStyles.map((style) => (
+            <Button 
+              key={style.name} 
+              variant={selectedStyle?.primary === style.primary ? "solid" : "bordered"} 
+              color={selectedStyle?.primary === style.primary ? "primary" : "default"}
+              className="w-full"
+              onPress={() => handleStyleChange(style)}
+            >
+              {style.name}
+            </Button>
+          ))}
+        </div>
+
+        {selectedStyle && (
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">Personnalisez vos couleurs</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+              {Object.entries(selectedStyle).map(([key, value]) => {
+                if (key === 'name') return null;
+                return (
+                  <ColorPicker 
+                    key={key} 
+                    colorKey={key} 
+                    colorValue={value} 
+                    onChange={handleColorChange}
+                  />
+                );
+              })}
+            </div>
+          </div>
         )}
-      </div>
+      </>
+      }
     </div>
   );
 }
