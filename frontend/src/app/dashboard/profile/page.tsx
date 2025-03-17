@@ -87,10 +87,6 @@ export default function Profile() {
                 <p className="text-sm">{user.firstname}</p>
               </div>
               <p className="text-sm">Classe (s'il en a une)</p>
-
-              <Link showAnchorIcon href={`/${user.username}`} className="!text-primary mt-3">
-                Lien du portfolio
-              </Link>
             </section>
 
             <section className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground  flex flex-col items-center p-5 rounded-xl gap-3 xl:gap-5 xl:flex-1 xl:items-start xl:h-[calc(100vh-50px-1.75rem)]">

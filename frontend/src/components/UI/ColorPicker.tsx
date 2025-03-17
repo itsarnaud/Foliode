@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Input, Button, Card } from "@heroui/react";
+import { Input, Button } from "@heroui/react";
 import { ChromePicker } from "react-color";
 import { Colors } from "@/interfaces/Colors";
 
@@ -35,17 +35,8 @@ const predefinedStyles = {
     info: "#17a2b8",
     light: "#003049",
   },
-  // Ajoutez d'autres styles prédéfinis ici
-};
 
-// const colorLabels: Record<string, string> = {
-//   primary: "Arrière-plan principal",
-//   light: "Arrière-plan secondaire",
-//   warning: "Petits éléments (boutons, icônes)",
-//   secondary: "Couleur du texte principal",
-//   success: "Gros titres",
-//   info: "Petits éléments",
-// };
+};
 
 export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
   const [palette, setPalette] = useState<Colors | null>(colors || null);
@@ -103,11 +94,6 @@ export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
     setShowCustomColors(true);
   };
 
-  const handleCustomizeClick = () => {
-    setShowCustomColors(true);
-    setPalette(colors || null);
-  };
-
   const handleCardClick = (
     key: string,
     color: string,
@@ -159,7 +145,7 @@ export default function ColorPicker({ colors, onChange }: ColorPickerProps) {
           {palette &&
             (Object.keys(palette) as Array<keyof Colors>).map((key) => (
               <div
-                key={key} // Ajouter la clé ici sur l'élément parent
+                key={key}
                 className="dayMode bg-foreground p-2 border-2 border-[#252525] rounded-xl"
               >
                 <div
