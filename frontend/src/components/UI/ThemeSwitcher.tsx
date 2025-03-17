@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { FiSun } from "react-icons/fi";
 import { IoMdMoon } from "react-icons/io";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ isOpen = false }) {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -18,16 +18,17 @@ export function ThemeSwitcher() {
   }
 
   return (
-    <button
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className="flex items-center gap-3 py-2 px-3 my-3 rounded-lg cursor-pointer duration-200 text-[#B0B5BB] hover:bg-primary-200 justify-center w-10 h-10 bg-transparent"
-      suppressHydrationWarning
-    >
-      {theme === 'light' ? (
-        <FiSun className="text-xl text-[#B0B5BB]" />
-      ) : (
-        <IoMdMoon className="text-xl text-[#B0B5BB]" />
-      )}
-    </button>
+    <div onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className="dayMode flex items-center cursor-pointer group">
+      <span 
+        className="flex items-center px-3 cursor-pointer duration-300 group-hover:text-primary-200"
+      >
+        {theme == 'light' ? (
+          <FiSun className="dayMode text-lg text-foreground duration-300 group-hover:text-primary-200" />
+        ) : (
+          <IoMdMoon className="dayMode text-lg text-background duration-300 group-hover:text-primary-200" />
+        )}
+      </span>
+      {isOpen && <span className="hidden lg:block duration-300 group-hover:text-primary-200"> {theme === 'light' ? 'Mode nuit' : 'Mode jour'}</span>}
+    </div>
   );
 }
