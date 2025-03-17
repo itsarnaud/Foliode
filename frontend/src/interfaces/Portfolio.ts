@@ -6,6 +6,7 @@ export interface Portfolio {
   subtitle: string;
   bio: string;
   template: string;
+  url: string;
   config: {
     colors: {
       primary: string;
