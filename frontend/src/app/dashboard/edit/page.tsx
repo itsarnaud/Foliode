@@ -1,82 +1,78 @@
 "use client";
 
 import DashboardTitle from "@/components/DashboardTitle";
-import {Template} from "@/interfaces/Templates";
-import {Card, CardHeader, Image} from "@heroui/react";
-import ColorPicker from "@/components/UI/ColorPicker";
-import {Colors} from "@/interfaces/Colors";
-import {templates} from "@/constants";
 import {usePortfolioStore} from "@/store/portfolio.store";
-import {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import Link from "next/link";
+import {Button, Input, Textarea} from "@heroui/react";
+import {URLInput} from "@/components/UI/URLInput";
 
 export default function Edit() {
-    const {portfolio, updatePortfolio, setPortfolio, fetchPortfolio} = usePortfolioStore();
-    const chooseTemplate = portfolio?.template;
-    const chooseColor = portfolio?.config.colors;
+    const {portfolio, setPortfolio, fetchPortfolio, updatePortfolio} = usePortfolioStore();
 
     useEffect(() => {
         fetchPortfolio();
     }, []);
 
-    const handleChange = useCallback((value: Template) => {
-        if (!portfolio) return;
+    const inputStyles = {
+        inputWrapper: [
+            "border-gray-500",
+            "hover:border-gray-300",
+            "focus:border-primary"
+        ],
+        input: ["dark:text-gray-400", "placeholder:text-gray-400", "focus:text-blue-500", "bg-[#f5f5f5]", "dark:bg-[#191919]"],
+        label: "dark:text-gray-400",
+        clearButton: "text-primary",
+    };
 
-        setPortfolio({
-            ...portfolio,
-            template: value.id,
-        });
-        updatePortfolio();
-    }, [portfolio, setPortfolio, updatePortfolio]);
-
-    const handleColorChange = useCallback((value: Colors) => {
-        if (!portfolio) return;
-
-        setPortfolio({
-            ...portfolio,
-            config: {
-                ...portfolio.config,
-                colors: value,
-            },
-        });
-        updatePortfolio();
-    }, [portfolio, setPortfolio, updatePortfolio]);
 
     return (
         <>
-            <DashboardTitle title="Modifier le template"/>
-            <Link href={`/${portfolio?.url}`}> voir mon portfolio</Link>
-            <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                {templates.map((template) => (
-                    <Card
-                        key={template.id}
-                        isPressable
-                        onPress={() => handleChange(template)}
-                        className={`h-[300px] ${
-                            chooseTemplate === template.id
-                                ? "border-4 border-primary"
-                                : ""
-                        }`}
-                    >
-                        <CardHeader
-                            className="absolute z-10 top-0 flex-col !items-start bg-black/40 rounded-t-xl w-full">
-                            <h4 className="text-white font-medium text-large">
-                                {template.name}
-                            </h4>
-                        </CardHeader>
-                        <Image
-                            removeWrapper
-                            alt={`Template ${template.name}`}
-                            className="z-0 w-full h-full object-cover"
-                            src={template.preview}
+            <DashboardTitle title="Modifier votre portfolio"/>
+            <Link href={`/${portfolio?.url}`} className={`text-blue-600 `}> voir mon portfolio</Link>
+            <div className="p-2 w-1/2 space-y-4">
+                {portfolio && (
+                    <>
+                        <Input
+                            label="Titre du portfolio "
+                            value={portfolio?.title}
+                            onChange={(e) =>
+                                setPortfolio({...portfolio, title: e.target.value})
+                            }
+                            isRequired
+                            classNames={inputStyles}
                         />
-                    </Card>
-                ))}
+                        <Input
+                            label="Soutitre du portfolio "
+                            value={portfolio?.subtitle}
+                            onChange={(e) =>
+                                setPortfolio({...portfolio, subtitle: e.target.value})
+                            }
+                            isRequired
+                            classNames={inputStyles}
+                        />
+                        <Textarea
+                            label="Présentation"
+                            placeholder="Présentez-vous en quelques lignes..."
+                            onChange={(e) => setPortfolio({...portfolio, bio: e.target.value})}
+                            minRows={3}
+                            value={portfolio?.bio}
+                            isRequired
+                        />
+                        < URLInput onChange={value => setPortfolio({...portfolio, bio: value})} value={portfolio?.url}/>
+                        <Button
+                            onPress={() => updatePortfolio()}
+                            className="dayMode bg-primary text-white"
+                        >
+                            Modifier
+                        </Button>
+
+
+                    </>
+                )}
+
             </div>
-            <ColorPicker
-                onChange={(value) => handleColorChange(value)}
-                colors={chooseColor}
-            />
+
         </>
     );
 }

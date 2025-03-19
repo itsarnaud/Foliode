@@ -75,12 +75,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\Column]
-    private ?bool $is_student = null;
-
-    #[ORM\Column]
-    private ?bool $is_teacher = null;
-
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?int $email_verification_code = null;
 
