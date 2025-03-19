@@ -1,24 +1,20 @@
-"use client";
+'use client';
 
-import FileInput  from "@/components/UI/FileInput";
-import Buttons    from "@/components/UI/button";
-import LinkAdder  from "../UI/LinkAdder";
+import FileInput  from '@/components/UI/FileInput';
+import Buttons    from '@/components/UI/button';
+import LinkAdder  from '../UI/LinkAdder';
 
 import { 
   Input, 
   Textarea, 
   Card
-} from "@heroui/react";
+} from '@heroui/react';
 
-import { useState }             from "react";
-import { Project }              from "@/interfaces/Project";
-import { apiPost }              from "@/utils/apiRequester";
-import { RiDeleteBin5Fill }     from "react-icons/ri";
-
-interface ProjectUpdateProps {
-  project: Project;
-  onFinish?: () => void;
-}
+import { useState }             from 'react';
+import { Project }              from '@/interfaces/Project';
+import { apiPost }              from '@/utils/apiRequester';
+import { RiDeleteBin5Fill }     from 'react-icons/ri';
+import { ProjectUpdateProps }   from '@/interfaces/Project';
 
 export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
   const [project, setProject] = useState<Project>(initialProject);
@@ -29,17 +25,17 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("json", JSON.stringify({ ...project }));
+    formData.append('json', JSON.stringify({ ...project }));
 
     images.forEach((file) => {
-      formData.append("images[]", file);
+      formData.append('images[]', file);
     });
     
     try {
-      await apiPost(`project/${project.id}`, formData, "multipart/form-data");
+      await apiPost(`project/${project.id}`, formData, 'multipart/form-data');
       if (onFinish) onFinish();
     } catch (error) {
-      console.log("Erreur lors de la modification du projet :", error);
+      console.log('Erreur lors de la modification du projet :', error);
     }
   };
 

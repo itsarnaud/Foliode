@@ -9,11 +9,11 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Nav/>
-       <BgLandingPage />
-        <Avantages />
-        <Fonctionnalites />
-        <Eval />
-        <Footer />
+      <BgLandingPage />
+      <Avantages />
+      <Fonctionnalites />
+      <Eval />
+      <Footer />
     </div>
   );
 }

@@ -19,7 +19,7 @@ export const URLInput: React.FC<URLInputProps> = ({ onChange, value }) => {
           label: "pl-[90px] pr-[105px] ",
         }}
         onChange={(e) => onChange(e.target.value)}
-        label="URL du portfolio"
+        label="URL"
         placeholder="Ex: votre-site"
         description="Utilisez uniquement des lettres, chiffres, - et _"
         value={value}

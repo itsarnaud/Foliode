@@ -21,3 +21,8 @@ export interface receivedProject {
   projectsImages: { img_src: string; img_alt: string }[] | undefined;
   links?: string[];
 }
+
+export interface ProjectUpdateProps {
+  project: Project;
+  onFinish?: () => void;
+}
