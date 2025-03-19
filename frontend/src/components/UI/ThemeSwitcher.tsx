@@ -28,7 +28,7 @@ export function ThemeSwitcher({ isOpen = false }) {
           <IoMdMoon className="dayMode text-lg text-background duration-300 group-hover:text-primary-200" />
         )}
       </span>
-      {isOpen && <span className="hidden lg:block duration-300 group-hover:text-primary-200"> {theme === 'light' ? 'Mode nuit' : 'Mode jour'}</span>}
+      {isOpen && <span className="hidden lg:block duration-300 group-hover:text-primary-200"> {theme === 'light' ? 'Mode jour' : 'Mode nuit'}</span>}
     </div>
   );
 }

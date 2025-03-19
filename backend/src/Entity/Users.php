@@ -203,28 +203,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function isStudent(): ?bool
-    {
-        return $this->is_student;
-    }
-
-    public function setStudent(bool $is_student): static
-    {
-        $this->is_student = $is_student;
-        return $this;
-    }
-
-    public function isTeacher(): ?bool
-    {
-        return $this->is_teacher;
-    }
-
-    public function setTeacher(bool $is_teacher): static
-    {
-        $this->is_teacher = $is_teacher;
-        return $this;
-    }
-
     public function getRoles(): array
     {
         $roles = $this->roles;

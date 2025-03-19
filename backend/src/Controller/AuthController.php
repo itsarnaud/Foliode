@@ -36,8 +36,6 @@ class AuthController extends AbstractController
         $data = $request->getContent();
         $user = $this->serializer->deserialize($data, Users::class, 'json');
         $user->setIsEmailVerified(false);
-        $user->setStudent(true);
-        $user->setTeacher(false);
 
         $verificationCode = random_int(100000, 999999);
         $user->setEmailVerificationCode($verificationCode);
