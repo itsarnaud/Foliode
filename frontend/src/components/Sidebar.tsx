@@ -7,23 +7,24 @@ import { MdOutlineSpaceDashboard }            from "react-icons/md";
 import { FaRegUser, FaRegFolder, FaRegEdit }  from "react-icons/fa";
 import { LuArrowLeftFromLine, LuBrain }       from "react-icons/lu";
 import { IoMdMenu }                           from "react-icons/io";
+import { IoColorPaletteOutline }              from "react-icons/io5";
 import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
 import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
-
-import SignOutButton from '@/components/UI/signoutbutton';
+import SignOutButton                          from '@/components/UI/signoutbutton';
 
 export default function Sidebar() {
 
   const pathname = usePathname();
   const { isOpen, toggle } = useSidebar();
-  
+
   const elements = [
     { name: "Tableau de bord",  icon: <MdOutlineSpaceDashboard />, link: "dashboard" },
     { name: "Profile",          icon: <FaRegUser />, link: "dashboard/profile" },
     { name: "Mes compétences",  icon: <LuBrain />, link: "dashboard/skills" },
     { name: "Mes projets",      icon: <FaRegFolder />, link: "dashboard/projects" },
-    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" }
+    { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" },
+    { name: "Thème",            icon: <IoColorPaletteOutline fontSize={22} />, link: "dashboard/theme" },
   ];
 
   return (
@@ -53,7 +54,7 @@ export default function Sidebar() {
                 </button>
               }
             </div>
-           
+
             <div>
               {elements.map((element, index) => {
                 const isActive = pathname === `/${element.link}`;

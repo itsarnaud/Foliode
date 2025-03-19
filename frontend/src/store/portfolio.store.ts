@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { Portfolio } from "@/interfaces/Portfolio";
+import {create} from "zustand";
+import {Portfolio} from "@/interfaces/Portfolio";
 import {apiGetWithAuth, apiPost, apiPut} from "@/utils/apiRequester";
 
 
@@ -19,7 +19,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
         try {
             const response = await apiGetWithAuth("portfolio");
             if (response.status === 200) {
-                set({ portfolio: response.data });
+                set({portfolio: response.data});
             }
         } catch (error) {
             console.log("Error fetching portfolio", error);
@@ -27,19 +27,28 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     },
 
     updatePortfolio: async () => {
-        try {
-            const portfolio = get().portfolio; // Récupération des valeurs avec le getter
-            if (!portfolio) throw new Error("No portfolio data available");
 
-            const response = await apiPut("portfolio", portfolio, "application/json");
-            set({ portfolio: response.data });
-        } catch (error) {
-            console.log("Error updating portfolio", error);
-        }
+
+        const portfolio = get().portfolio;
+
+        if (!portfolio) throw new Error("No portfolio data available");
+
+        const response = await apiPut("portfolio", portfolio, "application/json");
+
+        console.log(response);
+
     },
 
     setPortfolio: (portfolio) => {
-        set({ portfolio });
+        if (!portfolio) return;
+        set((state) => ({
+            portfolio: {
+                ...state.portfolio,
+                ...portfolio,
+                projects: [],
+                tools: [],
+            }
+        }));
     },
 
     postPortfolio: async () => {
@@ -48,7 +57,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
             if (!portfolio) throw new Error("No portfolio data available");
 
             const response = await apiPost("portfolio", portfolio, "application/json");
-            set({ portfolio: response.data });
+            set({portfolio: response.data});
 
         } catch (error) {
             console.log("Error setting portfolio", error);

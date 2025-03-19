@@ -55,7 +55,10 @@ class PortfolioController extends AbstractController
 
         $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
 
+
         $this->serializer->deserialize($data, Portfolios::class, 'json', ['object_to_populate' => $portfolio]);
+        $portfolio->setUsers($user);
+
         $errors = $this->validatorBaseService->CatchInvalidData($user);
         if ($errors) {
             return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
