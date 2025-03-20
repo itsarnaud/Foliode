@@ -75,12 +75,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\Column]
-    private ?bool $is_student = null;
-
-    #[ORM\Column]
-    private ?bool $is_teacher = null;
-
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?int $email_verification_code = null;
 
@@ -206,28 +200,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     {
         $this->avatar_url = $avatar_url;
 
-        return $this;
-    }
-
-    public function isStudent(): ?bool
-    {
-        return $this->is_student;
-    }
-
-    public function setStudent(bool $is_student): static
-    {
-        $this->is_student = $is_student;
-        return $this;
-    }
-
-    public function isTeacher(): ?bool
-    {
-        return $this->is_teacher;
-    }
-
-    public function setTeacher(bool $is_teacher): static
-    {
-        $this->is_teacher = $is_teacher;
         return $this;
     }
 

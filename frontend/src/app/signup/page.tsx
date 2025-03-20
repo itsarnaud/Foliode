@@ -4,13 +4,12 @@ import Buttons from "@/components/UI/button";
 import Link from "next/link";
 import GithubAuth from "@/components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
+import Image from "next/image";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@heroui/react";
 import { apiAuth } from "@/utils/apiRequester";
-import { IoEyeSharp } from "react-icons/io5";
-import { FaEyeSlash } from "react-icons/fa";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordStrengthChecker from "@/components/UI/PasswordStrengthChecker";
@@ -75,10 +74,11 @@ export default function RegisterPage() {
     <div className="min-h-screen w-full nightMode bg-background text-white flex items-center justify-center">
       <div className="flex flex-col items-center w-full max-w-md p-5 gap-5">
         <div className="flex flex-col items-center justify-center gap-5">
-          <img
+          <Image
             src="/foliode-icon.svg"
-            className="w-20 h-20"
             alt="Logo Foliode"
+            width={50}
+            height={50}
           />
           <h1 className="text-lg font-bold">Inscrivez-vous sur Foliode !</h1>
         </div>
@@ -181,8 +181,8 @@ export default function RegisterPage() {
         </div>
 
         <div className="flex flex-col gap-2 items-center w-full md:flex-row">
-          <DribbbleAuth />
-          <GithubAuth />
+          <DribbbleAuth disable={isLoading} />
+          <GithubAuth disable={isLoading} />
         </div>
       </div>
     </div>

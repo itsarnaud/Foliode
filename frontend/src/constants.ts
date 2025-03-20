@@ -2,7 +2,7 @@ export const templates = [
     {
         id: "prestige",
         name: "prestige",
-        preview: "/luxury.png",
+        preview: "/templates/luxury.png",
         color: {
             primary: "#0E0E0E",
             secondary: "#DAC6A7",
@@ -14,8 +14,8 @@ export const templates = [
     },
     {
         id: "banto",
-        name: "Banto",
-        preview: "/banto.png",
+        name: "Bento",
+        preview: "/templates/bento.png",
         color: {
             primary: "#669BBC",
             secondary: "#FDF0D5",
@@ -28,7 +28,7 @@ export const templates = [
     {
         id: "emerald",
         name: "Emerald",
-        preview: "/emerald.png",
+        preview: "/templates/emerald.png",
         color: {
             primary: "#334B35",
             secondary: "#FFFFFF",

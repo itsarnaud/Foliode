@@ -1,24 +1,23 @@
-"use client";
+'use client';
 
-import React from "react";
-import FileInput from "@/components/UI/FileInput";
-import LinkAdder from "@/components/UI/LinkAdder";
-import { LuX } from "react-icons/lu";
+import React     from 'react';
+import FileInput from '@/components/UI/FileInput';
+import LinkAdder from '@/components/UI/LinkAdder';
 
 import { Button, Input, Textarea } from "@heroui/react";
-import { useMultiStep } from "@/utils/store";
+import { useMultiStep }            from "@/utils/store";
 
 
-function ThirdStepForm() {
+export default function ThirdStepForm() {
   const { projects, setProject } = useMultiStep();
 
-  const handleProjectChange = (index: number, field: string, value: any) => {
-    const newProjects = [...projects];
-    newProjects[index] = {
-      ...newProjects[index],
+  const handleProjectChange = (index: number, field: string, value: string | object | File) => {
+    const newProject = [...projects];
+    newProject[index] = {
+      ...newProject[index],
       [field]: value,
     };
-    setProject(newProjects);
+    setProject(newProject);
   };
 
   const addProject = () => {
@@ -42,25 +41,12 @@ function ThirdStepForm() {
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Projets</h3>
       {projects.map((project, index) => (
-        <div
-          key={index}
-          className="relative p-5 pt-9 border rounded-lg space-y-2"
-        >
-          <div
-            onClick={() => handleDeleteProject(index)}
-            className="absolute top-3 right-3 cursor-pointer "
-          >
-            <LuX
-              className="text-red-500 hover:text-red-800  text-2xl font-bold"
-              strokeWidth={3}
-            />
-          </div>
-          <Input
-            label="Titre du projet"
+        <div key={index} className="border p-3 rounded-md space-y-3">
+
+          <Input 
+            label="Titre du projet" 
             value={project.title}
-            onChange={(e) =>
-              handleProjectChange(index, "title", e.target.value)
-            }
+            onChange={(e) => handleProjectChange(index, 'title', e.target.value)}
             isRequired
           />
           <Textarea
@@ -71,42 +57,26 @@ function ThirdStepForm() {
             }
             isRequired
           />
-          <LinkAdder
-            onChange={(links) =>
+          <LinkAdder onChange={(links) =>
               handleProjectChange(index, "projectsLinks", links)
-            }
-          />
+          }/>
+
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Images du projet
-            </label>
+            <label className="block text-sm font-medium mb-1">Images du projet</label>
             <FileInput
-              onChange={(files) =>
-                handleProjectChange(
-                  index,
-                  "images",
-                  files.map((file) => file)
-                )
-              }
+              onChange={(files) => handleProjectChange(index, "images", files.map((file) => file))}
               files={project.images || []}
               id={`file-${index}`}
               isRequired
             />
-            <p className="text-sm text-gray-500 mt-1">
-              Format recommandé : PNG ou JPG, max 2MB
-            </p>
+            <span className="text-sm text-gray-500 mt-1">Format recommandé : PNG ou JPG, max 2MB</span>
           </div>
+
+          <Button variant="flat" onPress={() => handleDeleteProject(index)} className="w-full bg-danger">Supprimer le projet</Button>
+
         </div>
       ))}
-      <Button
-        onPress={addProject}
-        className="dayMode bg-primary text-white"
-        variant="flat"
-      >
-        Ajouter un projet
-      </Button>
+      <Button variant="flat" onPress={addProject} className='dayMode bg-primary text-white w-full'>Ajouter un projet</Button>
     </div>
   );
 }
-
-export default ThirdStepForm;

@@ -1,35 +1,44 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Buttons from "@/components/UI/button";
+import React, { useState, KeyboardEvent, useRef }  from 'react';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { Input, Link }      from '@heroui/react';
 
-import { FaPlusCircle } from "react-icons/fa";
-import { RiDeleteBin5Fill } from "react-icons/ri";
-
-import { Input, Link } from "@heroui/react";
-
-interface Link {
-  name: string;
-  url: string;
-}
-
-interface LinkAdderProps {
-  onChange: (links: Link[]) => void;
-  value?: Link[];
-}
+import { ExternalLink, LinkAdderProps } from '@/interfaces/Link';
 
 export default function LinkAdder({ onChange, value }: LinkAdderProps) {
-  const [links, setLinks] = useState<Link[]>(value !== undefined ? value : []);
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
+  const [links, setLinks] = useState<ExternalLink[]>(value !== undefined ? value : []);
+  const [name, setName]   = useState("");
+  const [url, setUrl]     = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const nameInputRef      = useRef<HTMLInputElement>(null);
+
+  const validateUrl = (url: string): boolean => {
+    const formattedUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
+    setUrl(formattedUrl);
+
+    const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+    return urlRegex.test(url);
+  };
 
   const addLink = () => {
     if (name && url) {
+      if (!validateUrl(url)) {
+        setError("L'URL doit être au format https://exemple.fr");
+        return;
+      }
+      setError(null);
       const newLinks = [...links, { name, url }];
       setLinks(newLinks);
       onChange(newLinks);
       setName("");
       setUrl("");
+      
+      setTimeout(() => {
+        if (nameInputRef.current) {
+          nameInputRef.current.focus();
+        }
+      }, 0);
     }
   };
 
@@ -39,28 +48,37 @@ export default function LinkAdder({ onChange, value }: LinkAdderProps) {
     onChange(updatedLinks);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && name && url) {
+      e.preventDefault();
+      addLink();
+    }
+  };
+
   return (
     <div className="w-full">
+      <label className="block text-sm font-medium mb-1">Lien du projet</label>
       <div className="flex space-x-2">
         <Input
+          ref={nameInputRef}
           type="text"
-          placeholder="Nom du lien"
+          placeholder="Foliode"
           className="flex-1"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Input
-          type="url"
-          placeholder="URL du lien"
+          type="text"
+          placeholder="https://foliode.com"
           value={url}
           className="flex-1"
           onChange={(e) => setUrl(e.target.value)}
+          onKeyDown={handleKeyDown}
+          color={error ? "danger" : "default"}
         />
-        <div onClick={addLink} className="flex items-center justify-cente cursor-pointer">
-          <FaPlusCircle className="text-primary duration-200 hover:text-primary-200 hover:scale-110" />
-        </div>
       </div>
-
+      <span className="text-sm text-danger mt-1">{error}</span>
       <ul className="flex flex-col gap-2 mt-2">
         {links.map((link, index) => (
           <li key={index} className="flex items-center justify-between rounded-xl px-2 py-3 ring-1 ring-primary">
