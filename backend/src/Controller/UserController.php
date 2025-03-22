@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\FileUploaderService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UsersRepository;
 use App\Entity\Users;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
 {
@@ -22,6 +24,8 @@ class UserController extends AbstractController
         private EntityManagerInterface      $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
         private JWTTokenManagerInterface    $jwtManager,
+        private SerializerInterface         $serializer,
+        private FileUploaderService         $fileUploader
     )
     {
     }
@@ -33,49 +37,36 @@ class UserController extends AbstractController
     ): JsonResponse
     {
         $user = $this->getUser();
+        $data = $req->getContent();
 
-        if (!$user instanceof \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface) {
-            return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
-        }
+        $this->serializer->deserialize($data, Users::class, 'json', ['object_to_populate' => $user]);
 
-        if (!$user) {
-            return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
-        }
-
-        $data = json_decode($req->getContent(), true);
-
-        if (!$data) {
-            return new JsonResponse(['error' => 'Bad request'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!isset($data['password'])) {
-            return new JsonResponse(['error' => 'Le mot de passe est requis.'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$this->passwordHasher->isPasswordValid($user, $data['password'])) {
-            return new JsonResponse(['error' => 'Le mot de passe est incorrect.'], Response::HTTP_UNAUTHORIZED);
-        }
-
-        if ($user instanceof Users && isset($data['email']) && $data['email'] !== $user->getEmail()) {
-            $existingUser = $this->usersRepository->findOneBy(['email' => $data['email']]);
-            if ($existingUser) {
-                return new JsonResponse(['error' => 'Cette adresse mail est déjà utilisé.'], Response::HTTP_CONFLICT);
-            }
-            $user->setEmail($data['email']);
-        }
-
-        if (isset($data['first_name']) && $user instanceof Users) {
-            $user->setFirstName($data['first_name']);
-        }
-
-        if (isset($data['last_name']) && $user instanceof Users) {
-            $user->setLastName($data['last_name']);
-        }
 
         $this->entityManager->flush();
         $token = $this->jwtManager->create($user);
         return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
     }
 
-    
+    #[IsGranted('ROLE_USER')]
+    #[Route('/api/user/profil', methods: ['POST'])]
+    public function change_profil_picture(
+        Request $request
+    )
+    {
+        $user = $this->getUser();
+        $files = $request->files->get('image');
+        $uploadDir = $this->getParameter('upload_directory') . '/avatar';
+
+
+        $profilPicture = $this->fileUploader->uploadFile($files, $uploadDir);
+
+        $user->setAvatarUrl($profilPicture);
+        $this->entityManager->flush();
+
+
+        $token = $this->jwtManager->create($user);
+        return new JsonResponse(['message' => 'User updated successfully', 'token' => $token], Response::HTTP_OK);
+    }
+
+
 }

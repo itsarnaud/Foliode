@@ -59,7 +59,7 @@ export default function Edit() {
                             value={portfolio?.bio}
                             isRequired
                         />
-                        < URLInput onChange={value => setPortfolio({...portfolio, bio: value})} value={portfolio?.url}/>
+                        < URLInput onChange={value => setPortfolio({...portfolio, url: value})} value={portfolio?.url}/>
                         <Button
                             onPress={() => updatePortfolio()}
                             className="dayMode bg-primary text-white"
