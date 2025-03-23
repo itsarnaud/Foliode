@@ -32,8 +32,6 @@ class Formation
     #[Groups(['getFormation', 'getPromotion'])]
     private ?int $duration = null;
 
-    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Promotion::class)]
-    private Collection $promotions;
 
     /**
      * @var Collection<int, Ac>

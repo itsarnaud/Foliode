@@ -56,7 +56,6 @@ class Portfolios
     private ?Users $users = null;
 
 
-
     /**
      * @var Collection<int, Projects>
      */
@@ -71,11 +70,18 @@ class Portfolios
     #[Groups('getPortfolio')]
     private Collection $tools;
 
+    /**
+     * @var Collection<int, PortfolioViews>
+     */
+    #[ORM\OneToMany(targetEntity: PortfolioViews::class, mappedBy: 'portfolio')]
+    private Collection $portfolioViews;
+
     public function __construct()
     {
 
         $this->projects = new ArrayCollection();
         $this->tools = new ArrayCollection();
+        $this->portfolioViews = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -219,6 +225,36 @@ class Portfolios
     {
         if ($this->tools->removeElement($tool)) {
             $tool->removePortfolio($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PortfolioViews>
+     */
+    public function getPortfolioViews(): Collection
+    {
+        return $this->portfolioViews;
+    }
+
+    public function addPortfolioView(PortfolioViews $portfolioView): static
+    {
+        if (!$this->portfolioViews->contains($portfolioView)) {
+            $this->portfolioViews->add($portfolioView);
+            $portfolioView->setPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removePortfolioView(PortfolioViews $portfolioView): static
+    {
+        if ($this->portfolioViews->removeElement($portfolioView)) {
+            // set the owning side to null (unless already changed)
+            if ($portfolioView->getPortfolio() === $this) {
+                $portfolioView->setPortfolio(null);
+            }
         }
 
         return $this;
