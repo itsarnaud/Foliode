@@ -4,7 +4,7 @@ import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 import Link from "next/link";
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
-  const { primary, secondary, warning, success, info, light } =
+  const { primary, secondary, warning, info, light } =
     portfolio.config.colors;
 
   if (!project) {
@@ -19,10 +19,8 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
         background: `linear-gradient(to bottom right, ${primary}, ${primary})`,
       }}
     />
-    
     <section className="relative py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* En-tête luxueux */}
         <div className="mb-20 text-center">
           <h1
             className="text-5xl md:text-7xl font-bold mb-8 tracking-tight"
@@ -36,8 +34,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             <div className="w-16 h-[1px]" style={{ backgroundColor: secondary }} />
           </div>
         </div>
-  
-        {/* Description avec style vitrine */}
         <div
           className="p-12 rounded-2xl mb-16 backdrop-blur-xl"
           style={{ 
@@ -53,8 +49,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             {project.description}
           </p>
         </div>
-  
-        {/* Galerie d'images élégante */}
         {project.projectsImages && project.projectsImages.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {project.projectsImages.map((image, index) => (
@@ -77,8 +71,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             ))}
           </div>
         )}
-  
-        {/* Section des liens avec style luxe */}
         {project.projectsLinks && project.projectsLinks.length > 0 && (
           <div className="mb-16">
             <h2
@@ -103,11 +95,9 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             </div>
           </div>
         )}
-  
-        {/* Bouton Retour élégant */}
         <div className="mt-16 text-center">
             <Link
-            href={`/${portfolio.users.username}`}
+            href={`/${portfolio.url}`}
             className="inline-block px-10 py-4 rounded-full transition-all duration-500 hover:scale-105 relative overflow-hidden group"
             style={{
               backgroundColor: primary,

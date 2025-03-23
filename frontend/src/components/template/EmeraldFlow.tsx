@@ -9,7 +9,7 @@ import { formatImage }    from "@/utils/formatImage";
 const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
   const { primary, secondary, warning, success, info, light } =
     portfolio.config.colors;
-  const avatar = portfolio.users.avatar_url;
+  const avatar =  portfolio.users.avatar_url;
   const email = portfolio.users.email;
 
   return (
@@ -61,7 +61,7 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
           <div className="w-full md:w-1/2 flex justify-center">
             <div className="relative w-64 h-64 rounded-full overflow-hidden ">
               <Image
-                src={avatar ? avatar : generateAvatar(50, email)}
+                src={avatar ? formatImage(avatar) : generateAvatar(50, email)}
                 alt={`avatar of ${portfolio.users.firstname}`}
                 width={256}
                 height={256}
@@ -102,7 +102,7 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
                     {project.description}
                   </p>
                   <Link
-                    href={`/${portfolio.users.username}/project/${project.title}`}
+                    href={`/${portfolio.url}/project/${project.title}`}
                     className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent absolute bottom-3 left-3"
                     style={{ backgroundColor: info, color: secondary }}
                   >

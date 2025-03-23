@@ -162,7 +162,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->github_id;
     }
 
-    public function setGithubId(string $githubId): self
+    public function setGithubId(?string $githubId): self
     {
         $this->github_id = $githubId;
         return $this;
@@ -173,7 +173,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->dribbble_login;
     }
 
-    public function setDribbbleLogin(string $dribbbleLogin): self
+    public function setDribbbleLogin(?string $dribbbleLogin): self
     {
         $this->dribbble_login= $dribbbleLogin;
         return $this;
@@ -184,7 +184,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->dribbble_id;
     }
 
-    public function setDribbbleId(string $dribbbleId): self
+    public function setDribbbleId(?string $dribbbleId): self
     {
         $this->dribbble_id = $dribbbleId;
         return $this;

@@ -3,7 +3,7 @@ import { formatImage }      from "@/utils/formatImage";
 import { ProjectPageProps } from "@/interfaces/ProjectPageProps";
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
-  const { primary, secondary, warning, success, info, light } =
+  const { primary, secondary, light } =
     portfolio.config.colors;
 
   if (!project) {

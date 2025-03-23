@@ -55,21 +55,25 @@ class PortfolioController extends AbstractController
 
         $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
 
+        if (!$portfolio) {
+            return new JsonResponse(['error' => 'Portfolio not found'], Response::HTTP_NOT_FOUND);
+        }
 
         $this->serializer->deserialize($data, Portfolios::class, 'json', ['object_to_populate' => $portfolio]);
-        $portfolio->setUsers($user);
 
-        $errors = $this->validatorBaseService->CatchInvalidData($user);
+
+        $errors = $this->validatorBaseService->CatchInvalidData($portfolio);
         if ($errors) {
-            return new  JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+            return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
         $this->entityManager->flush();
 
         $jsonPortfolio = $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
 
-        return new JsonResponse($jsonPortfolio, Response::HTTP_CREATED, [], true);
+        return new JsonResponse($jsonPortfolio, Response::HTTP_OK, [], true);
     }
+
 
     #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['GET'])]

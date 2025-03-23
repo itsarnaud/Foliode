@@ -50,10 +50,11 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $template = null;
 
-    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio')]
+    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('getPortfolio')]
     private ?Users $users = null;
+
 
 
     /**

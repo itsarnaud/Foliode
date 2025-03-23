@@ -20,7 +20,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
     >
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          {/* En-tête du projet */}
           <div className="mb-16 text-center">
             <h1
               className="text-5xl md:text-7xl font-bold mb-8 transform hover:scale-105 transition-transform duration-300"
@@ -34,7 +33,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             />
           </div>
 
-          {/* Description avec style carte */}
           <div
             className="p-8 rounded-2xl shadow-xl mb-12"
             style={{ backgroundColor: secondary, backdropFilter: "blur(10px)" }}
@@ -60,7 +58,6 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             </div>
           </div>
 
-          {/* Section des liens */}
           {project.projectsLinks && project.projectsLinks.length > 0 && (
             <div className="mb-12">
               <h2
@@ -100,12 +97,9 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             </div>
           )}
 
-          {/* Section des images avec animation */}
-
-          {/* Bouton Retour */}
           <div className="mt-12 text-center">
             <Link
-              href={`/${portfolio.users.username}`}
+              href={`/${portfolio.url}`}
               className="inline-block px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-semibold"
               style={{
                 backgroundColor: success,

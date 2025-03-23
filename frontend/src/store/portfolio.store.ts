@@ -33,9 +33,9 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
         if (!portfolio) throw new Error("No portfolio data available");
 
-        const response = await apiPut("portfolio", portfolio, "application/json");
+        const {users, projects, tools, ...portfolioWithoutUser} = portfolio;
 
-        console.log(response);
+        await apiPut("portfolio", portfolioWithoutUser, "application/json");
 
     },
 
@@ -45,8 +45,6 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
             portfolio: {
                 ...state.portfolio,
                 ...portfolio,
-                projects: [],
-                tools: [],
             }
         }));
     },
@@ -55,7 +53,6 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
         try {
             const portfolio = get().portfolio;
             if (!portfolio) throw new Error("No portfolio data available");
-
             const response = await apiPost("portfolio", portfolio, "application/json");
             set({portfolio: response.data});
 
