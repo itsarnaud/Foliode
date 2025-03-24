@@ -26,7 +26,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         pattern: '/^[\p{L}\s]+$/u',
         message: 'Le nom doit contenir uniquement des lettres et des espaces.'
     )]
-    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
+    #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
@@ -35,7 +35,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         pattern: '/^[\p{L}\s]+$/u',
         message: 'Le prénom doit contenir uniquement des lettres et des espaces.'
     )]
-    #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
+    #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -85,14 +85,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     #[Groups(['getUsers'])]
     private ?Portfolios $portfolio = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['getPortfolio'])]
-    private ?Promotion $promotion = null;
-
-    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Formation::class)]
-    private $createdFormations;
 
     public function getId(): ?string
     {
@@ -211,17 +203,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return array_unique($roles);
     }
 
-    public function getCreatedFormations(): \Doctrine\Common\Collections\Collection
-    {
-        return $this->createdFormations;
-    }
-
-    public function setCreatedFormations(\Doctrine\Common\Collections\Collection $createdFormations): self
-    {
-        $this->createdFormations = $createdFormations;
-        return $this;
-    }
-
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -281,14 +262,5 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
-    {
-        return $this->promotion;
-    }
 
-    public function setPromotion(?Promotion $promotion): self
-    {
-        $this->promotion = $promotion;
-        return $this;
-    }
 }

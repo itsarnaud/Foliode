@@ -32,20 +32,6 @@ class Projects
     #[Groups(['getPortfolio', 'getProject']) ]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\DateTime(message: "start date must be a valid date format")]
-    #[Groups(['getPortfolio', 'getProject']) ]
-    private ?\DateTimeInterface $start_date = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\DateTime(message: "end date must be a valid date format")]
-    #[Assert\Expression(
-        "this.getEndDate() === null || this.getStartDate() === null || this.getEndDate() >= this.getStartDate()",
-        message: "end date must be greater than or equal to the start date"
-    )]
-    #[Groups(['getPortfolio', 'getProject']) ]
-    private ?\DateTimeInterface $end_date = null;
-
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Portfolios $portfolio = null;

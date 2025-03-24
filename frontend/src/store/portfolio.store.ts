@@ -1,19 +1,24 @@
 import {create} from "zustand";
 import {Portfolio} from "@/interfaces/Portfolio";
 import {apiGetWithAuth, apiPost, apiPut} from "@/utils/apiRequester";
+import {PortfolioStat} from "@/interfaces/PortfolioStat";
 
 
 interface PortfolioState {
     portfolio: Portfolio | null;
+    portfolioStats: PortfolioStat[];
     updatePortfolio: () => void;
     postPortfolio: () => void;
     fetchPortfolio: () => void;
+    fetchPortfolioStats: () => void;
     setPortfolio: (portfolio: Portfolio) => void;
+
 }
 
 
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     portfolio: null,
+    portfolioStats: [],
 
     fetchPortfolio: async () => {
         try {
@@ -23,6 +28,17 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
             }
         } catch (error) {
             console.log("Error fetching portfolio", error);
+        }
+    },
+
+    fetchPortfolioStats : async () => {
+        try {
+            const response = await apiGetWithAuth("portfolio/stat");
+            if (response.status === 200) {
+                set({portfolioStats: response.data});
+            }
+        } catch (error) {
+            console.log("Error fetching portfolio stats", error);
         }
     },
 

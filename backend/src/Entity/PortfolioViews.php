@@ -14,7 +14,7 @@ class PortfolioViews
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'portfolioViews')]
@@ -46,7 +46,6 @@ class PortfolioViews
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -58,7 +57,6 @@ class PortfolioViews
     public function setPortfolio(?Portfolios $portfolio): static
     {
         $this->portfolio = $portfolio;
-
         return $this;
     }
 }

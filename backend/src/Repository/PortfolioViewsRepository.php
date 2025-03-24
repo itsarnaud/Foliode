@@ -16,28 +16,29 @@ class PortfolioViewsRepository extends ServiceEntityRepository
         parent::__construct($registry, PortfolioViews::class);
     }
 
-    //    /**
-    //     * @return PortfolioViews[] Returns an array of PortfolioViews objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?PortfolioViews
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getViewsLast7DaysForPortfolio(string $portfolioId): array
+    {
+        $qb = $this->createQueryBuilder('pv')
+            ->select("pv.date as view_date, COUNT(pv.id) as view_count")
+            ->where('pv.date >= :startDate')
+            ->andWhere('pv.portfolio = :portfolioId')
+            ->setParameter('startDate', new \DateTime('-6 days'))
+            ->setParameter('portfolioId', $portfolioId)
+            ->groupBy('pv.date')
+            ->orderBy('pv.date', 'ASC');
+
+        $results = $qb->getQuery()->getResult();
+
+        foreach ($results as &$result) {
+            if ($result['view_date'] instanceof \DateTimeInterface) {
+                $result['view_date'] = $result['view_date']->format('Y-m-d');
+            }
+        }
+
+        return $results;
+
+
+    }
+
 }
