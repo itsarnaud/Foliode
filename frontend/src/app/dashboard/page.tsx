@@ -18,6 +18,7 @@ import {
     FaPencilAlt
 } from 'react-icons/fa';
 import {CiDatabase} from 'react-icons/ci';
+import PortfolioCharts from "@/components/PortfolioCharts";
 
 
 export default function Dashboard() {
@@ -238,12 +239,10 @@ export default function Dashboard() {
                                 <h2 className="text-xl font-bold">Analytiques du Portfolio</h2>
                             </div>
                             <div
-                                className="h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-                                <p className="text-gray-500 dark:text-gray-400 text-center">
-                                    Visualisation des analytiques à venir...<br/>
-                                    <span
-                                        className="text-sm">Suivez les vues et l&apos;engagement de votre portfolio !</span>
-                                </p>
+                                className=" flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+                                    < PortfolioCharts />
+
+
                             </div>
                             <div className="mt-4 grid grid-cols-3 gap-4">
                                 <div className="text-center">

@@ -56,6 +56,7 @@ const PrestigeNoir = ({portfolio}: { portfolio: Portfolio }) => {
                     <img
                         src={avatar ? formatImage(avatar) : generateAvatar(50, email)}
                         alt={`avatar of ${portfolio.users.firstname}`}
+                        className={`rounded-full w-1/3 m-auto `}
                     />
                 </div>
             </section>

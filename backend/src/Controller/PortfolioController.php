@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Portfolios;
 use App\Repository\PortfoliosRepository;
+use App\Service\PortfolioViewService;
 use App\Service\ValidatorBaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,10 @@ class PortfolioController extends AbstractController
         private EntityManagerInterface $entityManager,
         private SerializerInterface    $serializer,
         private PortfoliosRepository   $portfoliosRepository,
-    ) {}
+        private PortfolioViewService   $portfolioViewService
+    )
+    {
+    }
 
     #[IsGranted('ROLE_USER')]
     #[Route('api/portfolio', methods: ['POST'])]
@@ -94,5 +98,17 @@ class PortfolioController extends AbstractController
         $this->entityManager->remove($portfolio);
         $this->entityManager->flush();
         return new JsonResponse(['message' => 'Portfolio deleted'], Response::HTTP_OK);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('api/portfolio/stat', methods: ['GET'])]
+    public function get_portfolio_stat(): JsonResponse
+    {
+        $user = $this->getUser();
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+        $views = $this->portfolioViewService->getViewsLast7Days($portfolio);
+
+        return new JsonResponse($views, Response::HTTP_OK);
+
     }
 }
