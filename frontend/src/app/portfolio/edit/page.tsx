@@ -12,15 +12,7 @@ import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";
 import { formatProjectsData, formatToolsData } from "@/utils/formatData";
 
-import { createRoot } from 'react-dom/client'
-import { useGLTF } from '@react-three/drei';
 import ModelViewer from "@/components/model/modelviewer";
-
-
-function Model({ url }: { url: string }) {
-   const { scene } = useGLTF(url);
-   return <primitive object={scene} />;
- }
 
 
 export default function MultiStepForm() {
@@ -126,10 +118,9 @@ export default function MultiStepForm() {
           </div>
         </Card>
       </form>
-       <div id="canvas-container">
-      <ModelViewer />
-
-    </div> 
+      <div id="canvas-container">
+        <ModelViewer step={currentStep} />
+      </div> 
     </div>
   );
 }
@@ -148,9 +139,5 @@ function getStepTitle(step: number): string {
     default:
       return "";
   }
-}
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  createRoot(rootElement).render(<MultiStepForm />);
 }
 
